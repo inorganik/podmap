@@ -9,7 +9,8 @@
 /node_modules
 
 # keys
-src/environments/*
+src/environments/environment.ts
+src/environments/environment.prod.ts
 
 # IDEs and editors
 /.idea
