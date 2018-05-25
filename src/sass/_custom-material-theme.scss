@@ -1,0 +1,116 @@
+@import '~@angular/material/theming';
+// Plus imports for other components in your app.
+$custom-typography: mat-typography-config(
+  $font-family: "Roboto Condensed",
+  $headline: mat-typography-level(32px, 48px, 700),
+  $body-1: mat-typography-level(16px, 24px, 500)
+);
+
+$superfeed-amber: (
+  50: #ffebbf,
+  100: #ffdd92,
+  200: #ffaf00,
+  300: #ffaf00,
+  400: #ffaf00,
+  500: #ffaf00,
+  600: #faa200,
+  700: #fa9600,
+  800: #eb9800,
+  900: #d88c00,
+  A100: #ffdd92,
+  A200: #ffaf00,
+  A400: #ffaf00,
+  A700: #ffa600,
+  contrast: (
+    50: $dark-primary-text,
+    100: $dark-primary-text,
+    200: $dark-primary-text,
+    300: $dark-primary-text,
+    400: $dark-primary-text,
+    500: $dark-primary-text,
+    600: $dark-primary-text,
+    700: $dark-primary-text,
+    800: $dark-primary-text,
+    900: $dark-primary-text,
+    A100: $dark-primary-text,
+    A200: $dark-primary-text,
+    A400: $dark-primary-text,
+    A700: $dark-primary-text,
+  )
+);
+
+$superfeed-purple: (
+  50: #e2dbff,
+  100: #c8bcff,
+  200: #a591ff,
+  300: #947cff,
+  400: #8c6af3,
+  500: #8460f4,
+  600: #7b53f1,
+  700: #6b46db,
+  800: #623dc7,
+  900: #5938b4,
+  A100: #b69eff,
+  A200: #a98aff,
+  A400: #9673ff,
+  A700: #8860ff,
+  contrast: (
+    50: $dark-primary-text,
+    100: $dark-primary-text,
+    200: $dark-primary-text,
+    300: $dark-primary-text,
+    400: $light-primary-text,
+    500: $light-primary-text,
+    600: $light-primary-text,
+    700: $light-primary-text,
+    800: $light-primary-text,
+    900: $light-primary-text,
+    A100: $dark-primary-text,
+    A200: $dark-primary-text,
+    A400: $light-primary-text,
+    A700: $light-primary-text,
+  )
+);
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// **Be sure that you only ever include this mixin once!**
+@include mat-core($custom-typography);
+
+// Define the default theme (same as the example above).
+$superfeed-primary: mat-palette($superfeed-purple);
+$superfeed-accent:  mat-palette($superfeed-amber, A200, A100, A400);
+$superfeed-theme:   mat-light-theme($superfeed-primary, $superfeed-accent);
+
+// uncomment to include various components
+@include mat-core-theme($superfeed-theme);
+@include mat-autocomplete-theme($superfeed-theme);
+@include mat-button-theme($superfeed-theme);
+// @include mat-button-toggle-theme($superfeed-theme);
+// @include mat-card-theme($superfeed-theme);
+// @include mat-checkbox-theme($superfeed-theme);
+// @include mat-chips-theme($superfeed-theme);
+// @include mat-table-theme($superfeed-theme);
+// @include mat-datepicker-theme($superfeed-theme);
+// @include mat-dialog-theme($superfeed-theme);
+// @include mat-divider-theme($superfeed-theme);
+// @include mat-expansion-panel-theme($superfeed-theme);
+@include mat-form-field-theme($superfeed-theme);
+// @include mat-grid-list-theme($superfeed-theme);
+@include mat-icon-theme($superfeed-theme);
+@include mat-input-theme($superfeed-theme);
+// @include mat-list-theme($superfeed-theme);
+// @include mat-menu-theme($superfeed-theme);
+// @include mat-paginator-theme($superfeed-theme);
+// @include mat-progress-bar-theme($superfeed-theme);
+@include mat-progress-spinner-theme($superfeed-theme);
+// @include mat-radio-theme($superfeed-theme);
+// @include mat-select-theme($superfeed-theme);
+// @include mat-sidenav-theme($superfeed-theme);
+// @include mat-slide-toggle-theme($superfeed-theme);
+// @include mat-slider-theme($superfeed-theme);
+// @include mat-stepper-theme($superfeed-theme);
+@include mat-tabs-theme($superfeed-theme);
+// @include mat-toolbar-theme($superfeed-theme);
+// @include mat-tooltip-theme($superfeed-theme);
+// @include mat-snack-bar-theme($superfeed-theme);

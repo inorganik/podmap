@@ -1,0 +1,10 @@
+<form>
+	<mat-form-field class="w-100">
+		<input matInput placeholder="Enter a city" name="place" aria-label="Enter location" [matAutocomplete]="autoplace" [formControl]="placeCtrl">
+		<mat-autocomplete #autoplace="matAutocomplete" id="place-autocomplete" (optionSelected)="selectedPlace($event)" [displayWith]="displayFn">
+			<mat-option *ngFor="let place of places$ | async" [value]="place">
+				{{ place.description }}
+			</mat-option>
+		</mat-autocomplete>
+	</mat-form-field>
+</form>
