@@ -9,12 +9,12 @@
     <mat-tab-group mat-stretch-tabs>
       <mat-tab label="Search podcasts">
         <div class="floating-box-inner">
-          <sf-podcast-search [podcast]="podcast" (onSelected)="setPodcast($event)"></sf-podcast-search>
+          <pm-podcast-search [podcast]="podcast" (selected)="setPodcast($event)"></pm-podcast-search>
         </div>
       </mat-tab>
       <mat-tab label="Search places">
         <div class="floating-box-inner">
-          <sf-place-search (onSelected)="setPlace($event)"></sf-place-search>
+          <pm-place-search (selected)="setPlace($event)"></pm-place-search>
         </div>
       </mat-tab>
     </mat-tab-group>
@@ -29,7 +29,7 @@
     </div>
     <div class="floating-box-inner" *ngIf="!podcastSubjectState.submitted">
       <p class="prompt">Location unknown. Enter one?</p>
-      <sf-place-search (onSelected)="setPlace($event)"></sf-place-search>
+      <pm-place-search (selected)="setPlace($event)"></pm-place-search>
       <div class="d-flex mb-3">
         <div class="mr-auto">
           <mat-spinner *ngIf="loading" diameter="35"></mat-spinner>

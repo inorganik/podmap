@@ -1,8 +1,8 @@
 # Podmap
 
-The goal of Podmap is to map the world's podcasts to help you discover where your favorite podcasts are created, and discover podcasts in your local area.
+The goal of Podmap is to map the world's podcasts to help you discover where your favorite podcasts are created, and help you discover podcasts produced in your local area.
 
-This project has a rotating set of links that will feature projects of the contributors.
+Podmap has a rotating set of links on the site that will feature projects of the contributors.
 
 Visit Podmap at https://podmap.org
 
