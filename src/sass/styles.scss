@@ -9,7 +9,6 @@
   '~bootstrap/scss/mixins',
   '~bootstrap/scss/utilities',
 	'~bootstrap/scss/bootstrap-grid',
-	'~bootstrap/scss/forms',
 	'~bootstrap/scss/type';
 
 // custom reboot
@@ -99,30 +98,5 @@ ul, ol {
 		line-height: 10px;
 		cursor: pointer;
 		color: $primary;
-	}
-}
-
-//
-// SUBPAGE
-//
-
-.subpage {
-	&.container-fluid {
-		background: $primary url('../assets/img/superfeed-wallpaper.svg') center fixed;
-		background-size: 900px, 900px;
-		height: 100vh;
-		overflow: hidden;
-
-		.container {
-			box-shadow: $hard-box-shadow;
-			min-height: 50vh;
-			background: white;
-			.row.fill-height {
-				min-height: 50vh;
-			}
-		}
-	}
-	.logo {
-		width: 250px;
 	}
 }

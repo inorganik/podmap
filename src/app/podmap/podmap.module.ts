@@ -11,7 +11,6 @@ import { AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/core';
 import { PodmapComponent } from './podmap.component';
 import { PodcastSearchComponent } from './podcast-search/podcast-search.component';
 import { PlaceSearchComponent } from './place-search/place-search.component';
-import { PodmapAdminComponent } from './admin/admin.component';
 
 @NgModule({
   imports: [
@@ -30,8 +29,7 @@ import { PodmapAdminComponent } from './admin/admin.component';
   declarations: [
     PodmapComponent,
     PodcastSearchComponent,
-    PlaceSearchComponent,
-    PodmapAdminComponent
+    PlaceSearchComponent
   ],
   exports: [
     PodmapComponent

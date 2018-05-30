@@ -2,7 +2,9 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { PodmapComponent } from './podmap/podmap.component';
-import { PodmapAdminComponent } from './podmap/admin/admin.component';
+import { AdminComponent } from './admin/admin.component';
+import { LoginComponent } from './login/login.component';
+
 
 const routes: Routes = [
   {
@@ -11,7 +13,11 @@ const routes: Routes = [
   },
   {
     path: 'admin',
-    component: PodmapAdminComponent
+    component: AdminComponent
+  },
+  {
+    path: 'login',
+    component: LoginComponent
   }
 ];
 

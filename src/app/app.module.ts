@@ -8,6 +8,8 @@ import { AngularFireModule } from 'angularfire2';
 import { environment } from '../environments/environment';
 // pages
 import { PodmapModule } from './podmap/podmap.module';
+import { AdminModule } from './admin/admin.module';
+import { LoginModule } from './login/login.module';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,9 @@ import { PodmapModule } from './podmap/podmap.module';
     BrowserAnimationsModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase, 'Superfeed'),
-    PodmapModule
+    PodmapModule,
+    AdminModule,
+    LoginModule
   ],
   providers: [],
   bootstrap: [AppComponent]

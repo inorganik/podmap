@@ -28,7 +28,7 @@
       </div>
     </div>
     <div class="floating-box-inner" *ngIf="!podcastSubjectState.submitted">
-      <p class="prompt">Location unknown. Enter one?</p>
+      <p class="prompt">Location unknown.</p>
       <pm-place-search (selected)="setPlace($event)"></pm-place-search>
       <div class="d-flex mb-3">
         <div class="mr-auto">
