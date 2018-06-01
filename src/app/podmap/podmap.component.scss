@@ -17,9 +17,12 @@ p {
 .floating-box {
 	margin-top: 20px;
 	background: white;
-	box-shadow: $hard-box-shadow;
+  box-shadow: $hard-box-shadow;
+  &.lt-gray-bkgd {
+    background: $gray-100;
+  }
 	.floating-box-inner {
-		padding: 10px $spacer 1px $spacer;
+		padding: $spacer $spacer 1px $spacer;
 	}
 }
 
@@ -49,7 +52,6 @@ agm-map {
 	}
 	p {
 		color: rgba(255,255,255,.8);
-		font-size: .8em;
 	}
 }
 

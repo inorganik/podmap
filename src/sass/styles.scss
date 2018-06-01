@@ -8,7 +8,6 @@
 @import
   '~bootstrap/scss/mixins',
   '~bootstrap/scss/utilities',
-	'~bootstrap/scss/bootstrap-grid',
 	'~bootstrap/scss/type';
 
 // custom reboot
@@ -23,13 +22,6 @@
 
 body {
   font-family: $font-family-sans-serif;
-}
-
-.mmt { // mega-margin-top
-  margin-top: $spacer * 5 !important;
-}
-.mmb { // mega-margin-bottom
-  margin-bottom: $spacer * 5 !important;
 }
 
 hr {
@@ -50,15 +42,6 @@ ul, ol {
 
 	body {
 		font-size: 1rem;
-	}
-  .script-header {
-    font-size: 1.7rem;
-  }
-	.mmt { // mega-margin-top
-		margin-top: $spacer * 3 !important;
-	}
-	.mmb { // mega-margin-bottom
-		margin-bottom: $spacer * 3 !important;
 	}
 }
 

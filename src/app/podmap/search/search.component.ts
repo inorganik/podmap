@@ -13,8 +13,7 @@ declare let google: any;
 
 @Component({
   selector: 'pm-search',
-  templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss']
+  templateUrl: './search.component.html'
 })
 
 export class SearchComponent {

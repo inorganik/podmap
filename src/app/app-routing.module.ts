@@ -5,6 +5,7 @@ import { PodmapComponent } from './podmap/podmap.component';
 import { AdminComponent } from './podmap/admin/admin.component';
 import { LoginComponent } from './podmap/login/login.component';
 import { SearchComponent } from './podmap/search/search.component';
+import { AboutComponent } from './podmap/about/about.component';
 
 
 const routes: Routes = [
@@ -20,6 +21,10 @@ const routes: Routes = [
       {
         path: 'search',
         component: SearchComponent
+      },
+      {
+        path: 'about',
+        component: AboutComponent
       },
       {
         path: 'admin',

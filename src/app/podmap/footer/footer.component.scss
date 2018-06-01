@@ -1,0 +1,15 @@
+
+@import
+'~bootstrap/scss/functions',
+'~bootstrap/scss/variables';
+
+.footer-inner {
+  padding: 10px $spacer 6px;
+  color: gray;
+}
+span {
+  padding: 0 5px;
+  &.icon {
+    height: 26px;
+  }
+}

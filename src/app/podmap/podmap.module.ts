@@ -15,6 +15,8 @@ import { PlaceSearchComponent } from './search/place-search/place-search.compone
 import { SearchComponent } from './search/search.component';
 import { LoginComponent } from './login/login.component';
 import { AdminComponent } from './admin/admin.component';
+import { FooterComponent } from './footer/footer.component';
+import { AboutComponent } from './about/about.component';
 
 @NgModule({
   imports: [
@@ -37,7 +39,9 @@ import { AdminComponent } from './admin/admin.component';
     PlaceSearchComponent,
     SearchComponent,
     LoginComponent,
-    AdminComponent
+    AdminComponent,
+    FooterComponent,
+    AboutComponent
   ],
   exports: [
     PodmapComponent
