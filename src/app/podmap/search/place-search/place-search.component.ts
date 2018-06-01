@@ -8,15 +8,8 @@ import {
   distinctUntilChanged,
   switchMap
 } from 'rxjs/operators';
+import { Place } from '../../models';
 
-export interface Place {
-  description: string;
-  matched_substrings: [any];
-  place_id: string;
-  terms: [any];
-  types: [string];
-  location?: any;
-}
 
 declare let google: any;
 

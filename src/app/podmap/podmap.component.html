@@ -5,41 +5,7 @@
       <em>Put your podcast on the map</em>
     </p>
   </div>
-  <div class="floating-box legend-width">
-    <mat-tab-group mat-stretch-tabs>
-      <mat-tab label="Search podcasts">
-        <div class="floating-box-inner">
-          <pm-podcast-search [podcast]="podcast" (selected)="setPodcast($event)"></pm-podcast-search>
-        </div>
-      </mat-tab>
-      <mat-tab label="Search places">
-        <div class="floating-box-inner">
-          <pm-place-search (selected)="setPlace($event)"></pm-place-search>
-        </div>
-      </mat-tab>
-    </mat-tab-group>
-  </div>
-  <div *ngIf="podcast && !podcastSubjectState.hasLocation" class="floating-box legend-width">
-    <div class="floating-box-inner" *ngIf="podcastSubjectState.submitted">
-      <h3>Thanks! Got it.</h3>
-      <p>Your submission will be reviewed before appearing on the map.</p>
-      <div class="d-flex">
-        <button class="mb-3 ml-auto" (click)="clearPodcast()" mat-raised-button color="primary">OK</button>
-      </div>
-    </div>
-    <div class="floating-box-inner" *ngIf="!podcastSubjectState.submitted">
-      <p class="prompt">Location unknown.</p>
-      <pm-place-search (selected)="setPlace($event)"></pm-place-search>
-      <div class="d-flex mb-3">
-        <div class="mr-auto">
-          <mat-spinner *ngIf="loading" diameter="35"></mat-spinner>
-        </div>
-        <button (click)="submitLocation()" [disabled]="!place || (place && !place.location)" mat-raised-button color="accent">
-          <mat-icon aria-label="done" svgIcon="done"></mat-icon>
-        </button>
-      </div>
-    </div>
-  </div>
+  <router-outlet></router-outlet>
 </div>
-<agm-map id="podmap" [latitude]="lat" [longitude]="lng" [zoom]="zoom" [styles]="mapStyle" [streetViewControl]="false" [zoomControl]="false"
+<agm-map id="podmap" [latitude]="position.lat" [longitude]="position.lng" [zoom]="zoom" [styles]="mapStyle" [streetViewControl]="false" [zoomControl]="false"
   [scaleControl]="true"></agm-map>

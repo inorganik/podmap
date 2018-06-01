@@ -7,7 +7,7 @@ import {
   distinctUntilChanged,
   switchMap
 } from 'rxjs/operators';
-import { Podcast } from '../podmap.models';
+import { Podcast } from '../../models';
 
 @Component({
   selector: 'pm-podcast-search',

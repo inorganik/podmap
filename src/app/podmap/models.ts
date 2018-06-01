@@ -28,3 +28,17 @@ export interface PodcastSuggestion extends Podcast {
   geoPoint?: any;
   status?: SuggestionStatus;
 }
+
+export interface Position {
+  lat?: number;
+  lng?: number;
+}
+
+export interface Place {
+  description: string;
+  matched_substrings: [any];
+  place_id: string;
+  terms: [any];
+  types: [string];
+  position?: Position;
+}

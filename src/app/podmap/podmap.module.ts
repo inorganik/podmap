@@ -5,12 +5,16 @@ import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
 import { AngularFirestoreModule, AngularFirestore } from 'angularfire2/firestore';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MaterialModule } from '../material/material.module';
+import { RouterModule } from '@angular/router';
 // google maps
 import { AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/core';
 // custom
 import { PodmapComponent } from './podmap.component';
-import { PodcastSearchComponent } from './podcast-search/podcast-search.component';
-import { PlaceSearchComponent } from './place-search/place-search.component';
+import { PodcastSearchComponent } from './search/podcast-search/podcast-search.component';
+import { PlaceSearchComponent } from './search/place-search/place-search.component';
+import { SearchComponent } from './search/search.component';
+import { LoginComponent } from './login/login.component';
+import { AdminComponent } from './admin/admin.component';
 
 @NgModule({
   imports: [
@@ -24,12 +28,16 @@ import { PlaceSearchComponent } from './place-search/place-search.component';
     }),
     MaterialModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    RouterModule
   ],
   declarations: [
     PodmapComponent,
     PodcastSearchComponent,
-    PlaceSearchComponent
+    PlaceSearchComponent,
+    SearchComponent,
+    LoginComponent,
+    AdminComponent
   ],
   exports: [
     PodmapComponent
