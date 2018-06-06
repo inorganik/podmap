@@ -6,6 +6,7 @@ import { AdminComponent } from './podmap/admin/admin.component';
 import { LoginComponent } from './podmap/login/login.component';
 import { SearchComponent } from './podmap/search/search.component';
 import { AboutComponent } from './podmap/about/about.component';
+import { AuthGuard } from './podmap/auth.guard';
 
 
 const routes: Routes = [
@@ -28,7 +29,8 @@ const routes: Routes = [
       },
       {
         path: 'admin',
-        component: AdminComponent
+        component: AdminComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: 'login',

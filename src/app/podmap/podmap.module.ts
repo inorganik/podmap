@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { environment } from '../../environments/environment';
 import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
 import { AngularFirestoreModule, AngularFirestore } from 'angularfire2/firestore';
+import { AngularFireAuth } from 'angularfire2/auth';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MaterialModule } from '../material/material.module';
 import { RouterModule } from '@angular/router';
@@ -48,7 +49,8 @@ import { AboutComponent } from './about/about.component';
   ],
   providers: [
     GoogleMapsAPIWrapper,
-    AngularFirestore
+    AngularFirestore,
+    AngularFireAuth
   ]
 })
 export class PodmapModule { }

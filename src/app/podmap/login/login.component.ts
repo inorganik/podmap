@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
+import { AngularFireAuth } from 'angularfire2/auth';
+import { auth } from 'firebase/app';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'pm-login',
@@ -7,10 +10,17 @@ import { Component } from '@angular/core';
 })
 export class LoginComponent {
 
-  constructor() { }
+  constructor(
+    public afAuth: AngularFireAuth,
+    private router: Router,
+    private zone: NgZone
+  ) { }
 
   signinWithGoogle() {
-    // TODO
+    this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider())
+      .then(() => {
+        this.zone.run(() => this.router.navigateByUrl('/admin'));
+      }, err => console.error(err));
   }
 
 }

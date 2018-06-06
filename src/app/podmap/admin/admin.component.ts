@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFireAuth } from 'angularfire2/auth';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'pm-admin',
@@ -7,9 +9,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private afAuth: AngularFireAuth,
+    private router: Router
+  ) { }
 
   ngOnInit() {
+  }
+
+  signOut() {
+    console.log('bye');
+    this.afAuth.auth.signOut();
+    this.router.navigateByUrl('/search');
   }
 
 }
