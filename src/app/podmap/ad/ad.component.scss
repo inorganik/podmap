@@ -1,0 +1,25 @@
+@import '../../../sass/variables';
+
+@import
+  '~bootstrap/scss/functions',
+  '~bootstrap/scss/variables',
+  '~bootstrap/scss/mixins';
+
+.sponsor-text {
+  color: gray;
+  font-size: .8em;
+}
+.ad-inner {
+  padding: 5px $spacer $spacer $spacer;
+  text-align: center;
+}
+a {
+  display: block;
+  img {
+    height: auto;
+    border: 0;
+    &.superfeed {
+      width: 250px;
+    }
+  }
+}

@@ -18,6 +18,7 @@ import { LoginComponent } from './login/login.component';
 import { AdminComponent } from './admin/admin.component';
 import { FooterComponent } from './footer/footer.component';
 import { AboutComponent } from './about/about.component';
+import { AdComponent } from './ad/ad.component';
 
 @NgModule({
   imports: [
@@ -42,7 +43,8 @@ import { AboutComponent } from './about/about.component';
     LoginComponent,
     AdminComponent,
     FooterComponent,
-    AboutComponent
+    AboutComponent,
+    AdComponent
   ],
   exports: [
     PodmapComponent

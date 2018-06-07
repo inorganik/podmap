@@ -29,8 +29,10 @@ p {
 .podmap-sidebar {
 	position: absolute;
 	z-index: 1;
-	top: 20px;
-	left: 20px;
+	top: 0;
+  left: 0;
+  padding: 20px;
+  height: 100vh;
 }
 agm-map {
 	height: 100vh;
@@ -81,8 +83,7 @@ hr {
 @media (max-width: map-get($grid-breakpoints, 'sm')) { // 576px and less
   .podmap-sidebar {
     width: 100%;
-    top: 0;
-    left: 0;
+    padding: 0;
   }
   .legend-width {
     width: 100%;

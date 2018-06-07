@@ -1,4 +1,4 @@
-<div class="podmap-sidebar">
+<div class="podmap-sidebar d-flex flex-column">
   <div class="legend legend-width">
     <h1>PODMAP</h1>
     <p>
@@ -6,6 +6,7 @@
     </p>
   </div>
   <router-outlet></router-outlet>
+  <pm-ad class="mt-auto"></pm-ad>
   <pm-footer></pm-footer>
 </div>
 <agm-map id="podmap" [latitude]="position.lat" [longitude]="position.lng" [zoom]="zoom" [styles]="mapStyle" [streetViewControl]="false" [zoomControl]="false"
