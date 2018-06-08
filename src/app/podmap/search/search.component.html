@@ -12,22 +12,22 @@
       </mat-tab>
     </mat-tab-group>
   </div>
-  <div *ngIf="podcast && !podcastSubjectState.hasLocation" class="floating-box legend-width">
-    <div class="floating-box-inner" *ngIf="podcastSubjectState.submitted">
+  <div *ngIf="podcast && !podcast.locations.length" class="floating-box legend-width">
+    <div class="floating-box-inner" *ngIf="submitted">
       <h3>Thanks! Got it.</h3>
       <p>Your submission will be reviewed before appearing on the map.</p>
       <div class="d-flex">
         <button class="mb-3 ml-auto" (click)="clearPodcast()" mat-raised-button color="primary">OK</button>
       </div>
     </div>
-    <div class="floating-box-inner" *ngIf="!podcastSubjectState.submitted">
+    <div class="floating-box-inner" *ngIf="!submitted">
       <p class="prompt">Location unknown.</p>
       <pm-place-search (selected)="setPlace($event)"></pm-place-search>
       <div class="d-flex mb-3">
         <div class="mr-auto">
           <mat-spinner *ngIf="loading" diameter="35"></mat-spinner>
         </div>
-        <button (click)="submitLocation()" [disabled]="!place || (place && !place.location)" mat-raised-button color="accent">
+        <button (click)="submitLocationSuggestion()" [disabled]="!place || (place && !place.location)" mat-raised-button color="accent">
           <mat-icon aria-label="done" svgIcon="done"></mat-icon>
         </button>
       </div>

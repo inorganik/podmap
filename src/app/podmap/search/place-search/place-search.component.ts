@@ -1,5 +1,4 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { WindowRef } from '@agm/core/utils/browser-globals';
 import { MapsAPILoader } from '@agm/core';
 import { FormControl } from '@angular/forms';
 import { Observable, of } from 'rxjs';
@@ -29,11 +28,11 @@ export class PlaceSearchComponent implements OnInit {
   @Output() selected = new EventEmitter<Place>();
 
   constructor(
-    private _loader: MapsAPILoader
+    private loader: MapsAPILoader
   ) { }
 
   ngOnInit() {
-    this._loader.load().then(() => {
+    this.loader.load().then(() => {
       this.autocompleteService = new google.maps.places.AutocompleteService();
     });
 

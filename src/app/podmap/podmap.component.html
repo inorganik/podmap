@@ -9,5 +9,5 @@
   <pm-ad class="mt-auto"></pm-ad>
   <pm-footer></pm-footer>
 </div>
-<agm-map id="podmap" [latitude]="position.lat" [longitude]="position.lng" [zoom]="zoom" [styles]="mapStyle" [streetViewControl]="false" [zoomControl]="false"
+<agm-map id="podmap" [latitude]="geoPoint.latitude" [longitude]="geoPoint.longitude" [zoom]="zoom" [styles]="mapStyle" [streetViewControl]="false" [zoomControl]="false"
   [scaleControl]="true"></agm-map>

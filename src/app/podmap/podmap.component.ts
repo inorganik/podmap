@@ -5,7 +5,7 @@ import { mapStyle } from './podmap.mapstyle';
 import { MatIconRegistry } from '@angular/material';
 import { Observable } from 'rxjs';
 import { MapService } from './map.service';
-import { Position } from './models';
+import * as firebase from 'firebase/app';
 
 declare const navigator;
 declare let google: any;
@@ -20,7 +20,7 @@ declare let google: any;
 
 export class PodmapComponent implements OnInit, AfterViewInit {
 
-  position: Position = {};
+  geoPoint: firebase.firestore.GeoPoint;
   zoom = 5;
   mapStyle = mapStyle;
 
@@ -50,15 +50,14 @@ export class PodmapComponent implements OnInit, AfterViewInit {
     // place details service
     this.agmMap.mapReady.subscribe(map => {
       this.mapService.placesService = new google.maps.places.PlacesService(map);
-    });
+    }).unsubscribe();
   }
 
   // currently not used
   zoomToUserLocation() {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(position => {
-        this.position.lat = position.coords.latitude;
-        this.position.lng = position.coords.longitude;
+        this.geoPoint = new firebase.firestore.GeoPoint(position.coords.latitude, position.coords.longitude);
         this.zoom = 10;
 
       }, (error) => {

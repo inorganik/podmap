@@ -1,10 +1,10 @@
 import { Component, ApplicationRef } from '@angular/core';
 import { Observable } from 'rxjs';
 import * as firebase from 'firebase/app';
-import { Podcast, PodcastLocation, SuggestionStatus, PodcastSuggestion } from '../models';
+import { Podcast, PodcastLocation, PodcastSuggestion, SuggestionStatus } from '../models';
 // angularfire
 import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection } from 'angularfire2/firestore';
-import { Place, Position } from '../models';
+import { Place } from '../models';
 import { MapService } from '../map.service';
 
 declare const navigator;
@@ -19,9 +19,9 @@ declare let google: any;
 export class SearchComponent {
 
   loading = false;
-  podcast: PodcastSuggestion;
+  podcast: Podcast;
   place: Place;
-  podcastSubjectState: any;
+  submitted: Boolean = false;
   // firestore
   suggestionCollection: AngularFirestoreCollection<PodcastSuggestion>;
 
@@ -32,22 +32,13 @@ export class SearchComponent {
   ) {
     // firestore
     this.suggestionCollection = afs.collection('suggestions');
-    // misc
-    this.resetSubjectState();
-  }
-
-  resetSubjectState() {
-    this.podcastSubjectState = {
-      hasLocation: false,
-      submitted: false
-    };
   }
 
   // podcast chosen from typeahead
   setPodcast(podcast: Podcast) {
+    this.submitted = false;
     if (podcast) {
       // TODO: lookup podcast, check for location
-      this.resetSubjectState(); // temp, assume not in db
       this.podcast = {
         collectionId: podcast.collectionId,
         collectionName: podcast.collectionName,
@@ -58,7 +49,6 @@ export class SearchComponent {
     }
     else {
       this.podcast = null;
-      this.resetSubjectState();
     }
   }
 
@@ -69,17 +59,15 @@ export class SearchComponent {
       this.loading = true;
       this.mapService.placesService.getDetails({
         placeId: this.place.place_id
-      }, (placeDetails, status) => {
+      }, (placeDetails: google.maps.places.PlaceResult, status) => {
         this.loading = false;
         if (status === google.maps.places.PlacesServiceStatus.OK) {
           // console.log('place details', placeDetails);
-          const position: Position = {
-            lat: placeDetails.geometry.location.lat(),
-            lng: placeDetails.geometry.location.lng()
-          };
-          this.mapService.updatePosition(position);
+          const geoPoint = new firebase.firestore.GeoPoint(placeDetails.geometry.location.lat(), placeDetails.geometry.location.lng());
+
+          this.mapService.updatePosition(geoPoint);
           this.mapService.zoomToCity();
-          this.place.position = position;
+          this.place.geoPoint = geoPoint;
           this.applicationRef.tick();
         }
         else {
@@ -89,16 +77,21 @@ export class SearchComponent {
     }
   }
 
-  submitLocation() {
-    // do stuff
-    const geoPoint = new firebase.firestore.GeoPoint(this.place.position.lat, this.place.position.lng);
-    this.podcast.locationName = this.place.description;
-    this.podcast.geoPoint = geoPoint;
-    this.podcast.placeId = this.place.place_id;
-    this.podcast.status = 0;
+  submitLocationSuggestion() {
+    const podLocation: PodcastLocation = {
+      name: this.place.description,
+      geoPoint: this.place.geoPoint,
+      placeId: this.place.place_id
+    }
+
+    const podSugg: PodcastSuggestion = {
+      podcast: this.podcast,
+      locations: [podLocation],
+      status: SuggestionStatus.Unmoderated
+    }
     console.log('submit suggestion', this.podcast);
-    // this.suggestionCollection.add(thid.podcast);
-    this.podcastSubjectState.submitted = true;
+    // this.suggestionCollection.add(this.podSugg);
+    this.submitted = true;
 
     // const placeDoc = this.afs.doc<PodcastLocation>(`locations/${this.place.placeId}`);
     // const podcasts = placeDoc.collection<Podcast>('podcasts').add
@@ -106,7 +99,7 @@ export class SearchComponent {
   }
 
   clearPodcast() {
-    this.resetSubjectState();
+    this.submitted = false;
     this.podcast = null;
   }
 

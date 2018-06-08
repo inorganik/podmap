@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Position } from './models';
+import * as firebase from 'firebase/app';
 
 
 @Injectable({
@@ -9,21 +9,18 @@ import { Position } from './models';
 export class MapService {
 
   // centered over US
-  initialPositionUS: Position = {
-    lat: 37,
-    lng: -97
-  };
+  initialPositionUS = new firebase.firestore.GeoPoint(37, -97);
   initialZoom = 5;
   cityZoom = 12;
   placesService: any = null;
 
-  position$ = new BehaviorSubject<Position>(this.initialPositionUS);
+  geoPoint$ = new BehaviorSubject<firebase.firestore.GeoPoint>(this.initialPositionUS);
   zoom$ = new BehaviorSubject(this.initialZoom);
 
   constructor() { }
 
-  updatePosition(pos: Position) {
-    this.position$.next(pos);
+  updatePosition(geoPoint: firebase.firestore.GeoPoint) {
+    this.geoPoint$.next(geoPoint);
   }
   zoomToCity() {
     this.zoom$.next(this.cityZoom);
