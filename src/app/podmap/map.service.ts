@@ -12,7 +12,7 @@ export class MapService {
   initialPositionUS = new firebase.firestore.GeoPoint(37, -97);
   initialZoom = 5;
   cityZoom = 12;
-  placesService: any = null;
+  placesService: any;
 
   geoPoint$ = new BehaviorSubject<firebase.firestore.GeoPoint>(this.initialPositionUS);
   zoom$ = new BehaviorSubject(this.initialZoom);
@@ -20,6 +20,7 @@ export class MapService {
   constructor() { }
 
   updatePosition(geoPoint: firebase.firestore.GeoPoint) {
+    console.log('update position');
     this.geoPoint$.next(geoPoint);
   }
   zoomToCity() {

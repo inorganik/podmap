@@ -3,7 +3,6 @@ import { AgmMap } from '@agm/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { mapStyle } from './podmap.mapstyle';
 import { MatIconRegistry } from '@angular/material';
-import { Observable } from 'rxjs';
 import { MapService } from './map.service';
 import * as firebase from 'firebase/app';
 
@@ -24,7 +23,7 @@ export class PodmapComponent implements OnInit, AfterViewInit {
   zoom = 5;
   mapStyle = mapStyle;
 
-  @ViewChild(AgmMap) agmMap;
+  @ViewChild(AgmMap) agmMap: AgmMap;
 
   constructor(
     private mapService: MapService,
@@ -42,7 +41,7 @@ export class PodmapComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.mapService.position$.subscribe(pos => this.position = pos);
+    this.mapService.geoPoint$.subscribe(pos => this.geoPoint = pos);
     this.mapService.zoom$.subscribe(zoom => this.zoom = zoom);
   }
 
@@ -50,7 +49,8 @@ export class PodmapComponent implements OnInit, AfterViewInit {
     // place details service
     this.agmMap.mapReady.subscribe(map => {
       this.mapService.placesService = new google.maps.places.PlacesService(map);
-    }).unsubscribe();
+      this.agmMap.mapReady.unsubscribe();
+    });
   }
 
   // currently not used

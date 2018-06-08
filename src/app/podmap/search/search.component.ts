@@ -54,26 +54,30 @@ export class SearchComponent {
 
   // place chosen from typeahead
   setPlace(place: Place) {
+    console.log('set place:', place);
     this.place = place;
     if (this.mapService.placesService) {
       this.loading = true;
       this.mapService.placesService.getDetails({
         placeId: this.place.place_id
-      }, (placeDetails: google.maps.places.PlaceResult, status) => {
+      }, (placeDetails, status) => {
         this.loading = false;
         if (status === google.maps.places.PlacesServiceStatus.OK) {
-          // console.log('place details', placeDetails);
+          console.log('place details', placeDetails);
           const geoPoint = new firebase.firestore.GeoPoint(placeDetails.geometry.location.lat(), placeDetails.geometry.location.lng());
 
           this.mapService.updatePosition(geoPoint);
           this.mapService.zoomToCity();
           this.place.geoPoint = geoPoint;
-          this.applicationRef.tick();
+          //this.applicationRef.tick();
         }
         else {
           console.error(status);
         }
       });
+    }
+    else {
+      console.error('No place service');
     }
   }
 
@@ -89,7 +93,7 @@ export class SearchComponent {
       locations: [podLocation],
       status: SuggestionStatus.Unmoderated
     }
-    console.log('submit suggestion', this.podcast);
+    console.log('submit suggestion', podSugg);
     // this.suggestionCollection.add(this.podSugg);
     this.submitted = true;
 
