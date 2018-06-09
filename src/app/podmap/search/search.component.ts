@@ -1,9 +1,8 @@
-import { Component, ApplicationRef } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component } from '@angular/core';
 import * as firebase from 'firebase/app';
 import { Podcast, PodcastLocation, PodcastSuggestion, SuggestionStatus } from '../models';
 // angularfire
-import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection } from 'angularfire2/firestore';
+import { AngularFirestore } from 'angularfire2/firestore';
 import { Place } from '../models';
 import { MapService } from '../map.service';
 
@@ -22,17 +21,11 @@ export class SearchComponent {
   podcast: Podcast;
   place: Place;
   submitted: Boolean = false;
-  // firestore
-  suggestionCollection: AngularFirestoreCollection<PodcastSuggestion>;
 
   constructor(
     private mapService: MapService,
-    private applicationRef: ApplicationRef,
     private afs: AngularFirestore
-  ) {
-    // firestore
-    this.suggestionCollection = afs.collection('suggestions');
-  }
+  ) {}
 
   // podcast chosen from typeahead
   setPodcast(podcast: Podcast) {
@@ -54,7 +47,6 @@ export class SearchComponent {
 
   // place chosen from typeahead
   setPlace(place: Place) {
-    console.log('set place:', place);
     this.place = place;
     if (this.mapService.placesService) {
       this.loading = true;
@@ -63,13 +55,11 @@ export class SearchComponent {
       }, (placeDetails, status) => {
         this.loading = false;
         if (status === google.maps.places.PlacesServiceStatus.OK) {
-          console.log('place details', placeDetails);
           const geoPoint = new firebase.firestore.GeoPoint(placeDetails.geometry.location.lat(), placeDetails.geometry.location.lng());
 
           this.mapService.updatePosition(geoPoint);
           this.mapService.zoomToCity();
           this.place.geoPoint = geoPoint;
-          //this.applicationRef.tick();
         }
         else {
           console.error(status);
@@ -86,19 +76,19 @@ export class SearchComponent {
       name: this.place.description,
       geoPoint: this.place.geoPoint,
       placeId: this.place.place_id
-    }
+    };
+    // use this for adding location in admin component
+    // this.afs.doc(`locations/${podLocation.placeId}`).set(podLocation);
 
     const podSugg: PodcastSuggestion = {
       podcast: this.podcast,
       locations: [podLocation],
       status: SuggestionStatus.Unmoderated
-    }
-    console.log('submit suggestion', podSugg);
-    // this.suggestionCollection.add(this.podSugg);
-    this.submitted = true;
+    };
 
-    // const placeDoc = this.afs.doc<PodcastLocation>(`locations/${this.place.placeId}`);
-    // const podcasts = placeDoc.collection<Podcast>('podcasts').add
+    this.afs.collection('suggestions').add(podSugg).then(() => {
+      this.submitted = true;
+    }, err => console.error('Error connecting to firebase', err));
 
   }
 
