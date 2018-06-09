@@ -20,7 +20,6 @@ export class MapService {
   constructor() { }
 
   updatePosition(geoPoint: firebase.firestore.GeoPoint) {
-    console.log('update position');
     this.geoPoint$.next(geoPoint);
   }
   zoomToCity() {

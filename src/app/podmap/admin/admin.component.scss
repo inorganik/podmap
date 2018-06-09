@@ -1,12 +1,36 @@
-@import '../../../sass/variables';
 
-@import
-  '~bootstrap/scss/functions',
-  '~bootstrap/scss/variables',
-	'~bootstrap/scss/mixins';
+
+$admin-margin: 10px;
 
 ul.moderation-list {
+  list-style-type: none;
+  padding: 0;
+  button {
+    margin-left: $admin-margin;
+  }
   li {
-    border-bottom: 1px $gray-800 solid;
+    border-bottom: 1px gray solid;
+    margin-bottom: 15px;
+    .top-row {
+      margin-bottom: $admin-margin;
+      img {
+        margin-right: $admin-margin;
+      }
+      .title {
+        font-size: 1.1em;
+      }
+      .buttons {
+        button {
+          display: block;
+          &:first-child {
+            margin-bottom: $admin-margin;
+          }
+        }
+      }
+    }
+    .locations {
+      color: gray;
+      padding-bottom: $admin-margin;
+    }
   }
 }

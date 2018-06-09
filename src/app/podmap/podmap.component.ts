@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild, ApplicationRef, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild, ApplicationRef, ViewEncapsulation } from '@angular/core';
 import { AgmMap } from '@agm/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { mapStyle } from './podmap.mapstyle';
@@ -17,7 +17,7 @@ declare let google: any;
   encapsulation: ViewEncapsulation.None
 })
 
-export class PodmapComponent implements OnInit, AfterViewInit {
+export class PodmapComponent implements OnInit, AfterViewInit, OnDestroy {
 
   geoPoint: firebase.firestore.GeoPoint;
   zoom = 5;
@@ -45,27 +45,17 @@ export class PodmapComponent implements OnInit, AfterViewInit {
     this.mapService.zoom$.subscribe(zoom => this.zoom = zoom);
   }
 
+  ngOnDestroy() {
+    this.mapService.geoPoint$.unsubscribe();
+    this.mapService.zoom$.unsubscribe();
+  }
+
   ngAfterViewInit() {
     // place details service
     this.agmMap.mapReady.subscribe(map => {
       this.mapService.placesService = new google.maps.places.PlacesService(map);
       this.agmMap.mapReady.unsubscribe();
     });
-  }
-
-  // currently not used
-  zoomToUserLocation() {
-    if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition(position => {
-        this.geoPoint = new firebase.firestore.GeoPoint(position.coords.latitude, position.coords.longitude);
-        this.zoom = 10;
-
-      }, (error) => {
-        console.error('geolocation error', error);
-      }, {
-        timeout: 10000
-      });
-    }
   }
 
 }

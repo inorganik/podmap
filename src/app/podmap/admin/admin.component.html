@@ -8,17 +8,21 @@
       <!-- awaiting moderation -->
       <ul class="moderation-list">
         <li *ngFor="let sugg of suggestions | async">
-          <div class="d-flex">
+          <div class="top-row d-flex align-items-center">
             <img aria-hidden src="{{ sugg.podcast.artworkUrl60 }}" />
-            <span>{{ sugg.podcast.collectionName }}</span>
-            <button (click)="reject()" mat-raised-button>
-              <mat-icon aria-label="reject" svgIcon="close"></mat-icon>
-            </button>
-            <button (click)="approve()" mat-raised-button>
-              <mat-icon aria-label="approve" svgIcon="done"></mat-icon>
-            </button>
+            <span class="title">{{ sugg.podcast.collectionName }}</span>
+            <div class="buttons ml-auto">
+              <button type="button" mat-mini-fab (click)="approve()" color="primary">
+                <mat-icon class="svg-fill-white" aria-label="approve" svgIcon="done"></mat-icon>
+              </button>
+              <button type="button" mat-mini-fab (click)="reject()" color="warn">
+                <mat-icon class="svg-fill-white" aria-label="reject" svgIcon="close"></mat-icon>
+              </button>
+            </div>
           </div>
-          <span *ngFor="let loc of sugg.locations">{{ loc.name }}</span>
+          <div class="locations">
+            <span *ngFor="let loc of sugg.locations; last as isLast">{{ loc.name }} <span *ngIf="!isLast">, </span></span>
+          </div>
         </li>
       </ul>
   </div>

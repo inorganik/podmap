@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { Router } from '@angular/router';
 import { AngularFirestore } from 'angularfire2/firestore';
-import { PodcastSuggestion } from '../models';
+import { PodcastSuggestion, SuggestionStatus } from '../models';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -19,11 +19,15 @@ export class AdminComponent {
     private router: Router,
     private afs: AngularFirestore
   ) {
-    this.suggestions = afs.collection<PodcastSuggestion>('suggestions').valueChanges();
+    // get unmoderated suggestions
+    this.suggestions = afs.collection<PodcastSuggestion>('suggestions', ref => {
+      return ref.where('status', '==', SuggestionStatus.Unmoderated);
+    }).valueChanges();
   }
 
   approve() {
     // todo
+    // this.afs.doc(`locations/${podLocation.placeId}`).set(podLocation);
   }
 
   reject() {

@@ -21,11 +21,20 @@ export class SearchComponent {
   podcast: Podcast;
   place: Place;
   submitted: Boolean = false;
+  searchLocation: string;
+  fetchingLocation = false;
 
   constructor(
     private mapService: MapService,
     private afs: AngularFirestore
-  ) {}
+  ) {
+    this.resetSearchLocationString();
+  }
+
+  resetSearchLocationString() {
+    this.searchLocation = 'Search my location »';
+    this.fetchingLocation = false;
+  }
 
   // podcast chosen from typeahead
   setPodcast(podcast: Podcast) {
@@ -77,8 +86,6 @@ export class SearchComponent {
       geoPoint: this.place.geoPoint,
       placeId: this.place.place_id
     };
-    // use this for adding location in admin component
-    // this.afs.doc(`locations/${podLocation.placeId}`).set(podLocation);
 
     const podSugg: PodcastSuggestion = {
       podcast: this.podcast,
@@ -95,6 +102,24 @@ export class SearchComponent {
   clearPodcast() {
     this.submitted = false;
     this.podcast = null;
+  }
+
+  goToUserLocation() {
+    if (!this.fetchingLocation && 'geolocation' in navigator) {
+      this.searchLocation = 'Getting location…';
+      this.fetchingLocation = true;
+      navigator.geolocation.getCurrentPosition(position => {
+        this.resetSearchLocationString();
+        const geoPoint = new firebase.firestore.GeoPoint(position.coords.latitude, position.coords.longitude);
+        this.mapService.updatePosition(geoPoint);
+        this.mapService.zoomToCity();
+
+      }, (error) => {
+        console.error('geolocation error', error);
+      }, {
+        timeout: 10000
+      });
+    }
   }
 
 }

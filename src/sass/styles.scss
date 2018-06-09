@@ -37,6 +37,14 @@ ul, ol {
 	@extend a;
 	cursor: pointer;
 }
+.faux-disabled {
+  cursor: default;
+  color: gray;
+  &:hover {
+    text-decoration: none;
+    color: gray;
+  }
+}
 
 @media (max-width: map-get($grid-breakpoints, 'sm')) { // 576px and less
 
@@ -49,8 +57,8 @@ ul, ol {
 // COLORS
 //
 
-.svg-fill-gray svg {
-	fill: $gray-600;
+.svg-fill-white svg {
+	fill: white;
 }
 
 //
