@@ -19,10 +19,12 @@ export class SearchComponent {
 
   loading = false;
   podcast: Podcast;
-  place: Place;
-  submitted: Boolean = false;
+  places: Place[] = [];
+  submitted = false;
+  locationUnknown = false;
   searchLocation: string;
   fetchingLocation = false;
+  podcastPlace = '';
 
   constructor(
     private mapService: MapService,
@@ -37,16 +39,21 @@ export class SearchComponent {
   }
 
   // podcast chosen from typeahead
-  setPodcast(podcast: Podcast) {
+  setPodcast(podcast: any) {
+    // console.log('podcast', podcast);
     this.submitted = false;
     if (podcast) {
       // TODO: lookup podcast, check for location
+      this.locationUnknown = true; // TEMP
       this.podcast = {
         collectionId: podcast.collectionId,
         collectionName: podcast.collectionName,
         artistName: podcast.artistName,
         artworkUrl60: podcast.artworkUrl60,
-        artworkUrl100: podcast.artworkUrl100
+        artworkUrl100: podcast.artworkUrl100,
+        feedUrl: podcast.feedUrl,
+        itunesSub: podcast.trackViewUrl,
+        placeIds: {}
       };
     }
     else {
@@ -54,13 +61,27 @@ export class SearchComponent {
     }
   }
 
+  podcastHasPlaces(): Boolean {
+    return this.podcast && Object.getOwnPropertyNames(this.podcast.placeIds).length > 0;
+  }
+
+  addPlaceIfUnique(place: Place): Boolean {
+    this.places.forEach(plc => {
+      if (plc.place_id === place.place_id) {
+        return false;
+      }
+    });
+    this.places.push(place);
+    return true;
+  }
+
   // place chosen from typeahead
-  setPlace(place: Place) {
-    this.place = place;
+  setPlace(place: Place, addToPodcast: Boolean) {
+
     if (this.mapService.placesService) {
       this.loading = true;
       this.mapService.placesService.getDetails({
-        placeId: this.place.place_id
+        placeId: place.place_id
       }, (placeDetails, status) => {
         this.loading = false;
         if (status === google.maps.places.PlacesServiceStatus.OK) {
@@ -68,7 +89,15 @@ export class SearchComponent {
 
           this.mapService.updatePosition(geoPoint);
           this.mapService.zoomToCity();
-          this.place.geoPoint = geoPoint;
+          place.geoPoint = geoPoint;
+
+          if (this.podcast && addToPodcast) {
+            if (this.addPlaceIfUnique(place)) {
+              console.log('add to podcast');
+              this.podcast.placeIds[place.place_id] = true;
+            }
+            this.podcastPlace = ''; // reset add place input
+          }
         }
         else {
           console.error(status);
@@ -80,18 +109,25 @@ export class SearchComponent {
     }
   }
 
-  submitLocationSuggestion() {
-    const podLocation: PodcastLocation = {
-      name: this.place.description,
-      geoPoint: this.place.geoPoint,
-      placeId: this.place.place_id
-    };
+  addLocationText() {
+    return (this.places.length === 0) ? 'Suggest a location' : 'Add a location';
+  }
 
+  submitLocationSuggestion() {
     const podSugg: PodcastSuggestion = {
       podcast: this.podcast,
-      locations: [podLocation],
+      locations: [],
       status: SuggestionStatus.Unmoderated
     };
+
+    this.places.forEach(place => {
+      const podLocation: PodcastLocation = {
+        name: place.description,
+        geoPoint: place.geoPoint,
+        placeId: place.place_id
+      };
+      podSugg.locations.push(podLocation);
+    })
 
     this.afs.collection('suggestions').add(podSugg).then(() => {
       this.submitted = true;

@@ -11,6 +11,8 @@ export interface Podcast {
   artistName: string;
   artworkUrl60: string;
   artworkUrl100: string;
+  feedUrl: string;
+  itunesSub: string;
   placeIds?: Categories;
 }
 

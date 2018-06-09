@@ -7,13 +7,13 @@
       </mat-tab>
       <mat-tab label="Search places">
         <div class="floating-box-inner">
-          <pm-place-search (selected)="setPlace($event)"></pm-place-search>
+          <pm-place-search (selected)="setPlace($event, false)"></pm-place-search>
           <p><a class="faux-link" [ngClass]="{'faux-disabled': fetchingLocation}" (click)="goToUserLocation()">{{ searchLocation }}</a></p>
         </div>
       </mat-tab>
     </mat-tab-group>
   </div>
-  <div *ngIf="podcast && !podcast.placeIds" class="floating-box legend-width">
+  <div *ngIf="podcast && locationUnknown" class="floating-box legend-width">
     <div class="floating-box-inner" *ngIf="submitted">
       <h3>Thanks! Got it.</h3>
       <p>Your submission will be reviewed before appearing on the map.</p>
@@ -22,13 +22,17 @@
       </div>
     </div>
     <div class="floating-box-inner" *ngIf="!submitted">
-      <p class="prompt">Location unknown.</p>
-      <pm-place-search (selected)="setPlace($event)"></pm-place-search>
+      <pm-place-search #addLocation (selected)="setPlace($event, true)" [placeholder]="addLocationText()" [place]="podcastPlace"></pm-place-search>
+      <div class="w-100">
+        <ol>
+          <li *ngFor="let place of places">{{ place.description }}</li>
+        </ol>
+      </div>
       <div class="d-flex mb-3">
         <div class="mr-auto">
           <mat-spinner *ngIf="loading" diameter="35"></mat-spinner>
         </div>
-        <button (click)="submitLocationSuggestion()" [disabled]="!place || (place && !place.geoPoint)" mat-raised-button color="accent">Submit</button>
+        <button (click)="submitLocationSuggestion()" [disabled]="!podcastHasPlaces()" mat-raised-button color="accent">Submit</button>
       </div>
     </div>
   </div>

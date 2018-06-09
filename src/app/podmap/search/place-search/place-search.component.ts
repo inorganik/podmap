@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { MapsAPILoader } from '@agm/core';
 import { FormControl } from '@angular/forms';
 import { Observable, of } from 'rxjs';
@@ -25,6 +25,19 @@ export class PlaceSearchComponent implements OnInit {
   keyupDelay = 500;
   places$: Observable<any>;
 
+  @Input() placeholder = 'Enter a city';
+
+  get place(): Place {
+    return null;
+  }
+  @Input()
+  set place(val: Place) {
+    console.log('re set place', val);
+    console.log('place ctrl', this.placeCtrl);
+    this.placeCtrl.setValue(val);
+    this.placeCtrl.reset();
+  }
+
   @Output() selected = new EventEmitter<Place>();
 
   constructor(
@@ -44,7 +57,7 @@ export class PlaceSearchComponent implements OnInit {
   }
 
   placeSearch(searchTerm): Observable<Place[]> {
-    if (searchTerm.length > 0) {
+    if (searchTerm && searchTerm.length > 0) {
       if (!this.autocompleteService) {
         console.error('No autocomplete service');
         return of([]);

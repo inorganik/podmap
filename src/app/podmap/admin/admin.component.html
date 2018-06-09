@@ -12,10 +12,10 @@
             <img aria-hidden src="{{ sugg.podcast.artworkUrl60 }}" />
             <span class="title">{{ sugg.podcast.collectionName }}</span>
             <div class="buttons ml-auto">
-              <button type="button" mat-mini-fab (click)="approve()" color="primary">
+              <button type="button" mat-mini-fab (click)="approve(sugg)" color="primary">
                 <mat-icon class="svg-fill-white" aria-label="approve" svgIcon="done"></mat-icon>
               </button>
-              <button type="button" mat-mini-fab (click)="reject()" color="warn">
+              <button type="button" mat-mini-fab (click)="reject(sugg)" color="warn">
                 <mat-icon class="svg-fill-white" aria-label="reject" svgIcon="close"></mat-icon>
               </button>
             </div>

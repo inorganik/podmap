@@ -81,7 +81,6 @@ export class PodcastSearchComponent implements OnInit {
   }
 
   selectedPod(podcast) {
-    console.log('selected', podcast.option.value);
     this.podcast = podcast.option.value;
     this.selected.emit(this.podcast);
   }

@@ -25,13 +25,17 @@ export class AdminComponent {
     }).valueChanges();
   }
 
-  approve() {
+  approve(suggestion: PodcastSuggestion) {
     // todo
+    console.log('approve', suggestion);
+
+    // this.afs.doc(`podcasts/${suggestion.podcast.collectionId}`).set()
     // this.afs.doc(`locations/${podLocation.placeId}`).set(podLocation);
   }
 
-  reject() {
+  reject(suggestion: PodcastSuggestion) {
     // todo
+    console.log('reject', suggestion);
   }
 
   signOut() {
