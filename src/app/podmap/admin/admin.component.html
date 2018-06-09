@@ -5,5 +5,21 @@
       <a class="float-right" [href] routerLink="/search">« Back to search</a>
       <h5>Admin</h5>
       <hr>
+      <!-- awaiting moderation -->
+      <ul class="moderation-list">
+        <li *ngFor="let sugg of suggestions | async">
+          <div class="d-flex">
+            <img aria-hidden src="{{ sugg.podcast.artworkUrl60 }}" />
+            <span>{{ sugg.podcast.collectionName }}</span>
+            <button (click)="reject()" mat-raised-button>
+              <mat-icon aria-label="reject" svgIcon="close"></mat-icon>
+            </button>
+            <button (click)="approve()" mat-raised-button>
+              <mat-icon aria-label="approve" svgIcon="done"></mat-icon>
+            </button>
+          </div>
+          <span *ngFor="let loc of sugg.locations">{{ loc.name }}</span>
+        </li>
+      </ul>
   </div>
 </div>

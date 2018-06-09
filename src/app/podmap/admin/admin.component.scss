@@ -1,0 +1,12 @@
+@import '../../../sass/variables';
+
+@import
+  '~bootstrap/scss/functions',
+  '~bootstrap/scss/variables',
+	'~bootstrap/scss/mixins';
+
+ul.moderation-list {
+  li {
+    border-bottom: 1px $gray-800 solid;
+  }
+}

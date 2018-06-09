@@ -122,5 +122,10 @@
       }
     }
   },
-  "defaultProject": "podmap"
+  "defaultProject": "podmap",
+  "schematics": {
+    "@schematics/angular:component": {
+      "styleext": "scss"
+    }
+  }
 }
