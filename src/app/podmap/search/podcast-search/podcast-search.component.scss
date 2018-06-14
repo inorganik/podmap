@@ -29,19 +29,3 @@ mat-option {
 		}
 	}
 }
-
-.podcast-subject {
-	padding-bottom: $spacer;
-	img {
-		height: 100px;
-		width: auto;
-		margin-right: $spacer;
-	}
-	p {
-		margin: 0;
-		font-size: .8em;
-		&.location {
-			color: $gray-600;
-		}
-	}
-}

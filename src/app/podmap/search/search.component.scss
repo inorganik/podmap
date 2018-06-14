@@ -1,0 +1,22 @@
+@import '../../../sass/variables';
+
+@import
+  '~bootstrap/scss/functions',
+  '~bootstrap/scss/variables',
+	'~bootstrap/scss/mixins';
+
+.podcast-subject {
+	padding-bottom: $spacer;
+	img {
+		height: 100px;
+		width: auto;
+		margin-right: $spacer;
+	}
+	p {
+		margin: 0;
+		&.location {
+      font-size: .8em;
+			color: $gray-600;
+		}
+	}
+}

@@ -12,19 +12,20 @@ declare let google: any;
 
 @Component({
   selector: 'pm-search',
-  templateUrl: './search.component.html'
+  templateUrl: './search.component.html',
+  styleUrls: ['./search.component.scss']
 })
 
 export class SearchComponent {
 
   loading = false;
   podcast: Podcast;
+  podPlace: Place;
   places: Place[] = [];
   submitted = false;
   locationUnknown = false;
   searchLocation: string;
   fetchingLocation = false;
-  podcastPlace = '';
 
   constructor(
     private mapService: MapService,
@@ -90,13 +91,14 @@ export class SearchComponent {
           this.mapService.updatePosition(geoPoint);
           this.mapService.zoomToCity();
           place.geoPoint = geoPoint;
+          this.podPlace = place;
 
           if (this.podcast && addToPodcast) {
             if (this.addPlaceIfUnique(place)) {
               console.log('add to podcast');
               this.podcast.placeIds[place.place_id] = true;
             }
-            this.podcastPlace = ''; // reset add place input
+            this.podPlace = null; // reset add place input
           }
         }
         else {
@@ -122,12 +124,12 @@ export class SearchComponent {
 
     this.places.forEach(place => {
       const podLocation: PodcastLocation = {
-        name: place.description,
+        description: place.description,
         geoPoint: place.geoPoint,
-        placeId: place.place_id
+        place_id: place.place_id
       };
       podSugg.locations.push(podLocation);
-    })
+    });
 
     this.afs.collection('suggestions').add(podSugg).then(() => {
       this.submitted = true;
@@ -138,6 +140,7 @@ export class SearchComponent {
   clearPodcast() {
     this.submitted = false;
     this.podcast = null;
+    this.podPlace = null;
   }
 
   goToUserLocation() {

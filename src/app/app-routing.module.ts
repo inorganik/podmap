@@ -6,7 +6,7 @@ import { AdminComponent } from './podmap/admin/admin.component';
 import { LoginComponent } from './podmap/login/login.component';
 import { SearchComponent } from './podmap/search/search.component';
 import { AboutComponent } from './podmap/about/about.component';
-import { AuthGuard } from './podmap/auth.guard';
+import { AuthGuard } from './guards/auth.guard';
 
 
 const routes: Routes = [

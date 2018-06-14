@@ -17,9 +17,9 @@ export interface Podcast {
 }
 
 export interface PodcastLocation {
-  name: string;
+  description: string;
   geoPoint: any;
-  placeId: string;
+  place_id: string;
   podCount?: number;
 }
 

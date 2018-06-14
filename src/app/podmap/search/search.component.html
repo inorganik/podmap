@@ -13,26 +13,42 @@
       </mat-tab>
     </mat-tab-group>
   </div>
-  <div *ngIf="podcast && locationUnknown" class="floating-box legend-width">
-    <div class="floating-box-inner" *ngIf="submitted">
-      <h3>Thanks! Got it.</h3>
-      <p>Your submission will be reviewed before appearing on the map.</p>
-      <div class="d-flex">
-        <button class="mb-3 ml-auto" (click)="clearPodcast()" mat-raised-button color="primary">OK</button>
+  <div *ngIf="podcast" class="floating-box legend-width">
+    <div class="podcast-subject d-flex align-items-center">
+      <img aria-hidden src="{{ podcast.artworkUrl100 }}" />
+      <div>
+        <p>{{ podcast.collectionName }}</p>
+        <p class="location">{{ podcast.artistName }}</p>
       </div>
+      <button mat-icon-button (click)="clearPodcast()" class="ml-auto align-self-start">
+        <mat-icon aria-label="close" svgIcon="close" class="svg-fill-gray"></mat-icon>
+      </button>
     </div>
-    <div class="floating-box-inner" *ngIf="!submitted">
-      <pm-place-search #addLocation (selected)="setPlace($event, true)" [placeholder]="addLocationText()" [place]="podcastPlace"></pm-place-search>
-      <div class="w-100">
-        <ol>
-          <li *ngFor="let place of places">{{ place.description }}</li>
-        </ol>
-      </div>
-      <div class="d-flex mb-3">
-        <div class="mr-auto">
-          <mat-spinner *ngIf="loading" diameter="35"></mat-spinner>
+    <hr>
+    <div clas="floating-box-inner">
+      <h4>Location(s):</h4>
+      <ol>
+        <li *ngFor="let place of places">{{ place.description }}</li>
+      </ol>
+      <div *ngIf="locationUnknown">
+        <p>No location found. Add one?</p>
+        <pm-place-search #addLocation (selected)="setPlace($event, true)" [placeholder]="addLocationText()" [place]="podPlace"></pm-place-search>
+        <div class="d-flex mb-3">
+          <div class="mr-auto">
+            <mat-spinner *ngIf="loading" diameter="35"></mat-spinner>
+          </div>
+          <button (click)="submitLocationSuggestion()" [disabled]="!podcastHasPlaces()" mat-raised-button color="accent">Submit</button>
         </div>
-        <button (click)="submitLocationSuggestion()" [disabled]="!podcastHasPlaces()" mat-raised-button color="accent">Submit</button>
+        <div *ngIf="submitted">
+          <h3>Thanks! Got it.</h3>
+          <p>Your submission will be reviewed before appearing on the map.</p>
+          <div class="d-flex">
+            <button class="mb-3 ml-auto" (click)="clearPodcast()" mat-raised-button color="primary">OK</button>
+          </div>
+        </div>
       </div>
     </div>
+  </div>
+  <div *ngIf="podcast && locationUnknown" class="floating-box legend-width">
+
   </div>

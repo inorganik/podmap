@@ -27,15 +27,15 @@ export class PlaceSearchComponent implements OnInit {
 
   @Input() placeholder = 'Enter a city';
 
+  private _place: Place;
   get place(): Place {
-    return null;
+    return this._place;
   }
   @Input()
   set place(val: Place) {
-    console.log('re set place', val);
-    console.log('place ctrl', this.placeCtrl);
+    console.log('set place', val);
+    this._place = val;
     this.placeCtrl.setValue(val);
-    this.placeCtrl.reset();
   }
 
   @Output() selected = new EventEmitter<Place>();

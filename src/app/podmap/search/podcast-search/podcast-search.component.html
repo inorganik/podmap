@@ -13,13 +13,3 @@
 		</mat-autocomplete>
 	</mat-form-field>
 </form>
-<div *ngIf="podcast" class="podcast-subject d-flex align-items-center">
-	<img aria-hidden src="{{ podcast.artworkUrl100 }}" />
-	<div>
-		<p>{{ podcast.artistName }}</p>
-		<p class="location"><mat-icon aria-label="location" svgIcon="location" class="svg-fill-gray"></mat-icon> Unknown</p>
-	</div>
-	<button mat-icon-button (click)="clearPod()" class="ml-auto align-self-start">
-		<mat-icon aria-label="close" svgIcon="close" class="svg-fill-gray"></mat-icon>
-	</button>
-</div>
