@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import * as firebase from 'firebase/app';
 import { Podcast, Place } from '../models';
 // angularfire
-import { AngularFirestore } from 'angularfire2/firestore';
 import { MapService } from '../../services/map.service';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
@@ -23,7 +22,6 @@ export class SearchComponent implements OnInit {
 
   constructor(
     private mapService: MapService,
-    private afs: AngularFirestore,
     private router: Router,
     private route: ActivatedRoute
   ) {
@@ -55,14 +53,14 @@ export class SearchComponent implements OnInit {
         artworkUrl60: podcast.artworkUrl60,
         artworkUrl100: podcast.artworkUrl100,
         feedUrl: podcast.feedUrl,
-        itunesSub: podcast.trackViewUrl,
-        placeIds: {},
-        locations: []
+        itunesSub: podcast.trackViewUrl
       };
-      this.afs.doc(`podcasts/${podcast.collectionId}`).set(pod)
-        .then(() => {
-          this.router.navigate(['search/podcast', podcast.collectionId]);
-        }, err => console.error('Error adding podcast:', err));
+      this.mapService.podcast = pod;
+      this.router.navigate(['search/podcast', podcast.collectionId]);
+      // this.mapService.addOrUpdatePodcast(pod)
+      //   .then(() => {
+      //     this.router.navigate(['search/podcast', podcast.collectionId]);
+      //   }, err => console.error('Error adding podcast:', err));
     }
   }
 

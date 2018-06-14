@@ -8,7 +8,6 @@ import { SearchComponent } from './map/search/search.component';
 import { AboutComponent } from './map/about/about.component';
 import { AuthGuard } from './guards/auth.guard';
 import { PodcastComponent } from './map/search/podcast/podcast.component';
-import { PodcastResolver } from './map/search/podcast/podcast.resolver';
 
 
 const routes: Routes = [

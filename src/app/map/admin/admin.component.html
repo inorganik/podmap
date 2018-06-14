@@ -19,9 +19,7 @@
           </button>
         </div>
       </div>
-      <div class="locations">
-        <span *ngFor="let loc of sugg.locations; last as isLast">{{ loc.name }} <span *ngIf="!isLast">, </span></span>
-      </div>
+      <pm-location-list [locations]="sugg.podcast.locations"></pm-location-list>
     </li>
   </ul>
 </div>

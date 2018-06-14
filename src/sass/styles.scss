@@ -25,8 +25,11 @@ body {
 }
 
 hr {
-  border: none;
-  border-bottom: 2px $secondary solid;
+  border: 3px rgba(132, 96, 244, .4) dotted;
+  border-top-width: 0;
+  border-left-width: 0;
+  border-right-width: 0;
+  height: 3px;
 }
 
 ul, ol {
@@ -59,6 +62,9 @@ ul, ol {
 
 .svg-fill-white svg {
 	fill: white;
+}
+.svg-fill-gray svg {
+	fill: gray;
 }
 
 //

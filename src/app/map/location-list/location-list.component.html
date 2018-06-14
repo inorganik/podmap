@@ -1,0 +1,9 @@
+<ul>
+  <li *ngFor="let location of locations$ | async" routerLink="['search/location', location.placeId]">
+    <span *ngIf="location.podCount" class="float-right">{{ location.podCount }}</span>
+    {{ location.description }}
+  </li>
+  <li *ngFor="let location of locations" routerLink="['search/location', location.placeId]">
+    {{ location.description }}
+  </li>
+</ul>

@@ -13,8 +13,8 @@ export interface Podcast {
   artworkUrl100: string;
   feedUrl: string;
   itunesSub: string;
-  placeIds: Categories;
-  locations: PodcastLocation[];
+  placeIds?: Categories;
+  locations?: PodcastLocation[];
   // it's very cumbersome to look up each location by place id
   // much simpler to just include locations
 }
@@ -24,7 +24,7 @@ export interface PodcastLocation {
   // storing root-level lat/lng allows for better querying
   lat: number;
   lng: number;
-  place_id: string;
+  placeId: string;
   podCount?: number;
 }
 
@@ -35,17 +35,16 @@ export enum SuggestionStatus {
 }
 
 export interface PodcastSuggestion {
+  id?: string;
   podcast: Podcast;
-  locations: Array<PodcastLocation>;
   status?: SuggestionStatus;
 }
 
-// a partial typing of PlaceService result + lat & lng
+// a munging of Autocomplete and Place service results
 export interface Place {
   description: string;
   matched_substrings?: [any];
   place_id: string;
   terms: [any];
   types: [string];
-  geoPoint?: firebase.firestore.GeoPoint;
 }

@@ -1,0 +1,20 @@
+@import '../../../sass/variables';
+
+@import
+  '~bootstrap/scss/functions',
+  '~bootstrap/scss/variables',
+  '~bootstrap/scss/mixins';
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  li {
+    color: gray;
+    padding: 10px 0;
+    font-size: .8em;
+    border-bottom: 1px $gray-400 solid;
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+}

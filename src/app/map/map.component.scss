@@ -35,7 +35,7 @@ p {
   }
 }
 
-.podmap-sidebar {
+.sidebar {
 	position: absolute;
 	z-index: 1;
 	top: 0;
@@ -43,6 +43,7 @@ p {
   padding: 20px;
   height: 100vh;
   pointer-events: none;
+  overflow-y: scroll;
 }
 agm-map {
 	height: 100vh;
@@ -65,10 +66,6 @@ agm-map {
 	p {
 		color: rgba(255,255,255,.8);
 	}
-}
-
-hr {
-	border-bottom: 2px $primary solid;
 }
 
 @keyframes animateWallpaper {

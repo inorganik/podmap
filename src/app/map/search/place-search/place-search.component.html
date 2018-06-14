@@ -1,6 +1,7 @@
 <form>
 	<mat-form-field class="w-100">
 		<input #placeInput matInput [placeholder]="placeholder" name="place" aria-label="Enter location" [matAutocomplete]="autoplace" [formControl]="placeCtrl">
+		<mat-icon svgIcon="search" matSuffix class="svg-fill-gray"></mat-icon>
 		<mat-autocomplete #autoplace="matAutocomplete" id="place-autocomplete" (optionSelected)="selectedPlace($event)" [displayWith]="displayFn">
 			<mat-option *ngFor="let place of places$ | async" [value]="place">
 				{{ place.description }}

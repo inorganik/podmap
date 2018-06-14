@@ -33,7 +33,6 @@ export class PlaceSearchComponent implements OnInit {
   }
   @Input()
   set place(val: Place) {
-    console.log('set place', val);
     this._place = val;
     this.placeCtrl.setValue(val);
   }

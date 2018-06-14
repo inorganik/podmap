@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { PodcastSuggestion, SuggestionStatus } from '../models';
 import { Observable } from 'rxjs';
+import { MapService } from '../../services/map.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'pm-admin',
@@ -17,20 +19,38 @@ export class AdminComponent {
   constructor(
     private afAuth: AngularFireAuth,
     private router: Router,
-    private afs: AngularFirestore
+    private afs: AngularFirestore,
+    private mapService: MapService
   ) {
     // get unmoderated suggestions
+    // this.suggestions = afs.collection<PodcastSuggestion>('suggestions', ref => {
+    //   return ref.where('status', '==', SuggestionStatus.Unmoderated);
+    // }).valueChanges();
     this.suggestions = afs.collection<PodcastSuggestion>('suggestions', ref => {
       return ref.where('status', '==', SuggestionStatus.Unmoderated);
-    }).valueChanges();
+    }).snapshotChanges().pipe(
+      map(actions => actions.map(a => {
+        const data = a.payload.doc.data() as PodcastSuggestion;
+        const id = a.payload.doc.id;
+        return { id, ...data };
+      }))
+    );
   }
 
   approve(suggestion: PodcastSuggestion) {
-    // todo
     console.log('approve', suggestion);
-
-    // this.afs.doc(`podcasts/${suggestion.podcast.collectionId}`).set()
-    // this.afs.doc(`locations/${podLocation.placeId}`).set(podLocation);
+    suggestion.status = SuggestionStatus.Approved;
+    this.afs.doc(`suggestions/${suggestion.id}`).set(suggestion);
+    this.afs.doc(`podcasts/${suggestion.podcast.collectionId}`).set(suggestion.podcast);
+    // increment podcount for each location
+    suggestion.podcast.locations.forEach(location => {
+      this.mapService.getLocation(location)
+        .then(loc => {
+          loc.podCount++;
+          this.mapService.addOrUpdateLocation(loc);
+        });
+    });
+    // todo test
   }
 
   reject(suggestion: PodcastSuggestion) {

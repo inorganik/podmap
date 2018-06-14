@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Podcast, PodcastLocation, Place, SuggestionStatus, PodcastSuggestion } from '../../models';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, last, tap } from 'rxjs/operators';
 import { AngularFirestore } from 'angularfire2/firestore';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { MapService } from '../../../services/map.service';
 import * as firebase from 'firebase/app';
 
@@ -14,10 +14,12 @@ import * as firebase from 'firebase/app';
 })
 export class PodcastComponent implements OnInit {
 
+  MAX_POD_LOCATIONS = 10;
+
   podcast$: Observable<Podcast>;
   // suggesting locations
   podPlace: Place;
-  podPlaces: Place[] = [];
+  podLocations: PodcastLocation[] = [];
   loading = false;
   submitted = false;
 
@@ -31,6 +33,9 @@ export class PodcastComponent implements OnInit {
     this.podcast$ = this.route.paramMap.pipe(
       switchMap((params: ParamMap) => {
         const collectionId = params.get('collectionId');
+        if (this.mapService.podcast && this.mapService.podcast.collectionId === Number(collectionId)) {
+          return of(this.mapService.podcast);
+        }
         return this.afs.doc<Podcast>(`podcasts/${collectionId}`).valueChanges();
       })
     );
@@ -38,9 +43,13 @@ export class PodcastComponent implements OnInit {
 
   // suggesting locations
 
+  canAddPlace(): Boolean {
+    return this.podLocations.length <= this.MAX_POD_LOCATIONS;
+  }
+
   addPlaceIfUnique(place: Place): Boolean {
-    this.podPlaces.forEach(plc => {
-      if (plc.place_id === place.place_id) {
+    this.podLocations.forEach(plc => {
+      if (plc.placeId === place.place_id) {
         return false;
       }
     });
@@ -49,47 +58,50 @@ export class PodcastComponent implements OnInit {
 
   setPlace(place: Place) { // place chosen from typeahead
 
-    if (this.addPlaceIfUnique(place)) {
+    this.podPlace = place;
+    if (this.addPlaceIfUnique(place) && this.canAddPlace()) {
       this.loading = true;
       this.mapService.getPlaceDetails(place.place_id)
         .then(placeDetails => {
-          console.log('place details', placeDetails);
+          // console.log('place details', placeDetails);
           this.loading = false;
           const geoPoint = new firebase.firestore.GeoPoint(placeDetails.geometry.location.lat(), placeDetails.geometry.location.lng());
 
           this.mapService.updatePosition(geoPoint);
           this.mapService.zoomToCity();
 
-          // TODO add to podPlaces array
+          this.podLocations.push({
+            description: place.description,
+            lat: geoPoint.latitude,
+            lng: geoPoint.longitude,
+            placeId: placeDetails.place_id
+          });
+          this.podPlace = null; // clear place search
 
         }, err => console.error('Error getting place details', err));
     }
   }
 
   addLocationText() {
-    return (this.podPlaces.length === 0) ? 'Suggest a location' : 'Add a location';
+    return (this.podLocations.length === 0) ? 'Suggest a location' : 'Add a location';
   }
 
   submitLocationSuggestion(podcast: Podcast) {
+    // make a copy so we can show correct UI state
+    const pod = Object.assign({}, podcast);
+    pod.locations = this.podLocations;
+    this.podLocations.forEach(location => {
+      pod.placeIds[location.placeId] = true;
+    });
     const podSugg: PodcastSuggestion = {
-      podcast: podcast,
-      locations: [],
+      podcast: pod,
       status: SuggestionStatus.Unmoderated
     };
-    // populate locations in suggestion
-    this.podPlaces.forEach(place => {
-      const podLocation: PodcastLocation = {
-        description: place.description,
-        lat: place.geoPoint.latitude,
-        lng: place.geoPoint.longitude,
-        place_id: place.place_id
-      };
-      podSugg.locations.push(podLocation);
-    });
 
     this.afs.collection('suggestions').add(podSugg).then(() => {
       this.submitted = true;
-    }, err => console.error('Error connecting to firebase', err));
+      console.log('submitted!');
+    }, err => console.error('Firebase error:', err));
   }
 
 }

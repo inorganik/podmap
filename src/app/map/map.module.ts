@@ -20,6 +20,7 @@ import { FooterComponent } from './footer/footer.component';
 import { AboutComponent } from './about/about.component';
 import { AdComponent } from './ad/ad.component';
 import { PodcastComponent } from './search/podcast/podcast.component';
+import { LocationListComponent } from './location-list/location-list.component';
 
 @NgModule({
   imports: [
@@ -46,7 +47,8 @@ import { PodcastComponent } from './search/podcast/podcast.component';
     FooterComponent,
     AboutComponent,
     AdComponent,
-    PodcastComponent
+    PodcastComponent,
+    LocationListComponent
   ],
   exports: [
     MapComponent
