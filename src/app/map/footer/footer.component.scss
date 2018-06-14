@@ -1,0 +1,9 @@
+span {
+  padding: 0 5px;
+  &.icon {
+    height: 26px;
+  }
+}
+.active {
+  color: gray;
+}

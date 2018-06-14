@@ -1,18 +1,20 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { PodmapComponent } from './podmap/podmap.component';
-import { AdminComponent } from './podmap/admin/admin.component';
-import { LoginComponent } from './podmap/login/login.component';
-import { SearchComponent } from './podmap/search/search.component';
-import { AboutComponent } from './podmap/about/about.component';
+import { MapComponent } from './map/map.component';
+import { AdminComponent } from './map/admin/admin.component';
+import { LoginComponent } from './map/login/login.component';
+import { SearchComponent } from './map/search/search.component';
+import { AboutComponent } from './map/about/about.component';
 import { AuthGuard } from './guards/auth.guard';
+import { PodcastComponent } from './map/search/podcast/podcast.component';
+import { PodcastResolver } from './map/search/podcast/podcast.resolver';
 
 
 const routes: Routes = [
   {
     path: '',
-    component: PodmapComponent,
+    component: MapComponent,
     children: [
       {
         path: '',
@@ -21,7 +23,17 @@ const routes: Routes = [
       },
       {
         path: 'search',
-        component: SearchComponent
+        component: SearchComponent,
+        children: [
+          {
+            path: 'podcast',
+            redirectTo: ''
+          },
+          {
+            path: 'podcast/:collectionId',
+            component: PodcastComponent
+          }
+        ]
       },
       {
         path: 'about',
@@ -41,7 +53,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { enableTracing: false })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

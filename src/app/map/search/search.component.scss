@@ -1,0 +1,11 @@
+@import '../../../sass/variables';
+
+@import
+  '~bootstrap/scss/functions',
+  '~bootstrap/scss/variables',
+	'~bootstrap/scss/mixins';
+
+
+.search-inner {
+  padding: $spacer $spacer 1px $spacer;
+}

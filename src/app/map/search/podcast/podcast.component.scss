@@ -1,4 +1,4 @@
-@import '../../../sass/variables';
+@import '../../../../sass/variables';
 
 @import
   '~bootstrap/scss/functions',
@@ -6,7 +6,6 @@
 	'~bootstrap/scss/mixins';
 
 .podcast-subject {
-	padding-bottom: $spacer;
 	img {
 		height: 100px;
 		width: auto;
@@ -14,7 +13,7 @@
 	}
 	p {
 		margin: 0;
-		&.location {
+		&.subhead {
       font-size: .8em;
 			color: $gray-600;
 		}

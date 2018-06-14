@@ -10,20 +10,29 @@ p {
 	font-size: 0.9em;
 }
 
-.legend-width {
+.floating-box {
   width: 330px;
 	max-width: 400px;
-}
-.floating-box {
-	margin-top: 20px;
+  margin-top: 20px;
+  padding: $spacer;
 	background: white;
   box-shadow: $hard-box-shadow;
+  pointer-events: auto;
   &.lt-gray-bkgd {
     background: $gray-100;
   }
-	.floating-box-inner {
-		padding: $spacer $spacer 1px $spacer;
-	}
+  &.search {
+    padding: 0;
+  }
+  &.footer {
+    padding: 7px $spacer 6px;
+    color: gray;
+    font-size: .8em;
+  }
+  &.ad {
+    padding: 5px $spacer $spacer $spacer;
+    text-align: center;
+  }
 }
 
 .podmap-sidebar {
@@ -33,6 +42,7 @@ p {
   left: 0;
   padding: 20px;
   height: 100vh;
+  pointer-events: none;
 }
 agm-map {
 	height: 100vh;

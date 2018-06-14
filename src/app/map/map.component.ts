@@ -3,7 +3,7 @@ import { AgmMap } from '@agm/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { mapStyle } from './podmap.mapstyle';
 import { MatIconRegistry } from '@angular/material';
-import { MapService } from './map.service';
+import { MapService } from '../services/map.service';
 import * as firebase from 'firebase/app';
 
 declare const navigator;
@@ -11,13 +11,12 @@ declare let google: any;
 
 
 @Component({
-  selector: 'pm-podmap',
-  templateUrl: './podmap.component.html',
-  styleUrls: ['./podmap.component.scss'],
+  templateUrl: './map.component.html',
+  styleUrls: ['./map.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 
-export class PodmapComponent implements OnInit, AfterViewInit, OnDestroy {
+export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
   geoPoint: firebase.firestore.GeoPoint;
   zoom = 5;

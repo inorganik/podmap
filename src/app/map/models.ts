@@ -13,12 +13,17 @@ export interface Podcast {
   artworkUrl100: string;
   feedUrl: string;
   itunesSub: string;
-  placeIds?: Categories;
+  placeIds: Categories;
+  locations: PodcastLocation[];
+  // it's very cumbersome to look up each location by place id
+  // much simpler to just include locations
 }
 
 export interface PodcastLocation {
   description: string;
-  geoPoint: any;
+  // storing root-level lat/lng allows for better querying
+  lat: number;
+  lng: number;
   place_id: string;
   podCount?: number;
 }
@@ -35,7 +40,7 @@ export interface PodcastSuggestion {
   status?: SuggestionStatus;
 }
 
-// a partial typing of PlaceService result + geoPoint
+// a partial typing of PlaceService result + lat & lng
 export interface Place {
   description: string;
   matched_substrings?: [any];

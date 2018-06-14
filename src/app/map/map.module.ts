@@ -10,7 +10,7 @@ import { RouterModule } from '@angular/router';
 // google maps
 import { AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/core';
 // custom
-import { PodmapComponent } from './podmap.component';
+import { MapComponent } from './map.component';
 import { PodcastSearchComponent } from './search/podcast-search/podcast-search.component';
 import { PlaceSearchComponent } from './search/place-search/place-search.component';
 import { SearchComponent } from './search/search.component';
@@ -19,6 +19,7 @@ import { AdminComponent } from './admin/admin.component';
 import { FooterComponent } from './footer/footer.component';
 import { AboutComponent } from './about/about.component';
 import { AdComponent } from './ad/ad.component';
+import { PodcastComponent } from './search/podcast/podcast.component';
 
 @NgModule({
   imports: [
@@ -36,7 +37,7 @@ import { AdComponent } from './ad/ad.component';
     RouterModule
   ],
   declarations: [
-    PodmapComponent,
+    MapComponent,
     PodcastSearchComponent,
     PlaceSearchComponent,
     SearchComponent,
@@ -44,10 +45,11 @@ import { AdComponent } from './ad/ad.component';
     AdminComponent,
     FooterComponent,
     AboutComponent,
-    AdComponent
+    AdComponent,
+    PodcastComponent
   ],
   exports: [
-    PodmapComponent
+    MapComponent
   ],
   providers: [
     GoogleMapsAPIWrapper,
@@ -55,4 +57,4 @@ import { AdComponent } from './ad/ad.component';
     AngularFireAuth
   ]
 })
-export class PodmapModule { }
+export class MapModule { }
