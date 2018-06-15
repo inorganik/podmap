@@ -11,8 +11,7 @@ p {
 }
 
 .floating-box {
-  width: 330px;
-	max-width: 400px;
+  width: 100%;
   margin-top: 20px;
   padding: $spacer;
 	background: white;
@@ -35,24 +34,35 @@ p {
   }
 }
 
-.sidebar {
-	position: absolute;
-	z-index: 1;
-	top: 0;
+$sidebar-width: 350px;
+
+.sidebar-contain {
+  position: absolute;
+  z-index: 1;
+  top: 0;
   left: 0;
-  padding: 20px;
+  width: $sidebar-width;
   height: 100vh;
   pointer-events: none;
-  overflow-y: scroll;
+  overflow: hidden;
+
+  .sidebar {
+    width: $sidebar-width + 15px;
+    height: 100%;
+    padding: 20px 0 20px 20px;
+    overflow-y: scroll;
+  }
 }
 agm-map {
 	height: 100vh;
 	width: 100vw;
 }
 .legend {
+  width: 100%;
+  box-sizing: border-box;
 	text-align: center;
 	padding: $spacer;
-  background: $primary url('../../assets/img/superfeed-wallpaper.svg') center fixed;
+  background: $primary url('../../assets/img/podmap-wallpaper.svg') center fixed;
 	background-size: 650px, 650px;
 	box-shadow: $hard-box-shadow;
 	animation: animateWallpaper 30s linear infinite;
@@ -83,27 +93,30 @@ agm-map {
 //
 
 @media (max-width: map-get($grid-breakpoints, 'sm')) { // 576px and less
-  .podmap-sidebar {
+
+  .sidebar-contain {
     width: 100%;
     padding: 0;
+    .sidebar {
+      width: 100%;
+      padding: 0;
+    }
   }
-  .legend-width {
-    width: 100%;
-    max-width: 100%;
-  }
+
   .legend,
   .floating-box {
     box-shadow: 0 6px rgba(0,0,0,0.2);
   }
   .floating-box {
+    margin-top: 6px;
     .floating-box-inner {
       padding: 5px $spacer 1px $spacer;
     }
   }
   .legend {
     padding: 8px $spacer;
-    h1 {
-      margin-top: 0;
+    h1, p {
+      margin: 0;
     }
   }
 

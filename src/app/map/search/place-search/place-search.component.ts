@@ -61,6 +61,7 @@ export class PlaceSearchComponent implements OnInit {
         console.error('No autocomplete service');
         return of([]);
       }
+      // console.log('place search', searchTerm);
       return Observable.create(obs => {
         const getPredicts = (predictions, status) => {
           // console.log('got predicts', predictions, status);

@@ -57,10 +57,6 @@ export class SearchComponent implements OnInit {
       };
       this.mapService.podcast = pod;
       this.router.navigate(['search/podcast', podcast.collectionId]);
-      // this.mapService.addOrUpdatePodcast(pod)
-      //   .then(() => {
-      //     this.router.navigate(['search/podcast', podcast.collectionId]);
-      //   }, err => console.error('Error adding podcast:', err));
     }
   }
 

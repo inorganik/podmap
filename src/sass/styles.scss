@@ -22,6 +22,8 @@
 
 body {
   font-family: $font-family-sans-serif;
+  height: 100vh;
+  overflow: hidden;
 }
 
 hr {
@@ -96,4 +98,11 @@ ul, ol {
 		cursor: pointer;
 		color: $primary;
 	}
+}
+
+.mat-option {
+  &:hover,
+  &.mat-active {
+    background: $gray-100 !important;
+  }
 }

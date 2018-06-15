@@ -19,3 +19,10 @@ a {
     }
   }
 }
+
+@media (max-width: map-get($grid-breakpoints, 'sm')) { // 576px and less
+
+  a img.superfeed {
+    width: 200px;
+  }
+}

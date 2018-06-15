@@ -6,9 +6,7 @@ import { MatIconRegistry } from '@angular/material';
 import { MapService } from '../services/map.service';
 import * as firebase from 'firebase/app';
 
-declare const navigator;
 declare let google: any;
-
 
 @Component({
   templateUrl: './map.component.html',

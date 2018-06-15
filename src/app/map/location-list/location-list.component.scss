@@ -16,5 +16,8 @@ ul {
     &:last-child {
       border-bottom: none;
     }
+    mat-icon {
+      height: 20px;
+    }
   }
 }
