@@ -43,13 +43,12 @@ export class AdminComponent {
       locPromises.push(
         this.mapService.getLocation(location)
           .then(loc => {
-            console.log('got location', loc);
             loc.podCount = loc.podCount + 1;
             this.mapService.addOrUpdateLocation(loc)
-              .then(() => console.log(location.description + ' updated'))
-              .catch(err => console.error('Error adding location', err));
+              .then()
+              .catch(err => console.error('Add location error', err));
           })
-          .catch(err => console.error('something bad happened', err)));
+          .catch(err => console.error('Get location error', err)));
     });
     Promise.all(locPromises)
       .then(() => {

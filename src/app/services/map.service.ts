@@ -93,7 +93,7 @@ export class MapService {
 
   // return persisted entity if it exists, else return passed entity (promise)
   getLocation(location: PodcastLocation): Promise<PodcastLocation> {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       const docPath = `locations/${location.placeId}`;
       this.afs.doc<PodcastLocation>(docPath).valueChanges().pipe(
         first()
