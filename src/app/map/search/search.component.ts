@@ -29,7 +29,6 @@ export class SearchComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('search component init');
     this.route$ = this.route.paramMap.pipe(
       switchMap((params: ParamMap) => {
         console.log('route changed', params);

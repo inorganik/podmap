@@ -3,6 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 import * as firebase from 'firebase/app';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { PodcastLocation, Podcast } from '../map/models';
+import { first } from 'rxjs/operators';
 
 declare let google: any;
 
@@ -21,14 +22,8 @@ export class MapService {
   geoPoint$ = new BehaviorSubject<firebase.firestore.GeoPoint>(this.initialPositionUS);
   zoom$ = new BehaviorSubject(this.initialZoom);
 
-  // act as a store for podcasts not in firestore yet
-  private _podcast: Podcast;
-  get podcast(): Podcast {
-    return this._podcast;
-  }
-  set podcast(pod: Podcast) {
-    this._podcast = pod;
-  }
+  // routing cache
+  podcast: Podcast;
 
   constructor(private afs: AngularFirestore) { }
 
@@ -64,6 +59,7 @@ export class MapService {
   }
 
   addOrUpdateLocation(location: PodcastLocation): Promise<any> {
+    console.log('add or update loc', location);
     return new Promise((resolve, reject) => {
       const docPath = `locations/${location.placeId}`;
       // try to update first
@@ -95,12 +91,24 @@ export class MapService {
       });
   }
 
+  // return persisted entity if it exists, else return passed entity (promise)
   getLocation(location: PodcastLocation): Promise<PodcastLocation> {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       const docPath = `locations/${location.placeId}`;
-      this.afs.doc<PodcastLocation>(docPath).valueChanges().toPromise()
-        .then(loc => resolve(loc))
-        .catch(() => resolve(location));
+      this.afs.doc<PodcastLocation>(docPath).valueChanges().pipe(
+        first()
+      ).toPromise()
+        .then(loc => {
+          if (loc === undefined) {
+            resolve(location);
+          } else {
+            resolve(loc);
+          }
+        })
+        .catch((err) => {
+          console.error('oops', err);
+          resolve(location);
+        });
     });
   }
 }

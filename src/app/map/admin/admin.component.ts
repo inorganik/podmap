@@ -14,7 +14,7 @@ import { map } from 'rxjs/operators';
 })
 export class AdminComponent {
 
-  suggestions: Observable<PodcastSuggestion[]>;
+  suggestions$: Observable<PodcastSuggestion[]>;
 
   constructor(
     private afAuth: AngularFireAuth,
@@ -23,7 +23,7 @@ export class AdminComponent {
     private mapService: MapService
   ) {
     // get unmoderated suggestions
-    this.suggestions = afs.collection<PodcastSuggestion>('suggestions', ref => {
+    this.suggestions$ = afs.collection<PodcastSuggestion>('suggestions', ref => {
       return ref.where('status', '==', SuggestionStatus.Unmoderated);
     }).snapshotChanges().pipe(
       map(actions => actions.map(a => {
@@ -35,31 +35,31 @@ export class AdminComponent {
   }
 
   approve(suggestion: PodcastSuggestion) {
-    console.log('approve', suggestion);
     // add podcast
     this.afs.doc(`podcasts/${suggestion.podcast.collectionId}`).set(suggestion.podcast);
     // increment podcount for each location
-    const locUpdates: Promise<any>[] = [];
+    const locPromises = [];
     suggestion.podcast.locations.forEach(location => {
-      locUpdates.push(
+      locPromises.push(
         this.mapService.getLocation(location)
           .then(loc => {
-            loc.podCount++;
+            console.log('got location', loc);
+            loc.podCount = loc.podCount + 1;
             this.mapService.addOrUpdateLocation(loc)
-              .then(() => console.log(location.description + ' updated'));
+              .then(() => console.log(location.description + ' updated'))
+              .catch(err => console.error('Error adding location', err));
           })
-        );
+          .catch(err => console.error('something bad happened', err)));
     });
-    Promise.all(locUpdates).then(() => {
-      console.log('all locations updated');
-      suggestion.status = SuggestionStatus.Approved;
-      this.afs.doc(`suggestions/${suggestion.id}`).set(suggestion);
-    });
-    // todo test
+    Promise.all(locPromises)
+      .then(() => {
+        suggestion.status = SuggestionStatus.Approved;
+        this.afs.doc(`suggestions/${suggestion.id}`).set(suggestion);
+      })
+      .catch(err => console.error('error in .all', err));
   }
 
   reject(suggestion: PodcastSuggestion) {
-    console.log('reject', suggestion);
     suggestion.status = SuggestionStatus.Rejected;
     this.afs.doc(`suggestions/${suggestion.id}`).set(suggestion);
   }

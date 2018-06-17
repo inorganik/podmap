@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Podcast, PodcastLocation, Place, SuggestionStatus, PodcastSuggestion } from '../../models';
-import { switchMap, last, tap } from 'rxjs/operators';
+import { switchMap, last, tap, mergeMap, combineLatest, zip, merge } from 'rxjs/operators';
 import { AngularFirestore } from 'angularfire2/firestore';
-import { Observable, of } from 'rxjs';
+import { Observable, of, } from 'rxjs';
 import { MapService } from '../../../services/map.service';
 import * as firebase from 'firebase/app';
 
@@ -22,6 +22,7 @@ export class PodcastComponent implements OnInit {
   podLocations: PodcastLocation[] = [];
   loading = false;
   submitted = false;
+  collectionId: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -32,11 +33,15 @@ export class PodcastComponent implements OnInit {
   ngOnInit() {
     this.podcast$ = this.route.paramMap.pipe(
       switchMap((params: ParamMap) => {
-        const collectionId = params.get('collectionId');
-        if (this.mapService.podcast && this.mapService.podcast.collectionId === Number(collectionId)) {
+        this.collectionId = params.get('collectionId');
+        return this.afs.doc<Podcast>(`podcasts/${this.collectionId}`).valueChanges();
+      }),
+      mergeMap(() => {
+        if (this.mapService.podcast && Number(this.collectionId) === this.mapService.podcast.collectionId) {
           return of(this.mapService.podcast);
+        } else {
+          return null;
         }
-        return this.afs.doc<Podcast>(`podcasts/${collectionId}`).valueChanges();
       })
     );
   }

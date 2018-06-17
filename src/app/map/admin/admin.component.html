@@ -5,21 +5,29 @@
   <h5>Admin</h5>
   <hr>
   <!-- awaiting moderation -->
-  <ul class="moderation-list">
-    <li *ngFor="let sugg of suggestions | async">
-      <div class="top-row d-flex align-items-center">
-        <img aria-hidden src="{{ sugg.podcast.artworkUrl60 }}" />
-        <span class="title">{{ sugg.podcast.collectionName }}</span>
-        <div class="buttons ml-auto">
-          <button type="button" mat-mini-fab (click)="approve(sugg)" color="primary">
-            <mat-icon class="svg-fill-white" aria-label="approve" svgIcon="done"></mat-icon>
-          </button>
-          <button type="button" mat-mini-fab (click)="reject(sugg)" color="warn">
-            <mat-icon class="svg-fill-white" aria-label="reject" svgIcon="close"></mat-icon>
-          </button>
+  <div *ngIf="suggestions$ | async as suggestions; else showLoading">
+    <ul class="moderation-list" *ngIf="suggestions.length; else showEmpty">
+      <li *ngFor="let sugg of suggestions">
+        <div class="top-row d-flex align-items-center">
+          <img aria-hidden src="{{ sugg.podcast.artworkUrl60 }}" />
+          <span class="title">{{ sugg.podcast.collectionName }}</span>
+          <div class="buttons ml-auto">
+            <button type="button" mat-mini-fab (click)="approve(sugg)" color="primary">
+              <mat-icon class="svg-fill-white" aria-label="approve" svgIcon="done"></mat-icon>
+            </button>
+            <button type="button" mat-mini-fab (click)="reject(sugg)" color="warn">
+              <mat-icon class="svg-fill-white" aria-label="reject" svgIcon="close"></mat-icon>
+            </button>
+          </div>
         </div>
-      </div>
-      <pm-location-list [locations]="sugg.podcast.locations"></pm-location-list>
-    </li>
-  </ul>
+        <pm-location-list [locations]="sugg.podcast.locations"></pm-location-list>
+      </li>
+    </ul>
+  </div>
+  <ng-template #showLoading>
+    <mat-spinner diameter="35"></mat-spinner>
+  </ng-template>
+  <ng-template #showEmpty>
+    <p>All done! No suggestions to moderate.</p>
+  </ng-template>
 </div>
