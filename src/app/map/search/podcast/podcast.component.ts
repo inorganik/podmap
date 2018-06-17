@@ -88,7 +88,7 @@ export class PodcastComponent implements OnInit {
 
   submitLocationSuggestion(podcast: Podcast) {
     // make a copy so we can show correct UI state
-    const pod = Object.assign({}, podcast);
+    const pod = { ...podcast};
     pod.locations = this.podLocations;
     this.podLocations.forEach(location => {
       pod.placeIds[location.placeId] = true;

@@ -23,9 +23,6 @@ export class AdminComponent {
     private mapService: MapService
   ) {
     // get unmoderated suggestions
-    // this.suggestions = afs.collection<PodcastSuggestion>('suggestions', ref => {
-    //   return ref.where('status', '==', SuggestionStatus.Unmoderated);
-    // }).valueChanges();
     this.suggestions = afs.collection<PodcastSuggestion>('suggestions', ref => {
       return ref.where('status', '==', SuggestionStatus.Unmoderated);
     }).snapshotChanges().pipe(
@@ -39,23 +36,32 @@ export class AdminComponent {
 
   approve(suggestion: PodcastSuggestion) {
     console.log('approve', suggestion);
-    suggestion.status = SuggestionStatus.Approved;
-    this.afs.doc(`suggestions/${suggestion.id}`).set(suggestion);
+    // add podcast
     this.afs.doc(`podcasts/${suggestion.podcast.collectionId}`).set(suggestion.podcast);
     // increment podcount for each location
+    const locUpdates: Promise<any>[] = [];
     suggestion.podcast.locations.forEach(location => {
-      this.mapService.getLocation(location)
-        .then(loc => {
-          loc.podCount++;
-          this.mapService.addOrUpdateLocation(loc);
-        });
+      locUpdates.push(
+        this.mapService.getLocation(location)
+          .then(loc => {
+            loc.podCount++;
+            this.mapService.addOrUpdateLocation(loc)
+              .then(() => console.log(location.description + ' updated'));
+          })
+        );
+    });
+    Promise.all(locUpdates).then(() => {
+      console.log('all locations updated');
+      suggestion.status = SuggestionStatus.Approved;
+      this.afs.doc(`suggestions/${suggestion.id}`).set(suggestion);
     });
     // todo test
   }
 
   reject(suggestion: PodcastSuggestion) {
-    // todo
     console.log('reject', suggestion);
+    suggestion.status = SuggestionStatus.Rejected;
+    this.afs.doc(`suggestions/${suggestion.id}`).set(suggestion);
   }
 
   signOut() {

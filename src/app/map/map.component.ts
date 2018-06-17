@@ -19,6 +19,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   geoPoint: firebase.firestore.GeoPoint;
   zoom = 5;
   mapStyle = mapStyle;
+  showAd = true;
 
   @ViewChild(AgmMap) agmMap: AgmMap;
 

@@ -1,13 +1,13 @@
 <div class="sidebar-contain">
   <div class="sidebar d-flex flex-column">
-    <div class="legend">
+    <!-- <div class="legend">
       <h1>PODMAP</h1>
       <p>
         <em>Mapping the world&rsquo;s podcasts</em>
       </p>
-    </div>
+    </div> -->
     <router-outlet></router-outlet>
-    <pm-ad class="mt-auto"></pm-ad>
+    <pm-ad *ngIf="showAd" class="mt-auto"></pm-ad>
     <pm-footer></pm-footer>
   </div>
 </div>
