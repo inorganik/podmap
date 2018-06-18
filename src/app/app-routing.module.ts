@@ -8,6 +8,7 @@ import { SearchComponent } from './map/search/search.component';
 import { AboutComponent } from './map/about/about.component';
 import { AuthGuard } from './guards/auth.guard';
 import { PodcastComponent } from './map/search/podcast/podcast.component';
+import { LocationComponent } from './map/search/location/location.component';
 
 
 const routes: Routes = [
@@ -31,6 +32,14 @@ const routes: Routes = [
           {
             path: 'podcast/:collectionId',
             component: PodcastComponent
+          },
+          {
+            path: 'location',
+            redirectTo: ''
+          },
+          {
+            path: 'location/:placeId',
+            component: LocationComponent
           }
         ]
       },

@@ -21,6 +21,7 @@ import { AboutComponent } from './about/about.component';
 import { AdComponent } from './ad/ad.component';
 import { PodcastComponent } from './search/podcast/podcast.component';
 import { LocationListComponent } from './location-list/location-list.component';
+import { LocationComponent } from './search/location/location.component';
 
 @NgModule({
   imports: [
@@ -48,7 +49,8 @@ import { LocationListComponent } from './location-list/location-list.component';
     AboutComponent,
     AdComponent,
     PodcastComponent,
-    LocationListComponent
+    LocationListComponent,
+    LocationComponent
   ],
   exports: [
     MapComponent

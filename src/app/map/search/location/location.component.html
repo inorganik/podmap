@@ -1,0 +1,10 @@
+<div *ngIf="location$ | async as location; else showNotFound" class="floating-box">
+  <h3>{{ location.description }}</h3>
+</div>
+<ng-template #showNotFound>
+  <div class="floating-box">
+    <h4>Location not found</h4>
+    <p>This location doesn't appear to have any podcasts added to it yet.</p>
+    <p class="mb-0"><a href routerLink="/search">&laquo; Back to search</a></p>
+  </div>
+</ng-template>
