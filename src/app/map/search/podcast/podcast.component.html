@@ -4,14 +4,14 @@
     <div>
       <p>{{ podcast.collectionName }}</p>
       <p class="subhead">{{ podcast.artistName }}</p>
-      <p class="subhead"><a [href]="podcast.itunesSub">View on iTunes</a></p>
+      <p class="subhead"><a [href]="podcast.itunesSub">iTunes</a></p>
     </div>
     <button mat-icon-button routerLink="/search" class="ml-auto align-self-start">
       <mat-icon aria-label="close" svgIcon="close" class="svg-fill-gray"></mat-icon>
     </button>
   </div>
   <hr>
-  <h4>Location(s):</h4>
+  <h5 [innerHTML]="locationString(podcast)"></h5>
   <div *ngIf="podcast.locations && podcast.locations.length > 0; else showSuggest">
     <pm-location-list [locations]="podcast.locations"></pm-location-list>
   </div>

@@ -15,6 +15,8 @@ import * as firebase from 'firebase/app';
 export class LocationComponent implements OnInit {
 
   location$: Observable<PodcastLocation>;
+  // podcasts$: Observable<Podcast[]>;
+  loading = true;
 
   constructor(
     private route: ActivatedRoute,
@@ -28,11 +30,14 @@ export class LocationComponent implements OnInit {
         const placeId = params.get('placeId');
         return this.afs.doc<PodcastLocation>(`locations/${placeId}`).valueChanges().pipe(
           tap(location => {
-            const geoPoint = new firebase.firestore.GeoPoint(location.lat, location.lng);
-            this.mapService.updatePosition(geoPoint);
-            this.mapService.zoomToCity();
+            this.loading = false;
+            if (location !== undefined) {
+              const geoPoint = new firebase.firestore.GeoPoint(location.lat, location.lng);
+              this.mapService.updatePosition(geoPoint);
+              this.mapService.zoomToCity();
+            }
           })
-        );;
+        );
       })
     );
   }

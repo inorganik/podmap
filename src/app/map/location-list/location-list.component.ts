@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Observable } from 'rxjs';
 import { PodcastLocation } from '../models';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'pm-location-list',
@@ -15,9 +16,13 @@ export class LocationListComponent implements OnInit {
   @Input()
   locations: PodcastLocation[];
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
+  }
+
+  routeLocation(placeId: string) {
+    this.router.navigateByUrl(`/search/location/${placeId}`);
   }
 
 }

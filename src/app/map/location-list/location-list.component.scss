@@ -9,10 +9,9 @@ ul {
   list-style-type: none;
   padding: 0;
   margin: 0;
-  li {
+  li a {
     color: gray;
     padding: 10px 0;
-    font-size: .8em;
     border-bottom: 1px $gray-400 solid;
     &:last-child {
       border-bottom: none;

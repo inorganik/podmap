@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Podcast, PodcastLocation, Place, SuggestionStatus, PodcastSuggestion } from '../../models';
-import { switchMap, concat, merge, mergeMap, tap, first, map } from 'rxjs/operators';
+import { switchMap, map } from 'rxjs/operators';
 import { AngularFirestore } from 'angularfire2/firestore';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { MapService } from '../../../services/map.service';
 import * as firebase from 'firebase/app';
 
@@ -17,7 +17,7 @@ export class PodcastComponent implements OnInit {
   MAX_POD_LOCATIONS = 10;
 
   podcast$: Observable<Podcast>;
-  loading = false;
+  loading = true;
   // suggesting locations
   podPlace: Place;
   podLocations: PodcastLocation[] = [];
@@ -31,30 +31,38 @@ export class PodcastComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.loading = true;
     this.podcast$ = this.route.paramMap.pipe(
       switchMap((params: ParamMap) => {
         this.collectionId = params.get('collectionId');
-        return this.afs.doc<Podcast>(`podcasts/${this.collectionId}`).valueChanges();
-      }),
-      mergeMap(afsResult => {
-        this.loading = false;
-        if (afsResult === undefined) {
-          if (this.mapService.podcast && Number(this.collectionId) === this.mapService.podcast.collectionId) {
-            return of(this.mapService.podcast);
-          }
-          return of(null);
-        } else {
-          // center on podcast's first city
-          const loc = afsResult.locations[0];
-          const geoPoint = new firebase.firestore.GeoPoint(loc.lat, loc.lng);
-          this.mapService.updatePosition(geoPoint);
-          this.mapService.zoomToCity();
-          // todo - fit to bounds of multiple cities
-          return of(afsResult);
-        }
+        return this.afs.doc<Podcast>(`podcasts/${this.collectionId}`).valueChanges().pipe(
+          map(pod => {
+            this.loading = false;
+            if (pod === undefined) {
+              if (this.mapService.podcast && Number(this.collectionId) === this.mapService.podcast.collectionId) {
+                return this.mapService.podcast;
+              }
+              return null;
+            } else {
+              // center on podcast's first city
+              // todo - fit to bounds of multiple cities
+              const loc = pod.locations[0];
+              const geoPoint = new firebase.firestore.GeoPoint(loc.lat, loc.lng);
+              this.mapService.updatePosition(geoPoint);
+              this.mapService.zoomToCity();
+              return pod;
+            }
+          })
+        );
       })
     );
+  }
+
+  locationString(podcast): string {
+    if (podcast.locations) {
+      return (podcast.locations.length === 1) ? 'Location:' : 'Locations:';
+    } else {
+      return 'Locations:';
+    }
   }
 
   // suggesting locations
