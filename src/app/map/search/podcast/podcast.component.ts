@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Podcast, PodcastLocation, Place, SuggestionStatus, PodcastSuggestion } from '../../models';
-import { switchMap, last, tap, mergeMap, combineLatest, zip, merge } from 'rxjs/operators';
+import { switchMap, concat, merge, mergeMap, tap, first, map } from 'rxjs/operators';
 import { AngularFirestore } from 'angularfire2/firestore';
-import { Observable, of, } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { MapService } from '../../../services/map.service';
 import * as firebase from 'firebase/app';
 
@@ -36,11 +36,18 @@ export class PodcastComponent implements OnInit {
         this.collectionId = params.get('collectionId');
         return this.afs.doc<Podcast>(`podcasts/${this.collectionId}`).valueChanges();
       }),
-      mergeMap(() => {
-        if (this.mapService.podcast && Number(this.collectionId) === this.mapService.podcast.collectionId) {
-          return of(this.mapService.podcast);
+      mergeMap(afsResult => {
+        console.log('afs result', afsResult);
+        if (afsResult === undefined) {
+          if (this.mapService.podcast && Number(this.collectionId) === this.mapService.podcast.collectionId) {
+            console.log('return cached', this.mapService.podcast);
+            return of(this.mapService.podcast);
+          }
+          console.log('return not found');
+          return of(null);
         } else {
-          return null;
+          console.log('return afs result', afsResult);
+          return of(afsResult);
         }
       })
     );
