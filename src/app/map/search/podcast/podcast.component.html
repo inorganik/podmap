@@ -1,4 +1,4 @@
-<div *ngIf="podcast$ | async as podcast; else showNotFound" class="floating-box">
+<div *ngIf="podcast$ | async as podcast; else showLoading" class="floating-box">
   <div class="podcast-subject d-flex align-items-center">
     <img aria-hidden src="{{ podcast.artworkUrl100 }}" />
     <div>
@@ -36,10 +36,15 @@
     </div>
   </ng-template>
 </div>
-<ng-template #showNotFound>
+<ng-template #showLoading>
   <div class="floating-box">
-    <h4>Podcast not found</h4>
-    <p>This podcast might not be added yet. Please try a search, then you can suggest a location. If you've already suggested a location, it's probably awaiting moderation.</p>
-    <button class="ml-auto" routerLink="/search" mat-raised-button color="primary">OK</button>
+    <div *ngIf="loading; else showNotFound">
+      <mat-spinner class="mx-auto" *ngIf="loading" diameter="35"></mat-spinner>
+    </div>
+    <ng-template #showNotFound>
+      <h4>Podcast not found</h4>
+      <p>This podcast might not be added yet. Please try a search, then you can suggest a location. If you've already suggested a location for this podcast, it's probably awaiting moderation.</p>
+      <button class="ml-auto" routerLink="/search" mat-raised-button color="primary">OK</button>
+    </ng-template>
   </div>
 </ng-template>

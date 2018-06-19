@@ -17,10 +17,10 @@ export class PodcastComponent implements OnInit {
   MAX_POD_LOCATIONS = 10;
 
   podcast$: Observable<Podcast>;
+  loading = false;
   // suggesting locations
   podPlace: Place;
   podLocations: PodcastLocation[] = [];
-  loading = false;
   submitted = false;
   collectionId: string;
 
@@ -31,22 +31,26 @@ export class PodcastComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.loading = true;
     this.podcast$ = this.route.paramMap.pipe(
       switchMap((params: ParamMap) => {
         this.collectionId = params.get('collectionId');
         return this.afs.doc<Podcast>(`podcasts/${this.collectionId}`).valueChanges();
       }),
       mergeMap(afsResult => {
-        console.log('afs result', afsResult);
+        this.loading = false;
         if (afsResult === undefined) {
           if (this.mapService.podcast && Number(this.collectionId) === this.mapService.podcast.collectionId) {
-            console.log('return cached', this.mapService.podcast);
             return of(this.mapService.podcast);
           }
-          console.log('return not found');
           return of(null);
         } else {
-          console.log('return afs result', afsResult);
+          // center on podcast's first city
+          const loc = afsResult.locations[0];
+          const geoPoint = new firebase.firestore.GeoPoint(loc.lat, loc.lng);
+          this.mapService.updatePosition(geoPoint);
+          this.mapService.zoomToCity();
+          // todo - fit to bounds of multiple cities
           return of(afsResult);
         }
       })
