@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { Router } from '@angular/router';
 import { AngularFirestore } from 'angularfire2/firestore';
-import { PodcastSuggestion, SuggestionStatus } from '../models';
+import { PodcastSuggestion, SuggestionStatus } from '../map/models';
 import { Observable } from 'rxjs';
-import { MapService } from '../../services/map.service';
+import { MapService } from '../services/map.service';
 import { map } from 'rxjs/operators';
 
 @Component({

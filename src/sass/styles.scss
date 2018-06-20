@@ -35,7 +35,26 @@ hr {
 }
 
 ul, ol {
-	padding-left: 20px;
+  padding-left: 20px;
+  &.item-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    li a {
+      color: $gray-800;
+      padding: 5px 0;
+      border-bottom: 1px $gray-400 solid;
+      &:last-child {
+        border-bottom: none;
+      }
+      mat-icon {
+        height: 20px;
+      }
+      img {
+        margin-right: 5px;
+      }
+    }
+  }
 }
 
 .faux-link {

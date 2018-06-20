@@ -1,5 +1,7 @@
 <div *ngIf="location$ | async as location; else showLoading" class="floating-box">
   <h5>{{ location.description }}</h5>
+  <hr>
+  <pm-podcast-list [podcasts$]="podcasts$"></pm-podcast-list>
 </div>
 <ng-template #showLoading>
   <div class="floating-box">
@@ -8,7 +10,7 @@
     </div>
     <ng-template #showNotFound>
       <h4>Location not found</h4>
-      <p>This location doesn't appear to have any podcasts added to it yet.</p>
+      <p>This location doesn't appear to have any podcasts added to it yet. You can add podcasts by searching for them.</p>
       <button class="ml-auto" routerLink="/search" mat-raised-button color="primary">OK</button>
     </ng-template>
   </div>

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { environment } from '../../environments/environment';
 import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
-import { AngularFirestoreModule, AngularFirestore } from 'angularfire2/firestore';
+import { AngularFirestore } from 'angularfire2/firestore';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MaterialModule } from '../material/material.module';
@@ -15,13 +15,12 @@ import { PodcastSearchComponent } from './search/podcast-search/podcast-search.c
 import { PlaceSearchComponent } from './search/place-search/place-search.component';
 import { SearchComponent } from './search/search.component';
 import { LoginComponent } from './login/login.component';
-import { AdminComponent } from './admin/admin.component';
 import { FooterComponent } from './footer/footer.component';
 import { AboutComponent } from './about/about.component';
 import { AdComponent } from './ad/ad.component';
 import { PodcastComponent } from './search/podcast/podcast.component';
-import { LocationListComponent } from './location-list/location-list.component';
 import { LocationComponent } from './search/location/location.component';
+import { PodcastListComponent } from './podcast-list/podcast-list.component';
 
 @NgModule({
   imports: [
@@ -31,12 +30,11 @@ import { LocationComponent } from './search/location/location.component';
     AgmCoreModule.forRoot({
       apiKey: environment.googleApiKey,
       libraries: ['places'],
-      apiVersion: '3.exp'
     }),
     MaterialModule,
     ReactiveFormsModule,
     FormsModule,
-    RouterModule
+    RouterModule,
   ],
   declarations: [
     MapComponent,
@@ -44,13 +42,12 @@ import { LocationComponent } from './search/location/location.component';
     PlaceSearchComponent,
     SearchComponent,
     LoginComponent,
-    AdminComponent,
     FooterComponent,
     AboutComponent,
     AdComponent,
     PodcastComponent,
-    LocationListComponent,
-    LocationComponent
+    LocationComponent,
+    PodcastListComponent
   ],
   exports: [
     MapComponent

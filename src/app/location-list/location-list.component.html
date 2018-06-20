@@ -1,4 +1,4 @@
-<ul>
+<ul class="item-list">
   <li *ngFor="let location of locations$ | async">
     <a href [routerLink]="['/search/location', location.placeId]" class="d-flex align-items-center">
       <mat-icon svgIcon="location" class="svg-fill-gray"></mat-icon>

@@ -1,0 +1,8 @@
+<ul class="item-list">
+  <li *ngFor="let podcast of podcasts$ | async">
+    <a href [routerLink]="['/search/podcast', podcast.collectionId]" class="d-flex align-items-center">
+      <img aria-hidden [src]="podcast.artworkUrl60" />
+      <span>{{ podcast.collectionName }}</span>
+    </a>
+  </li>
+</ul>

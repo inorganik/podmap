@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { PodcastLocation } from '../../models';
+import { PodcastLocation, Podcast } from '../../models';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { switchMap, tap } from 'rxjs/operators';
 import { AngularFirestore } from 'angularfire2/firestore';
@@ -15,7 +15,7 @@ import * as firebase from 'firebase/app';
 export class LocationComponent implements OnInit {
 
   location$: Observable<PodcastLocation>;
-  // podcasts$: Observable<Podcast[]>;
+  podcasts$: Observable<Podcast[]>;
   loading = true;
 
   constructor(
@@ -25,6 +25,7 @@ export class LocationComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+
     this.location$ = this.route.paramMap.pipe(
       switchMap((params: ParamMap) => {
         const placeId = params.get('placeId');
@@ -35,6 +36,11 @@ export class LocationComponent implements OnInit {
               const geoPoint = new firebase.firestore.GeoPoint(location.lat, location.lng);
               this.mapService.updatePosition(geoPoint);
               this.mapService.zoomToCity();
+              // location podcasts
+              // this.podcasts$ = this.afs.collection<Podcast>('podcasts').valueChanges();
+              this.podcasts$ = this.afs.collection<Podcast>('podcasts', ref =>
+                ref.where(`placeIds.${location.placeId}`, '==', true)
+              ).valueChanges();
             }
           })
         );

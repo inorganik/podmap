@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { MapComponent } from './map/map.component';
-import { AdminComponent } from './map/admin/admin.component';
 import { LoginComponent } from './map/login/login.component';
 import { SearchComponent } from './map/search/search.component';
 import { AboutComponent } from './map/about/about.component';
@@ -49,7 +48,7 @@ const routes: Routes = [
       },
       {
         path: 'admin',
-        component: AdminComponent,
+        loadChildren: 'src/app/admin/admin.module#AdminModule',
         canActivate: [AuthGuard]
       },
       {
