@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Observable } from 'rxjs';
-import { PodcastLocation } from '../map/models';
+import { PodcastLocation } from '../../map/models';
 
 @Component({
   selector: 'pm-location-list',

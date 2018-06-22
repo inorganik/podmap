@@ -8,12 +8,10 @@ import { AngularFireModule } from 'angularfire2';
 import { environment } from '../environments/environment';
 // custom
 import { MapModule } from './map/map.module';
-import { LocationListComponent } from './location-list/location-list.component';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    LocationListComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,

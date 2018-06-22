@@ -21,6 +21,7 @@ import { AdComponent } from './ad/ad.component';
 import { PodcastComponent } from './search/podcast/podcast.component';
 import { LocationComponent } from './search/location/location.component';
 import { PodcastListComponent } from './podcast-list/podcast-list.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
@@ -35,6 +36,7 @@ import { PodcastListComponent } from './podcast-list/podcast-list.component';
     ReactiveFormsModule,
     FormsModule,
     RouterModule,
+    SharedModule
   ],
   declarations: [
     MapComponent,
@@ -48,9 +50,6 @@ import { PodcastListComponent } from './podcast-list/podcast-list.component';
     PodcastComponent,
     LocationComponent,
     PodcastListComponent
-  ],
-  exports: [
-    MapComponent
   ],
   providers: [
     GoogleMapsAPIWrapper,

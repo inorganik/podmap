@@ -7,13 +7,15 @@ import { AdminRoutingModule } from './admin-routing.module';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AppModule } from '../app.module';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
     CommonModule,
     AdminRoutingModule,
     MaterialModule,
-    AppModule
+    AppModule,
+    SharedModule
   ],
   declarations: [
     AdminComponent
