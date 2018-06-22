@@ -2,12 +2,9 @@
   <div class="d-flex justify-content-center align-items-center">
     <span class="icon"><mat-icon svgIcon="podmap"></mat-icon></span>
     <span><a href routerLink="/search" class="home-link" routerLinkActive="active">PODMAP</a></span>
-    <span> • </span>
-    <span *ngIf="afAuth.user | async; else showAbout"><a href routerLink="/admin" routerLinkActive="active">Admin</a></span>
-    <ng-template  #showAbout>
-      <span><a href routerLink="/about" routerLinkActive="active">About</a></span>
-    </ng-template>
     <span> • </span>
-    <span><a href="https://github.com/inorganik/podmap">GitHub</a></span>
+    <span><a href routerLink="/about" routerLinkActive="active">About</a></span>
+    <span> • </span>
+    <span><a href routerLink="/admin" routerLinkActive="active">Admin</a></span>
   </div>
 </div>

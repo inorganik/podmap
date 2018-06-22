@@ -2,12 +2,11 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { MapComponent } from './map/map.component';
-import { LoginComponent } from './map/login/login.component';
 import { SearchComponent } from './map/search/search.component';
 import { AboutComponent } from './map/about/about.component';
-import { AuthGuard } from './guards/auth.guard';
 import { PodcastComponent } from './map/search/podcast/podcast.component';
 import { LocationComponent } from './map/search/location/location.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 
 const routes: Routes = [
@@ -48,12 +47,11 @@ const routes: Routes = [
       },
       {
         path: 'admin',
-        loadChildren: 'src/app/admin/admin.module#AdminModule',
-        canActivate: [AuthGuard]
+        loadChildren: 'src/app/+admin/admin.module#AdminModule'
       },
       {
-        path: 'login',
-        component: LoginComponent
+        path: '**',
+        component: NotFoundComponent
       }
     ]
   }

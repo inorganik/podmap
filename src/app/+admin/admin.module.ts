@@ -6,19 +6,23 @@ import { AdminRoutingModule } from './admin-routing.module';
 // angularfire
 import { AngularFirestore } from 'angularfire2/firestore';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { AppModule } from '../app.module';
 import { SharedModule } from '../shared/shared.module';
+import { UnmoderatedComponent } from './unmoderated/unmoderated.component';
+import { ForbiddenComponent } from './forbidden/forbidden.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   imports: [
     CommonModule,
     AdminRoutingModule,
     MaterialModule,
-    AppModule,
     SharedModule
   ],
   declarations: [
-    AdminComponent
+    AdminComponent,
+    LoginComponent,
+    UnmoderatedComponent,
+    ForbiddenComponent
   ],
   providers: [
     AngularFirestore,

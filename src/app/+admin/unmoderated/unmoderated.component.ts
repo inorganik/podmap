@@ -1,24 +1,20 @@
 import { Component } from '@angular/core';
-import { AngularFireAuth } from 'angularfire2/auth';
-import { Router } from '@angular/router';
 import { AngularFirestore } from 'angularfire2/firestore';
-import { PodcastSuggestion, SuggestionStatus } from '../map/models';
+import { PodcastSuggestion, SuggestionStatus } from '../../map/models';
 import { Observable } from 'rxjs';
-import { MapService } from '../services/map.service';
+import { MapService } from '../../services/map.service';
 import { map } from 'rxjs/operators';
 
 @Component({
-  selector: 'pm-admin',
-  templateUrl: './admin.component.html',
-  styleUrls: ['./admin.component.scss']
+  selector: 'pm-unmoderated',
+  templateUrl: './unmoderated.component.html',
+  styleUrls: ['./unmoderated.component.scss']
 })
-export class AdminComponent {
+export class UnmoderatedComponent {
 
   suggestions$: Observable<PodcastSuggestion[]>;
 
   constructor(
-    private afAuth: AngularFireAuth,
-    private router: Router,
     private afs: AngularFirestore,
     private mapService: MapService
   ) {
@@ -61,12 +57,6 @@ export class AdminComponent {
   reject(suggestion: PodcastSuggestion) {
     suggestion.status = SuggestionStatus.Rejected;
     this.afs.doc(`suggestions/${suggestion.id}`).set(suggestion);
-  }
-
-  signOut() {
-    console.log('bye');
-    this.afAuth.auth.signOut();
-    this.router.navigateByUrl('/search');
   }
 
 }

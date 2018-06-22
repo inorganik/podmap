@@ -14,7 +14,6 @@ import { MapComponent } from './map.component';
 import { PodcastSearchComponent } from './search/podcast-search/podcast-search.component';
 import { PlaceSearchComponent } from './search/place-search/place-search.component';
 import { SearchComponent } from './search/search.component';
-import { LoginComponent } from './login/login.component';
 import { FooterComponent } from './footer/footer.component';
 import { AboutComponent } from './about/about.component';
 import { AdComponent } from './ad/ad.component';
@@ -22,6 +21,7 @@ import { PodcastComponent } from './search/podcast/podcast.component';
 import { LocationComponent } from './search/location/location.component';
 import { PodcastListComponent } from './podcast-list/podcast-list.component';
 import { SharedModule } from '../shared/shared.module';
+import { NotFoundComponent } from '../not-found/not-found.component';
 
 @NgModule({
   imports: [
@@ -43,13 +43,13 @@ import { SharedModule } from '../shared/shared.module';
     PodcastSearchComponent,
     PlaceSearchComponent,
     SearchComponent,
-    LoginComponent,
     FooterComponent,
     AboutComponent,
     AdComponent,
     PodcastComponent,
     LocationComponent,
-    PodcastListComponent
+    PodcastListComponent,
+    NotFoundComponent
   ],
   providers: [
     GoogleMapsAPIWrapper,

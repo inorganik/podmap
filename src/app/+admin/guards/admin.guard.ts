@@ -7,7 +7,9 @@ import { first, map, tap } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanActivate {
+export class AdminGuard implements CanActivate {
+
+  currentUser;
 
   // UIDs of whitelisted admins
   whitelisted = [
@@ -21,10 +23,18 @@ export class AuthGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     return this.afAuth.authState.pipe(
       first(),
-      map(user => user && this.whitelisted.includes(user.uid)),
-      tap(isAdmin => {
-        if (!isAdmin) {
-          this.router.navigateByUrl('/login');
+      map(user => {
+        this.currentUser = user;
+        return !!user;
+      }),
+      tap(isLoggedIn => {
+        if (!isLoggedIn) {
+          this.router.navigateByUrl('/admin/login');
+        }
+        else {
+          if (!this.whitelisted.includes(this.currentUser.uid)) {
+            this.router.navigateByUrl('/admin/forbidden');
+          }
         }
       })
     );
