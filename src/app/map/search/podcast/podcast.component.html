@@ -6,7 +6,7 @@
       <p class="subhead">{{ podcast.artistName }}</p>
       <p class="subhead"><a [href]="podcast.itunesSub">iTunes</a></p>
     </div>
-    <button mat-icon-button routerLink="/search" class="ml-auto align-self-start">
+    <button mat-icon-button routerLink="/" class="ml-auto align-self-start">
       <mat-icon aria-label="close" svgIcon="close" class="svg-fill-gray"></mat-icon>
     </button>
   </div>
@@ -17,21 +17,25 @@
   </div>
   <ng-template #showSuggest>
     <pm-location-list [locations]="podLocations"></pm-location-list>
-    <p *ngIf="podLocations.length == 0">No locations found. Put this podcast on the map!</p>
+    <p *ngIf="podLocations.length == 0">No locations yet. Put this podcast on the map!</p>
     <div *ngIf="!submitted">
-      <pm-place-search #addLocation (selected)="setPlace($event, true)" [placeholder]="addLocationText()" [place]="podPlace"></pm-place-search>
-      <div class="d-flex">
+      <pm-place-search [hidden]="!addLocationFieldVisible" (selected)="setPlace($event, true)" [placeholder]="addLocationText()" [place]="podPlace"></pm-place-search>
+      <div class="d-flex mt-3">
+        <button *ngIf="canAddPlace() && !addLocationFieldVisible" mat-mini-fab color="accent" (click)="addLocationFieldVisible = true">
+          <mat-icon aria-label="add" svgIcon="add"></mat-icon>
+        </button>
         <div class="mr-auto">
           <mat-spinner *ngIf="loading" diameter="35"></mat-spinner>
         </div>
-        <button (click)="submitLocationSuggestion(podcast)" [disabled]="podLocations.length == 0" mat-raised-button color="accent">Submit</button>
+        <button (click)="submitLocationSuggestion(podcast)" [disabled]="podLocations.length == 0" mat-raised-button color="primary">Submit</button>
       </div>
     </div>
     <div *ngIf="submitted">
-      <h3>Thanks! Got it.</h3>
-      <p>Your submission will be reviewed before appearing on the map.</p>
+      <hr>
+      <h4>Thanks! Got it.</h4>
+      <p class="mb-0">Your submission will be reviewed before appearing on the map.</p>
       <div class="d-flex">
-        <button class="ml-auto" routerLink="/search" mat-raised-button color="primary">OK</button>
+        <button class="ml-auto" routerLink="/" mat-raised-button color="primary">OK</button>
       </div>
     </div>
   </ng-template>
@@ -44,7 +48,7 @@
     <ng-template #showNotFound>
       <h4>Podcast not found</h4>
       <p>This podcast might not be added yet. Please try a search, then you can suggest a location. If you've already suggested a location for this podcast, it's probably awaiting moderation.</p>
-      <button class="ml-auto" routerLink="/search" mat-raised-button color="primary">OK</button>
+      <button class="ml-auto" routerLink="/" mat-raised-button color="primary">OK</button>
     </ng-template>
   </div>
 </ng-template>

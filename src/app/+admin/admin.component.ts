@@ -16,7 +16,7 @@ export class AdminComponent {
   signOut() {
     console.log('bye');
     this.afAuth.auth.signOut();
-    this.router.navigateByUrl('/search');
+    this.router.navigateByUrl('/');
   }
 
 }

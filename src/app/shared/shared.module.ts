@@ -14,7 +14,8 @@ import { MaterialModule } from '../material/material.module';
     LocationListComponent
   ],
   exports: [
-    LocationListComponent
+    LocationListComponent,
+    MaterialModule
   ]
 })
 export class SharedModule { }

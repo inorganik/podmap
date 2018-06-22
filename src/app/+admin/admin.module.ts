@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AdminComponent } from './admin.component';
-import { MaterialModule } from '../material/material.module';
 import { AdminRoutingModule } from './admin-routing.module';
 // angularfire
 import { AngularFirestore } from 'angularfire2/firestore';
@@ -15,7 +14,6 @@ import { LoginComponent } from './login/login.component';
   imports: [
     CommonModule,
     AdminRoutingModule,
-    MaterialModule,
     SharedModule
   ],
   declarations: [

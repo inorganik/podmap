@@ -5,7 +5,6 @@ import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { MaterialModule } from '../material/material.module';
 import { RouterModule } from '@angular/router';
 // google maps
 import { AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/core';
@@ -22,6 +21,7 @@ import { LocationComponent } from './search/location/location.component';
 import { PodcastListComponent } from './podcast-list/podcast-list.component';
 import { SharedModule } from '../shared/shared.module';
 import { NotFoundComponent } from '../not-found/not-found.component';
+import { TopCitiesComponent } from './search/top-cities/top-cities.component';
 
 @NgModule({
   imports: [
@@ -32,7 +32,6 @@ import { NotFoundComponent } from '../not-found/not-found.component';
       apiKey: environment.googleApiKey,
       libraries: ['places'],
     }),
-    MaterialModule,
     ReactiveFormsModule,
     FormsModule,
     RouterModule,
@@ -49,7 +48,8 @@ import { NotFoundComponent } from '../not-found/not-found.component';
     PodcastComponent,
     LocationComponent,
     PodcastListComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    TopCitiesComponent
   ],
   providers: [
     GoogleMapsAPIWrapper,

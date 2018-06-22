@@ -49,13 +49,14 @@ export class SearchComponent implements OnInit {
         collectionId: podcast.collectionId,
         collectionName: podcast.collectionName,
         artistName: podcast.artistName,
+        artworkUrl30: podcast.artworkUrl30,
         artworkUrl60: podcast.artworkUrl60,
         artworkUrl100: podcast.artworkUrl100,
         feedUrl: podcast.feedUrl,
         itunesSub: podcast.trackViewUrl
       };
       this.mapService.podcast = pod;
-      this.router.navigate(['search/podcast', podcast.collectionId]);
+      this.router.navigate(['podcast', podcast.collectionId]);
     }
   }
 
@@ -70,7 +71,7 @@ export class SearchComponent implements OnInit {
         this.mapService.updatePosition(geoPoint);
         this.mapService.zoomToCity();
 
-        // TODO: route to location
+        this.router.navigate(['location', place.place_id]);
 
       }, err => console.error('Error getting place details', err));
   }

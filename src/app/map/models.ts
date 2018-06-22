@@ -9,6 +9,7 @@ export interface Podcast {
   collectionId: number;
   collectionName: string;
   artistName: string;
+  artworkUrl30: string;
   artworkUrl60: string;
   artworkUrl100: string;
   feedUrl: string;

@@ -44,6 +44,7 @@ export class MapComponent implements OnInit, OnDestroy {
     iconRegistry.addSvgIcon('my-location', sanitizer.bypassSecurityTrustResourceUrl(iconPath + 'ic_my_location_black_24px.svg'));
     iconRegistry.addSvgIcon('search', sanitizer.bypassSecurityTrustResourceUrl(iconPath + 'ic_search_black_24px.svg'));
     iconRegistry.addSvgIcon('done', sanitizer.bypassSecurityTrustResourceUrl(iconPath + 'ic_done_black_24px.svg'));
+    iconRegistry.addSvgIcon('add', sanitizer.bypassSecurityTrustResourceUrl(iconPath + 'ic-add-24px.svg'));
     iconRegistry.addSvgIcon('podmap', sanitizer.bypassSecurityTrustResourceUrl(iconPath + 'podmap-icon.svg'));
     // markers
     this.markers$ = afs.collection<PodcastLocation>('locations').valueChanges();
@@ -53,7 +54,7 @@ export class MapComponent implements OnInit, OnDestroy {
         height: 35,
         width: 45
       }
-    }
+    };
   }
 
   ngOnInit() {
@@ -73,7 +74,7 @@ export class MapComponent implements OnInit, OnDestroy {
   }
 
   markerClick(marker: PodcastLocation) {
-    this.router.navigate(['search/location', marker.placeId]);
+    this.router.navigate(['location', marker.placeId]);
   }
 
 }

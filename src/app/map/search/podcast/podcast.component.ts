@@ -23,6 +23,7 @@ export class PodcastComponent implements OnInit {
   podLocations: PodcastLocation[] = [];
   submitted = false;
   collectionId: string;
+  addLocationFieldVisible = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -38,6 +39,7 @@ export class PodcastComponent implements OnInit {
           map(pod => {
             this.loading = false;
             if (pod === undefined) {
+              this.addLocationFieldVisible = true;
               if (this.mapService.podcast && Number(this.collectionId) === this.mapService.podcast.collectionId) {
                 return this.mapService.podcast;
               }
@@ -100,6 +102,8 @@ export class PodcastComponent implements OnInit {
             lng: geoPoint.longitude,
             placeId: placeDetails.place_id
           });
+
+          this.addLocationFieldVisible = false;
           this.podPlace = null; // clear place search
 
         }, err => console.error('Error getting place details', err));
@@ -112,7 +116,7 @@ export class PodcastComponent implements OnInit {
 
   submitLocationSuggestion(podcast: Podcast) {
     // make a copy so we can show correct UI state
-    const pod = { ...podcast};
+    const pod = { ...podcast, placeIds: {}};
     pod.locations = this.podLocations;
     this.podLocations.forEach(location => {
       pod.placeIds[location.placeId] = true;

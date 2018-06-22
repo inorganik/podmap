@@ -7,6 +7,7 @@ import { AboutComponent } from './map/about/about.component';
 import { PodcastComponent } from './map/search/podcast/podcast.component';
 import { LocationComponent } from './map/search/location/location.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { TopCitiesComponent } from './map/search/top-cities/top-cities.component';
 
 
 const routes: Routes = [
@@ -16,13 +17,12 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'search',
-        pathMatch: 'full'
-      },
-      {
-        path: 'search',
         component: SearchComponent,
         children: [
+          {
+            path: '',
+            component: TopCitiesComponent
+          },
           {
             path: 'podcast',
             redirectTo: ''
