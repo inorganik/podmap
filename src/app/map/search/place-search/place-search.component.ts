@@ -99,7 +99,7 @@ export class PlaceSearchComponent implements OnInit {
   }
 
   selectedPlace(place) {
-    console.log('place', place);
+    // console.log('place', place);
     this.selected.emit(place.option.value);
   }
 
