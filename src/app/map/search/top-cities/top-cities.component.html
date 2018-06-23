@@ -1,3 +1,10 @@
-<p>
-  top-cities works!
-</p>
+<div class="floating-box" [hidden]="hideTopCities">
+  <div class="d-flex align-items-center">
+    <h4 class="mb-0">Top 10 Cities</h4>
+    <button mat-icon-button (click)="hideTopCities = true" class="ml-auto align-self-start">
+      <mat-icon aria-label="close" svgIcon="close" class="svg-fill-gray"></mat-icon>
+    </button>
+  </div>
+  <hr>
+  <pm-location-list [locations$]="cities$"></pm-location-list>
+</div>

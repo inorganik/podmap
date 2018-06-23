@@ -39,7 +39,11 @@ export class UnmoderatedComponent {
       locPromises.push(
         this.mapService.getLocation(location)
           .then(loc => {
-            loc.podCount = loc.podCount + 1;
+            if (loc.podCount === undefined) {
+              loc.podCount = 1;
+            } else {
+              loc.podCount = loc.podCount + 1;
+            }
             this.mapService.addOrUpdateLocation(loc)
               .then()
               .catch(err => console.error('Add location error', err));

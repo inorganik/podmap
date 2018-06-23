@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { PodcastLocation } from '../../models';
+import { AngularFirestore } from 'angularfire2/firestore';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'pm-top-cities',
@@ -7,9 +10,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TopCitiesComponent implements OnInit {
 
-  constructor() { }
+  cities$: Observable<PodcastLocation[]>;
+  hideTopCities = false;
+
+  constructor(
+    private afs: AngularFirestore
+  ) { }
 
   ngOnInit() {
+    this.cities$ = this.afs.collection<PodcastLocation>('locations', ref =>
+      ref.orderBy('podCount', 'desc').limit(10)
+    ).valueChanges();
   }
 
 }

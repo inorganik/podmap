@@ -67,7 +67,6 @@ export class MapService {
         .then(() => resolve())
         .catch(() => {
           // doc doesn't exist, add
-          location.podCount = 0;
           this.afs.doc(docPath).set(location)
             .then(() => resolve())
             .catch(err => reject(err));
