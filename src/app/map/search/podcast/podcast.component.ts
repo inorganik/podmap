@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Podcast, PodcastLocation, Place, SuggestionStatus, PodcastSuggestion } from '../../models';
-import { switchMap, map } from 'rxjs/operators';
+import { switchMap, map, tap } from 'rxjs/operators';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { Observable } from 'rxjs';
 import { MapService } from '../../../services/map.service';
@@ -20,7 +20,7 @@ export class PodcastComponent implements OnInit {
   loading = true;
   // suggesting locations
   podPlace: Place;
-  podLocations: PodcastLocation[] = [];
+  podLocations: PodcastLocation[];
   submitted = false;
   collectionId: string;
   addLocationFieldVisible = false;
@@ -53,7 +53,8 @@ export class PodcastComponent implements OnInit {
               this.mapService.zoomToCity();
               return pod;
             }
-          })
+          }),
+          tap(() => this.resetForm())
         );
       })
     );
@@ -128,8 +129,13 @@ export class PodcastComponent implements OnInit {
 
     this.afs.collection('suggestions').add(podSugg).then(() => {
       this.submitted = true;
-      console.log('submitted!');
     }, err => console.error('Firebase error:', err));
+  }
+
+  resetForm() {
+    this.podLocations = [];
+    this.submitted = false;
+    this.podPlace = null;
   }
 
 }

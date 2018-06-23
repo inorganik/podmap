@@ -8,7 +8,7 @@
       <mat-tab label="Search places">
         <div class="search-inner">
           <pm-place-search (selected)="setPlace($event, false)"></pm-place-search>
-          <p><a class="faux-link" [ngClass]="{'faux-disabled': fetchingLocation}" (click)="goToUserLocation()">{{ searchLocation }}</a></p>
+          <!-- <p><a class="faux-link" [ngClass]="{'faux-disabled': fetchingLocation}" (click)="goToUserLocation()">{{ searchLocation }}</a></p> -->
         </div>
       </mat-tab>
     </mat-tab-group>

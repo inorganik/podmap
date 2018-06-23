@@ -84,7 +84,7 @@ export class PlaceSearchComponent implements OnInit {
 
         this.autocompleteService.getPlacePredictions({
           input: searchTerm,
-          types: ['(regions)']
+          types: ['(cities)']
         }, getPredicts);
       });
     }

@@ -59,7 +59,7 @@ export class MapService {
   }
 
   addOrUpdateLocation(location: PodcastLocation): Promise<any> {
-    console.log('add or update loc', location);
+    // console.log('add or update loc', location);
     return new Promise((resolve, reject) => {
       const docPath = `locations/${location.placeId}`;
       // try to update first
