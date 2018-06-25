@@ -156,14 +156,6 @@ export const mapStyle = [
   },
   {
     'featureType': 'road.arterial',
-    'stylers': [
-      {
-        'visibility': 'off'
-      }
-    ]
-  },
-  {
-    'featureType': 'road.arterial',
     'elementType': 'labels.text.fill',
     'stylers': [
       {
@@ -182,27 +174,10 @@ export const mapStyle = [
   },
   {
     'featureType': 'road.highway',
-    'elementType': 'labels',
-    'stylers': [
-      {
-        'visibility': 'off'
-      }
-    ]
-  },
-  {
-    'featureType': 'road.highway',
     'elementType': 'labels.text.fill',
     'stylers': [
       {
         'color': '#616161'
-      }
-    ]
-  },
-  {
-    'featureType': 'road.local',
-    'stylers': [
-      {
-        'visibility': 'off'
       }
     ]
   },
