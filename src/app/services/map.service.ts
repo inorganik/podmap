@@ -46,14 +46,12 @@ export class MapService {
             resolve(placeDetails);
           }
           else {
-            console.error(status);
-            reject();
+            reject(status);
           }
         });
       }
       else {
-        console.error('No place service');
-        reject();
+        reject('No place service');
       }
     });
   }

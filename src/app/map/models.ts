@@ -1,6 +1,3 @@
-import { AngularFirestoreCollection } from 'angularfire2/firestore';
-import * as firebase from 'firebase/app';
-
 export interface Categories {
   [key: string]: Boolean;
 }
