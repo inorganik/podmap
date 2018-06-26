@@ -12,6 +12,9 @@ export class LocationListComponent {
   locations$: Observable<PodcastLocation[]>;
 
   @Input()
+  limit = 99;
+
+  @Input()
   locations: PodcastLocation[];
 
   constructor() { }

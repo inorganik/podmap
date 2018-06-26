@@ -12,6 +12,9 @@ export class TopCitiesComponent implements OnInit {
 
   cities$: Observable<PodcastLocation[]>;
   hideTopCities = false;
+  numberOfCities = 5;
+  maxNumberOfCities = 10;
+  moreCitiesText = 'show more';
 
   constructor(
     private afs: AngularFirestore
@@ -19,8 +22,18 @@ export class TopCitiesComponent implements OnInit {
 
   ngOnInit() {
     this.cities$ = this.afs.collection<PodcastLocation>('locations', ref =>
-      ref.orderBy('podCount', 'desc').limit(10)
+      ref.orderBy('podCount', 'desc').limit(this.maxNumberOfCities)
     ).valueChanges();
+  }
+
+  toggleTopCities() {
+    if (this.numberOfCities === 5) {
+      this.numberOfCities = 10;
+      this.moreCitiesText = 'show less';
+    } else {
+      this.numberOfCities = 5;
+      this.moreCitiesText = 'show more';
+    }
   }
 
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, NgZone } from '@angular/core';
 import { MapsAPILoader } from '@agm/core';
 import { FormControl } from '@angular/forms';
 import { Observable, of } from 'rxjs';
@@ -40,7 +40,8 @@ export class PlaceSearchComponent implements OnInit {
   @Output() selected = new EventEmitter<Place>();
 
   constructor(
-    private loader: MapsAPILoader
+    private loader: MapsAPILoader,
+    private zone: NgZone
   ) { }
 
   ngOnInit() {
@@ -61,25 +62,25 @@ export class PlaceSearchComponent implements OnInit {
         console.error('No autocomplete service');
         return of([]);
       }
-      // console.log('place search', searchTerm);
       return Observable.create(obs => {
         const getPredicts = (predictions, status) => {
-          // console.log('got predicts', predictions, status);
-          if (status === google.maps.places.PlacesServiceStatus.OK) {
-            obs.next(predictions.slice());
-          }
-          else if (status === google.maps.places.PlacesServiceStatus.ZERO_RESULTS) {
-            obs.next([
-              { description: 'No results' }
-            ]);
-          }
-          else {
-            console.error(status);
-            obs.next([
-              { description: 'Server error' }
-            ]);
-          }
-          obs.complete();
+          this.zone.run(() => {
+            if (status === google.maps.places.PlacesServiceStatus.OK) {
+              obs.next(predictions.slice());
+            }
+            else if (status === google.maps.places.PlacesServiceStatus.ZERO_RESULTS) {
+              obs.next([
+                { description: 'No results' }
+              ]);
+            }
+            else {
+              console.error(status);
+              obs.next([
+                { description: 'Server error' }
+              ]);
+            }
+            obs.complete();
+          });
         };
 
         this.autocompleteService.getPlacePredictions({

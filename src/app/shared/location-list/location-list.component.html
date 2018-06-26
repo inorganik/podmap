@@ -1,6 +1,6 @@
 <ul class="item-list">
-  <li *ngFor="let location of locations$ | async">
-    <a href [routerLink]="['/location', location.placeId]" class="d-flex align-items-center">
+  <li *ngFor="let location of locations$ | async; let i = index">
+    <a *ngIf="i < limit" href [routerLink]="['/location', location.placeId]" class="d-flex align-items-center">
       <mat-icon svgIcon="location" class="svg-fill-gray"></mat-icon>
       <span>{{ location.description }}</span>
       <span *ngIf="location.podCount" class="ml-auto">{{ location.podCount }}</span>
