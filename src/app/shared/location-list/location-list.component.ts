@@ -4,7 +4,8 @@ import { PodcastLocation } from '../../map/models';
 
 @Component({
   selector: 'pm-location-list',
-  templateUrl: './location-list.component.html'
+  templateUrl: './location-list.component.html',
+  styles: [ 'li { padding-right: 5px }']
 })
 export class LocationListComponent {
 

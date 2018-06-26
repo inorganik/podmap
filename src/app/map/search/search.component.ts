@@ -81,6 +81,7 @@ export class SearchComponent implements OnInit {
       this.searchLocation = 'Getting location…';
       this.fetchingLocation = true;
       window.navigator.geolocation.getCurrentPosition(position => {
+        // console.log('position', position);
         this.resetSearchLocationString();
         const geoPoint = new firebase.firestore.GeoPoint(position.coords.latitude, position.coords.longitude);
         this.mapService.updatePosition(geoPoint);

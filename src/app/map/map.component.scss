@@ -46,8 +46,14 @@ $sidebar-width: 350px;
   pointer-events: none;
   overflow: hidden;
 
+  // scrollbar
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
   .sidebar {
-    width: $sidebar-width + 15px;
+    width: $sidebar-width;
     height: 100%;
     padding: 20px 0 20px 20px;
     overflow-y: scroll;

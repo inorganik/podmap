@@ -1,5 +1,11 @@
 <div *ngIf="location$ | async as location; else showLoading" class="floating-box">
-  <h5>{{ location.description }}</h5>
+  <div class="d-flex align-items-center">
+    <h5 class="mb-0">{{ location.description }}</h5>
+    <button mat-icon-button routerLink="/" class="ml-auto align-self-start">
+      <mat-icon aria-label="close" svgIcon="close" class="svg-fill-gray"></mat-icon>
+    </button>
+  </div>
+  <h5></h5>
   <hr>
   <pm-podcast-list [podcasts$]="podcasts$"></pm-podcast-list>
 </div>
