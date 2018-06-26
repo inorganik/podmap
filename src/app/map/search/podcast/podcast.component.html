@@ -21,7 +21,7 @@
     <div *ngIf="!submitted">
       <pm-place-search [hidden]="!addLocationFieldVisible" (selected)="setPlace($event, true)" [placeholder]="addLocationText()" [place]="podPlace"></pm-place-search>
       <div class="d-flex mt-3">
-        <button *ngIf="canAddPlace() && !addLocationFieldVisible" mat-mini-fab color="accent" (click)="addLocationFieldVisible = true">
+        <button *ngIf="canAddPlace() && !addLocationFieldVisible" mat-icon-button (click)="addLocationFieldVisible = true">
           <mat-icon aria-label="add" svgIcon="add"></mat-icon>
         </button>
         <div class="mr-auto">
