@@ -14,7 +14,8 @@ export class AdminGuard implements CanActivate {
   // UIDs of whitelisted admins
   whitelisted = [
     'tA7f1eUMl2hSlsQIqsptJlqUBTW2',
-    'dE4wVrL3excYGvw25JAlfelgU3K3'
+    'dE4wVrL3excYGvw25JAlfelgU3K3',
+    'PNHnkNc2gvW57D1rBSEhcVpJA7D3'
   ];
 
   constructor(private afAuth: AngularFireAuth, private router: Router) {}

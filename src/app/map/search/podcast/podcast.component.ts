@@ -138,4 +138,8 @@ export class PodcastComponent implements OnInit {
     this.podPlace = null;
   }
 
+  encodeUrl(feedUrl: string): string {
+    return encodeURIComponent(feedUrl);
+  }
+
 }
