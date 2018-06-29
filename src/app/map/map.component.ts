@@ -5,7 +5,7 @@ import { mapStyle } from './podmap.mapstyle';
 import { MatIconRegistry } from '@angular/material';
 import { MapService } from '../services/map.service';
 import * as firebase from 'firebase/app';
-import { PodcastLocation } from './models';
+import { PodcastLocation, MetaCounts } from './models';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
@@ -26,6 +26,7 @@ export class MapComponent implements OnInit, OnDestroy {
   mapStyle = mapStyle;
   showAd = true;
   markers$: Observable<PodcastLocation[]>;
+  counts$: Observable<MetaCounts>;
   icon;
 
   @ViewChild(AgmMap) agmMap: AgmMap;
@@ -34,7 +35,7 @@ export class MapComponent implements OnInit, OnDestroy {
     private mapService: MapService,
     iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer,
-    private afs: AngularFirestore,
+    afs: AngularFirestore,
     private router: Router
   ) {
     // icons
@@ -55,6 +56,7 @@ export class MapComponent implements OnInit, OnDestroy {
         width: 45
       }
     };
+    this.counts$ = afs.doc<MetaCounts>('meta/counts').valueChanges();
 
     // afs.collection('podcasts').snapshotChanges().subscribe(data => console.log('podcast data', data));
     // afs.collection('locations').snapshotChanges().subscribe(data => console.log('podcast data', data));

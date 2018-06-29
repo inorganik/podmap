@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import * as firebase from 'firebase/app';
 import { AngularFirestore } from 'angularfire2/firestore';
-import { PodcastLocation, Podcast } from '../map/models';
+import { PodcastLocation, Podcast, MetaCounts } from '../map/models';
 import { first } from 'rxjs/operators';
 
 declare let google: any;
@@ -102,9 +102,66 @@ export class MapService {
             resolve(loc);
           }
         })
-        .catch((err) => {
+        .catch(err => {
           console.error('oops', err);
           resolve(location);
+        });
+    });
+  }
+
+  // only add podcast if it isn't in the DB yet
+  safelyAddPodcast(podcast: Podcast): Promise<Podcast> {
+    return new Promise((resolve, reject) => {
+      const docPath = `podcasts/${podcast.collectionId}`;
+      this.afs.doc<Podcast>(docPath).valueChanges().pipe(
+        first()
+      ).toPromise()
+        .then(pod => {
+          if (pod === undefined) {
+            this.afs.doc(docPath).set(podcast)
+              .then(() => resolve(podcast));
+          }
+          else {
+            reject('Pod already exists');
+          }
+        })
+        .catch(err => {
+          console.error('huh?', err);
+          reject(err);
+        });
+    });
+  }
+
+  // increment count for 'podcast' or 'location'
+  incrementCount(countToIncrement: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      const docPath = 'meta/counts';
+      this.afs.doc<MetaCounts>(docPath).valueChanges().pipe(
+        first()
+      ).toPromise()
+        .then(counts => {
+          if (counts === undefined) {
+            const count: MetaCounts = {
+              podcastCount: (countToIncrement === 'podcast') ? 1 : 0,
+              locationCount: (countToIncrement === 'location') ? 1 : 0
+            };
+            this.afs.doc(docPath).set(count)
+              .then(() => resolve())
+              .catch(err => reject(err));
+          } else {
+            if (countToIncrement === 'podcast') {
+              counts.podcastCount = counts.podcastCount + 1;
+            } else {
+              counts.locationCount = counts.locationCount + 1;
+            }
+            this.afs.doc(docPath).update(counts)
+              .then(() => resolve())
+              .catch(err => reject(err));
+          }
+        })
+        .catch(err => {
+          console.error('oops', err);
+          reject(err);
         });
     });
   }

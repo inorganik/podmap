@@ -3,7 +3,8 @@
     <div class="legend">
       <h1>PODMAP</h1>
       <p>
-        <em>Mapping the world&rsquo;s podcasts</em>
+        <em>Mapping the world&rsquo;s podcasts.</em><br>
+        <em *ngIf="counts$ | async as counts" class="light-purple">{{ counts.podcastCount }} podcasts in {{ counts.locationCount }} locations</em>
       </p>
     </div>
     <router-outlet></router-outlet>

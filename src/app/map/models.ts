@@ -46,3 +46,8 @@ export interface Place {
   terms: [any];
   types: [string];
 }
+
+export interface MetaCounts {
+  podcastCount: number;
+  locationCount: number;
+}
