@@ -19,9 +19,10 @@ export class UnmoderatedComponent {
     private mapService: MapService
   ) {
     // get unmoderated suggestions
-    this.suggestions$ = afs.collection<PodcastSuggestion>('suggestions', ref => {
-      return ref.where('status', '==', SuggestionStatus.Unmoderated);
-    }).snapshotChanges().pipe(
+    this.suggestions$ = afs.collection<PodcastSuggestion>('suggestions', ref =>
+      ref.where('status', '==', SuggestionStatus.Unmoderated)
+        .orderBy('podcast.collectionName')
+    ).snapshotChanges().pipe(
       map(actions => actions.map(a => {
         const data = a.payload.doc.data() as PodcastSuggestion;
         const id = a.payload.doc.id;

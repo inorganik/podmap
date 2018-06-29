@@ -55,6 +55,9 @@ export class MapComponent implements OnInit, OnDestroy {
         width: 45
       }
     };
+
+    // afs.collection('podcasts').snapshotChanges().subscribe(data => console.log('podcast data', data));
+    // afs.collection('locations').snapshotChanges().subscribe(data => console.log('podcast data', data));
   }
 
   ngOnInit() {
@@ -70,7 +73,6 @@ export class MapComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.mapService.geoPoint$.unsubscribe();
     this.mapService.zoom$.unsubscribe();
-    this.agmMap.mapReady.unsubscribe();
   }
 
   markerClick(marker: PodcastLocation) {

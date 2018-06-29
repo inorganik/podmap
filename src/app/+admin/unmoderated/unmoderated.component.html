@@ -1,6 +1,9 @@
 <!-- awaiting moderation -->
 <div *ngIf="suggestions$ | async as suggestions; else showLoading">
   <ul class="moderation-list" *ngIf="suggestions.length; else showEmpty">
+    <li>
+      <p>You have {{ suggestions.length }} suggestions.</p>
+    </li>
     <li *ngFor="let sugg of suggestions">
       <div class="top-row d-flex align-items-center">
         <img aria-hidden src="{{ sugg.podcast.artworkUrl60 }}" />
