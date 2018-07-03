@@ -51,8 +51,8 @@ export class MapComponent implements OnInit, OnDestroy {
     this.icon = {
       url: require('../../assets/img/podmap-marker.svg'),
       scaledSize: {
-        height: 35,
-        width: 45
+        height: 25,
+        width: 32
       }
     };
 

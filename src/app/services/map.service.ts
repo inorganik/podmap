@@ -12,14 +12,14 @@ declare let google: any;
 })
 export class MapService {
 
-  // centered over US
-  initialPositionUS = new firebase.firestore.GeoPoint(37, -97);
-  initialZoom = 5;
+  // initialPositionUS = new firebase.firestore.GeoPoint(37, -97);
+  initialPositionWorld = new firebase.firestore.GeoPoint(7, -99);
+  initialZoom = 3;
   cityZoom = 12;
 
   placesService: any;
 
-  geoPoint$ = new BehaviorSubject<firebase.firestore.GeoPoint>(this.initialPositionUS);
+  geoPoint$ = new BehaviorSubject<firebase.firestore.GeoPoint>(this.initialPositionWorld);
   zoom$ = new BehaviorSubject(this.initialZoom);
 
   // routing cache
