@@ -1,4 +1,4 @@
-// SUPERFEED bootstrap variable overrides
+// bootstrap variable overrides
 @import
 '~bootstrap/scss/functions',
 '~bootstrap/scss/variables';
@@ -43,7 +43,7 @@ $border-width: 1px;
 //
 // SIZES
 //
-$border-radius: 6px;
+$border-radius: 0px;
 $nav-link-padding-x: 1.2rem;
 $container-max-widths: (
   sm: 540px,
@@ -54,24 +54,7 @@ $container-max-widths: (
 $slider-row-height: 50px;
 
 //
-// NAVBAR
-//
-$navbar-padding-y: $spacer * 2;
-$navbar-toggler-font-size: $font-size-sm;
-$navbar-light-color: $gray-600;
-$navbar-light-hover-color: $primary;
-$navbar-light-active-color: $primary;
-$navbar-light-toggler-border-color: transparent;
-$navbar-toggler-padding-x: .25rem;
-
-//
 // MISC
 //
 $hard-box-shadow: -6px 6px rgba(0,0,0,0.2);
 $hard-box-shadow-active: -2px 2px rgba(0,0,0,0.2);
-
-
-$location1: #00caff;
-$location1-light: #a8eeff;
-$location2: #ff0055;
-$location2-light: #ffb1cb;
