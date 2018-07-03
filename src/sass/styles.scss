@@ -70,6 +70,10 @@ ul, ol {
   }
 }
 
+.light-purple {
+  color: $primary-super-light;
+}
+
 @media (max-width: map-get($grid-breakpoints, 'sm')) { // 576px and less
 
 	body {

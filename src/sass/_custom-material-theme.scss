@@ -7,37 +7,39 @@ $custom-typography: mat-typography-config(
 );
 
 $superfeed-amber: (
-  50: #ffebbf,
-  100: #ffdd92,
-  200: #ffaf00,
-  300: #ffaf00,
-  400: #ffaf00,
-  500: #ffaf00,
-  600: #faa200,
-  700: #fa9600,
-  800: #eb9800,
-  900: #d88c00,
-  A100: #ffdd92,
-  A200: #ffaf00,
-  A400: #ffaf00,
-  A700: #ffa600,
+  50 : #fff5e0,
+  100 : #ffe7b3,
+  200 : #ffd780,
+  300 : #ffc74d,
+  400 : #ffbb26,
+  500 : #ffaf00,
+  600 : #ffa800,
+  700 : #ff9f00,
+  800 : #ff9600,
+  900 : #ff8600,
+  A100 : #ffffff,
+  A200 : #fff8f2,
+  A400 : #ffddbf,
+  A700 : #ffd0a6,
   contrast: (
-    50: $dark-primary-text,
-    100: $dark-primary-text,
-    200: $dark-primary-text,
-    300: $dark-primary-text,
-    400: $dark-primary-text,
-    500: $dark-primary-text,
-    600: $dark-primary-text,
-    700: $dark-primary-text,
-    800: $dark-primary-text,
-    900: $dark-primary-text,
-    A100: $dark-primary-text,
-    A200: $dark-primary-text,
-    A400: $dark-primary-text,
-    A700: $dark-primary-text,
+      50 : $dark-primary-text,
+      100 : $dark-primary-text,
+      200 : $dark-primary-text,
+      300 : $dark-primary-text,
+      400 : $dark-primary-text,
+      500 : $dark-primary-text,
+      600 : $dark-primary-text,
+      700 : $dark-primary-text,
+      800 : $dark-primary-text,
+      900 : $dark-primary-text,
+      A100 : $dark-primary-text,
+      A200 : $dark-primary-text,
+      A400 : $dark-primary-text,
+      A700 : $dark-primary-text,
   )
 );
+
+
 
 $superfeed-purple: (
   50: #e2dbff,
@@ -79,7 +81,7 @@ $superfeed-purple: (
 
 // Define the default theme (same as the example above).
 $superfeed-primary: mat-palette($superfeed-purple);
-$superfeed-accent:  mat-palette($superfeed-amber, A200, A100, A400);
+$superfeed-accent:  mat-palette($superfeed-amber);
 $superfeed-theme:   mat-light-theme($superfeed-primary, $superfeed-accent);
 
 // uncomment to include various components

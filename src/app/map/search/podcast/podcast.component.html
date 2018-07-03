@@ -4,7 +4,7 @@
     <div>
       <p>{{ podcast.collectionName }}</p>
       <p class="subhead">{{ podcast.artistName }}</p>
-      <p class="subhead"><a [href]="podcast.itunesSub">iTunes</a></p>
+      <p class="links"><a [href]="'https://radiopublic.com/'+encodeUrl(podcast.feedUrl)">RadioPublic</a> • <a [href]="podcast.itunesSub">Apple Podcasts</a></p>
     </div>
     <button mat-icon-button routerLink="/" class="ml-auto align-self-start">
       <mat-icon aria-label="close" svgIcon="close" class="svg-fill-gray"></mat-icon>
