@@ -50,7 +50,11 @@ export class MapComponent implements OnInit, OnDestroy {
     // markers
     this.markers$ = afs.collection<PodcastLocation>('locations').valueChanges();
     this.icon = {
-      url: require('../../assets/img/podmap-marker1.svg'),
+      url: require('../../assets/img/podmap-marker.svg'),
+      size: {
+        height: 35,
+        width: 45
+      },
       scaledSize: {
         height: 25,
         width: 32
