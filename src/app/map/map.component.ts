@@ -39,10 +39,10 @@ export class MapComponent implements OnInit, OnDestroy {
     private router: Router
   ) {
     // icons
+    // iconRegistry.addSvgIcon('my-location', sanitizer.bypassSecurityTrustResourceUrl(iconPath + 'ic_my_location_black_24px.svg'));
     const iconPath = '../../assets/icons/';
     iconRegistry.addSvgIcon('close', sanitizer.bypassSecurityTrustResourceUrl(iconPath + 'ic_close_black_24px.svg'));
     iconRegistry.addSvgIcon('location', sanitizer.bypassSecurityTrustResourceUrl(iconPath + 'ic_location_on_black_24px.svg'));
-    iconRegistry.addSvgIcon('my-location', sanitizer.bypassSecurityTrustResourceUrl(iconPath + 'ic_my_location_black_24px.svg'));
     iconRegistry.addSvgIcon('search', sanitizer.bypassSecurityTrustResourceUrl(iconPath + 'ic_search_black_24px.svg'));
     iconRegistry.addSvgIcon('done', sanitizer.bypassSecurityTrustResourceUrl(iconPath + 'ic_done_black_24px.svg'));
     iconRegistry.addSvgIcon('add', sanitizer.bypassSecurityTrustResourceUrl(iconPath + 'ic-add-24px.svg'));
@@ -50,10 +50,10 @@ export class MapComponent implements OnInit, OnDestroy {
     // markers
     this.markers$ = afs.collection<PodcastLocation>('locations').valueChanges();
     this.icon = {
-      url: require('../../assets/img/podmap-marker.svg'),
+      url: require('../../assets/img/podmap-marker.png'),
       scaledSize: {
-        height: 25,
-        width: 32
+        height: 23,
+        width: 30
       }
     };
     this.counts$ = afs.doc<MetaCounts>('meta/counts').valueChanges();
