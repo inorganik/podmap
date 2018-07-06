@@ -7,7 +7,7 @@
     <li *ngFor="let sugg of suggestions">
       <div class="top-row d-flex align-items-center">
         <img aria-hidden src="{{ sugg.podcast.artworkUrl60 }}" />
-        <span class="title">{{ sugg.podcast.collectionName }}</span>
+        <span class="title"><a [href]="'https://radiopublic.com/'+encodeUrl(sugg.podcast.feedUrl)">{{ sugg.podcast.collectionName }}</a></span>
         <div class="buttons ml-auto">
           <button type="button" mat-mini-fab (click)="approve(sugg)" color="primary">
             <mat-icon class="svg-fill-white" aria-label="approve" svgIcon="done"></mat-icon>

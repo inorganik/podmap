@@ -69,4 +69,8 @@ export class UnmoderatedComponent {
     this.afs.doc(`suggestions/${suggestion.id}`).set(suggestion);
   }
 
+  encodeUrl(feedUrl: string): string {
+    return encodeURIComponent(feedUrl);
+  }
+
 }

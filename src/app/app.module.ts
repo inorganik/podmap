@@ -17,7 +17,7 @@ import { MapModule } from './map/map.module';
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    AngularFireModule.initializeApp(environment.firebase, 'Superfeed'),
+    AngularFireModule.initializeApp(environment.firebase, 'Podmap'),
     MapModule
   ],
   providers: [],
