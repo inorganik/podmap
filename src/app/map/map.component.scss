@@ -31,6 +31,7 @@ p {
   &.ad {
     padding: 0;
     text-align: center;
+    border: 4px lighten($secondary, 20%) solid;
   }
   &.top-cities {
     padding: 15px $spacer;
