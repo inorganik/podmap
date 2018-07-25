@@ -6,11 +6,16 @@
   '~bootstrap/scss/mixins';
 
 .sponsor-text {
-  color: gray;
-  font-size: .8em;
+  color: $gray-800;
+  margin: 4px 0 0 0;
+  font-size: 16px;
 }
 a {
   display: block;
+  padding: 15px 10px 10px 10px;
+  &:hover {
+    text-decoration: none;
+  }
   img {
     height: auto;
     border: 0;

@@ -12,7 +12,7 @@ p {
 
 .floating-box {
   width: 100%;
-  margin-top: 20px;
+  margin-top: 16px;
   padding: $spacer;
 	background: white;
   box-shadow: $hard-box-shadow;
@@ -29,8 +29,11 @@ p {
     font-size: .8em;
   }
   &.ad {
-    padding: 5px $spacer $spacer $spacer;
+    padding: 0;
     text-align: center;
+  }
+  &.top-cities {
+    padding: 15px $spacer;
   }
 }
 
