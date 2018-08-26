@@ -51,3 +51,7 @@ export interface MetaCounts {
   podcastCount: number;
   locationCount: number;
 }
+
+export interface MarkerObj {
+  markers: Partial<PodcastLocation>[]
+}

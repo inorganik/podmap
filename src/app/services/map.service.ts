@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import * as firebase from 'firebase/app';
 import { AngularFirestore } from 'angularfire2/firestore';
-import { PodcastLocation, Podcast, MetaCounts } from '../map/models';
+import { PodcastLocation, Podcast, MetaCounts, MarkerObj } from '../map/models';
 import { first } from 'rxjs/operators';
 
 declare let google: any;
@@ -16,6 +16,7 @@ export class MapService {
   initialPositionWorld = new firebase.firestore.GeoPoint(7, -99);
   initialZoom = 3;
   cityZoom = 12;
+  markers: Partial<PodcastLocation>[] = [];
 
   placesService: any;
 
@@ -24,6 +25,8 @@ export class MapService {
 
   // routing cache
   podcast: Podcast;
+
+  MAX_MARKERS_IN_DOC = 1500; // approx how many locs can be stored in 1 firestore doc
 
   constructor(private afs: AngularFirestore) { }
 
@@ -56,6 +59,35 @@ export class MapService {
     });
   }
 
+  addLocationToMarkers(location: PodcastLocation) {
+    const loc = {
+      lat: location.lat,
+      lng: location.lng,
+      placeId: location.placeId
+    };
+    if (this.markers.filter(podLoc => podLoc.placeId === loc.placeId).length === 0) {
+      this.markers.push(loc);
+    }
+  }
+
+  persistMarkers(): Promise<any> {
+    const obj: MarkerObj = { markers: this.markers };
+    return new Promise((resolve, reject) => {
+        if (this.markers.length > 1500) {
+          reject('max size reached for markers firestore doc');
+        }
+        const docPath = `meta/markers`;
+        this.afs.doc(docPath).update(obj)
+          .then(() => resolve())
+          .catch(() => {
+            // doc doesn't exist, add
+            this.afs.doc(docPath).set(obj)
+              .then(() => resolve())
+              .catch(err => reject(err));
+          });
+    });
+  }
+
   addOrUpdateLocation(location: PodcastLocation): Promise<any> {
     // console.log('add or update loc', location);
     return new Promise((resolve, reject) => {
@@ -66,7 +98,12 @@ export class MapService {
         .catch(() => {
           // doc doesn't exist, add
           this.afs.doc(docPath).set(location)
-            .then(() => resolve())
+            .then(() => {
+              this.addLocationToMarkers(location);
+              this.persistMarkers()
+                .then(() => resolve())
+                .catch(err => reject(err));
+            })
             .catch(err => reject(err));
         });
       });

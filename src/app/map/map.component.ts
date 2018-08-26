@@ -5,9 +5,11 @@ import { mapStyle } from './podmap.mapstyle';
 import { MatIconRegistry } from '@angular/material';
 import { MapService } from '../services/map.service';
 import * as firebase from 'firebase/app';
-import { PodcastLocation, MetaCounts } from './models';
+import { PodcastLocation, MetaCounts, MarkerObj } from './models';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { Observable } from 'rxjs';
+import { first, map, tap } from 'rxjs/operators';
+
 import { Router } from '@angular/router';
 
 declare let google: any;
@@ -24,7 +26,7 @@ export class MapComponent implements OnInit, OnDestroy {
   geoPoint: firebase.firestore.GeoPoint;
   zoom = 5;
   mapStyle = mapStyle;
-  showAd = true;
+  showAd = false;
   markers$: Observable<PodcastLocation[]>;
   counts$: Observable<MetaCounts>;
   icon;
@@ -32,7 +34,7 @@ export class MapComponent implements OnInit, OnDestroy {
   @ViewChild(AgmMap) agmMap: AgmMap;
 
   constructor(
-    private mapService: MapService,
+    public mapService: MapService,
     iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer,
     afs: AngularFirestore,
@@ -58,6 +60,27 @@ export class MapComponent implements OnInit, OnDestroy {
     };
     this.counts$ = afs.doc<MetaCounts>('meta/counts').valueChanges();
 
+    afs.doc<MarkerObj>('meta/markers').valueChanges().pipe(
+      first(),
+      tap(markerObj => {
+        this.mapService.markers = markerObj.markers;
+      })
+    ).subscribe();
+
+    // TEMP
+    // this.afs.collection<PodcastLocation>('locations').valueChanges().pipe(
+    //   first(),
+    //   map(markers => {
+    //     console.log('got markers', markers);
+    //     markers.forEach(marker => {
+    //       this.mapService.addLocationToMarkers(marker);
+    //     });
+    //     this.mapService.persistMarkers()
+    //       .then(() => console.log('saved location array', JSON.stringify(this.mapService.markers)))
+    //       .catch(err => console.error('error saving location array', err));
+    //   })
+    // ).subscribe();
+
     // afs.collection('podcasts').snapshotChanges().subscribe(data => console.log('podcast data', data));
     // afs.collection('locations').snapshotChanges().subscribe(data => console.log('podcast data', data));
   }
@@ -66,8 +89,8 @@ export class MapComponent implements OnInit, OnDestroy {
     this.mapService.geoPoint$.subscribe(pos => this.geoPoint = pos);
     this.mapService.zoom$.subscribe(zoom => this.zoom = zoom);
     // place details service
-    this.agmMap.mapReady.subscribe(map => {
-      this.mapService.placesService = new google.maps.places.PlacesService(map);
+    this.agmMap.mapReady.subscribe(aMap => {
+      this.mapService.placesService = new google.maps.places.PlacesService(aMap);
       this.agmMap.mapReady.unsubscribe();
     });
   }
