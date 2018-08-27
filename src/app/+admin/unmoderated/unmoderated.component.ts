@@ -54,6 +54,7 @@ export class UnmoderatedComponent {
               })
               .catch(err => console.error('Get location error', err)));
         });
+        locPromises.push(this.mapService.persistMarkers());
         Promise.all(locPromises)
           .then(() => {
             suggestion.status = SuggestionStatus.Approved;

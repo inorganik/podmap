@@ -60,15 +60,18 @@ export class MapComponent implements OnInit, OnDestroy {
     };
     this.counts$ = afs.doc<MetaCounts>('meta/counts').valueChanges();
 
-    afs.doc<MarkerObj>('meta/markers').valueChanges().pipe(
-      first(),
-      tap(markerObj => {
-        this.mapService.markers = markerObj.markers;
-      })
-    ).subscribe();
+    afs.collection<MarkerObj>('markers').valueChanges().subscribe(markerGroups => {
+      this.mapService.markers = [];
+      // concatenate all marker group arrays. we pack 1000 markers
+      // into each doc to save firestore reads and improve efficiency
+      markerGroups.forEach(markerGroup =>
+        this.mapService.markers = this.mapService.markers.concat(markerGroup.markers)
+      );
+      console.log('markers re-read');
+    });
 
-    // TEMP
-    // this.afs.collection<PodcastLocation>('locations').valueChanges().pipe(
+    // TEMP - write locations to markers collection for first time
+    // this.markers$.pipe(
     //   first(),
     //   map(markers => {
     //     console.log('got markers', markers);
@@ -76,7 +79,10 @@ export class MapComponent implements OnInit, OnDestroy {
     //       this.mapService.addLocationToMarkers(marker);
     //     });
     //     this.mapService.persistMarkers()
-    //       .then(() => console.log('saved location array', JSON.stringify(this.mapService.markers)))
+    //       .then(() => {
+    //         console.log('saved location array', this.mapService.markers.length);
+
+    //       })
     //       .catch(err => console.error('error saving location array', err));
     //   })
     // ).subscribe();

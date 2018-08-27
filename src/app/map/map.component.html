@@ -14,5 +14,5 @@
 </div>
 <agm-map id="podmap" [latitude]="geoPoint.latitude" [longitude]="geoPoint.longitude" [zoom]="zoom" [styles]="mapStyle" [streetViewControl]="false" [zoomControl]="false"
   [scaleControl]="true">
-  <agm-marker *ngFor="let marker of mapService.markers" [latitude]="marker.lat" [longitude]="marker.lng" [iconUrl]="icon" (markerClick)="markerClick(marker)"></agm-marker>
+  <agm-marker *ngFor="let marker of markers$ | async" [latitude]="marker.lat" [longitude]="marker.lng" [iconUrl]="icon" (markerClick)="markerClick(marker)"></agm-marker>
 </agm-map>

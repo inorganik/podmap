@@ -26,7 +26,7 @@ export class MapService {
   // routing cache
   podcast: Podcast;
 
-  MAX_MARKERS_IN_DOC = 1500; // approx how many locs can be stored in 1 firestore doc
+  MAX_MARKERS_IN_DOC = 1000; // max locs that can safely be stored in 1 firestore doc
 
   constructor(private afs: AngularFirestore) { }
 
@@ -66,30 +66,31 @@ export class MapService {
       placeId: location.placeId
     };
     if (this.markers.filter(podLoc => podLoc.placeId === loc.placeId).length === 0) {
+      console.log('add location to markers:', location.description);
       this.markers.push(loc);
     }
   }
 
+  // break markers into groups of MAX_MARKERS_IN_DOC
+  // and persist groups as individual docs
   persistMarkers(): Promise<any> {
-    const obj: MarkerObj = { markers: this.markers };
-    return new Promise((resolve, reject) => {
-        if (this.markers.length > 1500) {
-          reject('max size reached for markers firestore doc');
-        }
-        const docPath = `meta/markers`;
-        this.afs.doc(docPath).update(obj)
-          .then(() => resolve())
-          .catch(() => {
-            // doc doesn't exist, add
-            this.afs.doc(docPath).set(obj)
-              .then(() => resolve())
-              .catch(err => reject(err));
-          });
+    const copy = this.markers.slice();
+    let startIndex = 0;
+    const markerGroups: MarkerObj[] = [];
+    while (startIndex < this.markers.length) {
+      markerGroups.push({ markers: this.markers.slice(startIndex, startIndex + this.MAX_MARKERS_IN_DOC) });
+      startIndex += this.MAX_MARKERS_IN_DOC;
+    }
+    const promises: Promise<any>[] = [];
+    console.log('persist markers. marker groups:', markerGroups);
+    markerGroups.forEach((group, i) => {
+      promises.push(this.afs.collection('markers').doc(i + '').set(group));
     });
+    return Promise.all(promises);
   }
 
   addOrUpdateLocation(location: PodcastLocation): Promise<any> {
-    // console.log('add or update loc', location);
+    console.log('add or update loc', location);
     return new Promise((resolve, reject) => {
       const docPath = `locations/${location.placeId}`;
       // try to update first
@@ -100,9 +101,7 @@ export class MapService {
           this.afs.doc(docPath).set(location)
             .then(() => {
               this.addLocationToMarkers(location);
-              this.persistMarkers()
-                .then(() => resolve())
-                .catch(err => reject(err));
+              resolve();
             })
             .catch(err => reject(err));
         });
