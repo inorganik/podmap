@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { AngularFirestore } from 'angularfire2/firestore';
-import { PodcastSuggestion, SuggestionStatus } from '../../map/models';
-import { Observable, of } from 'rxjs';
+import { PodcastSuggestion, SuggestionStatus, PodcastLocation } from '../../map/models';
+import { Observable } from 'rxjs';
 import { MapService } from '../../services/map.service';
-import { map, catchError } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'pm-unmoderated',
@@ -35,32 +35,22 @@ export class UnmoderatedComponent {
     // add podcast
     this.mapService.safelyAddPodcast(suggestion.podcast)
       .then(() => {
-        this.mapService.incrementCount('podcast');
+        this.mapService.incrementPodcastCount();
         // increment podcount for each location
         const locPromises = [];
-        suggestion.podcast.locations.forEach(location => {
+        suggestion.podcast.locations.forEach(location =>
           locPromises.push(
-            this.mapService.getLocation(location)
-              .then(loc => {
-                if (loc.podCount === undefined) {
-                  loc.podCount = 1;
-                  this.mapService.incrementCount('location');
-                } else {
-                  loc.podCount = loc.podCount + 1;
-                }
-                this.mapService.addOrUpdateLocation(loc)
-                  .then()
-                  .catch(err => console.error('Add location error', err));
-              })
-              .catch(err => console.error('Get location error', err)));
-        });
-        locPromises.push(this.mapService.persistMarkers());
+            this.mapService.getAndIncrementPodCountForLocation(location)
+          )
+        );
         Promise.all(locPromises)
           .then(() => {
+            this.mapService.persistMarkers()
+              .catch(err => console.error('persistMarkers():', err));
             suggestion.status = SuggestionStatus.Approved;
             this.afs.doc(`suggestions/${suggestion.id}`).set(suggestion);
           })
-          .catch(err => console.error('error in .all', err));
+          .catch(err => console.error('getAndIncrementPodCountForLocation():', err));
       })
       .catch(() => alert('Podcast already added. Please reject this suggestion.'));
   }

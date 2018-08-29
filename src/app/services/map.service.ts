@@ -66,7 +66,7 @@ export class MapService {
       placeId: location.placeId
     };
     if (this.markers.filter(podLoc => podLoc.placeId === loc.placeId).length === 0) {
-      console.log('add location to markers:', location.description);
+      // console.log('add location to markers:', location.description);
       this.markers.push(loc);
     }
   }
@@ -74,7 +74,6 @@ export class MapService {
   // break markers into groups of MAX_MARKERS_IN_DOC
   // and persist groups as individual docs
   persistMarkers(): Promise<any> {
-    const copy = this.markers.slice();
     let startIndex = 0;
     const markerGroups: MarkerObj[] = [];
     while (startIndex < this.markers.length) {
@@ -82,31 +81,50 @@ export class MapService {
       startIndex += this.MAX_MARKERS_IN_DOC;
     }
     const promises: Promise<any>[] = [];
-    console.log('persist markers. marker groups:', markerGroups);
     markerGroups.forEach((group, i) => {
       promises.push(this.afs.collection('markers').doc(i + '').set(group));
     });
     return Promise.all(promises);
   }
 
-  addOrUpdateLocation(location: PodcastLocation): Promise<any> {
-    console.log('add or update loc', location);
+  // true: location created, false: location updated
+  addOrUpdateLocation(location: PodcastLocation): Promise<boolean> {
+    // console.log('add or update loc', location);
     return new Promise((resolve, reject) => {
       const docPath = `locations/${location.placeId}`;
       // try to update first
       this.afs.doc(docPath).update(location)
-        .then(() => resolve())
+        .then(() => resolve(false))
         .catch(() => {
           // doc doesn't exist, add
           this.afs.doc(docPath).set(location)
             .then(() => {
               this.addLocationToMarkers(location);
-              resolve();
+              resolve(true);
             })
             .catch(err => reject(err));
         });
       });
   }
+
+  // true: location created, false: location updated
+  getAndIncrementPodCountForLocation(location: PodcastLocation): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      this.getLocation(location)
+        .then(loc => {
+          if (loc.podCount === undefined) {
+            loc.podCount = 1;
+          } else {
+            loc.podCount = loc.podCount + 1;
+          }
+          this.addOrUpdateLocation(loc)
+            .then(created => resolve(created))
+            .catch(err => reject(err));
+        })
+        .catch(err => reject(err));
+    });
+  }
+
   addOrUpdatePodcast(podcast: Podcast): Promise<any> {
     return new Promise((resolve, reject) => {
       const docPath = `podcasts/${podcast.collectionId}`;
@@ -139,7 +157,7 @@ export class MapService {
           }
         })
         .catch(err => {
-          console.error('oops', err);
+          console.error('getLocation():', err);
           resolve(location);
         });
     });
@@ -162,14 +180,13 @@ export class MapService {
           }
         })
         .catch(err => {
-          console.error('huh?', err);
+          console.error('safelyAddPodcast():', err);
           reject(err);
         });
     });
   }
 
-  // increment count for 'podcast' or 'location'
-  incrementCount(countToIncrement: string): Promise<any> {
+  incrementPodcastCount(): Promise<any> {
     return new Promise((resolve, reject) => {
       const docPath = 'meta/counts';
       this.afs.doc<MetaCounts>(docPath).valueChanges().pipe(
@@ -178,25 +195,20 @@ export class MapService {
         .then(counts => {
           if (counts === undefined) {
             const count: MetaCounts = {
-              podcastCount: (countToIncrement === 'podcast') ? 1 : 0,
-              locationCount: (countToIncrement === 'location') ? 1 : 0
+              podcastCount: 1
             };
             this.afs.doc(docPath).set(count)
               .then(() => resolve())
               .catch(err => reject(err));
           } else {
-            if (countToIncrement === 'podcast') {
-              counts.podcastCount = counts.podcastCount + 1;
-            } else {
-              counts.locationCount = counts.locationCount + 1;
-            }
+            counts.podcastCount = counts.podcastCount + 1;
             this.afs.doc(docPath).update(counts)
               .then(() => resolve())
               .catch(err => reject(err));
           }
         })
         .catch(err => {
-          console.error('oops', err);
+          console.error('incrementPodcastCount():', err);
           reject(err);
         });
     });

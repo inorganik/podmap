@@ -8,7 +8,6 @@ import * as firebase from 'firebase/app';
 import { PodcastLocation, MetaCounts, MarkerObj } from './models';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { Observable } from 'rxjs';
-import { first, map, tap } from 'rxjs/operators';
 
 import { Router } from '@angular/router';
 
@@ -27,7 +26,6 @@ export class MapComponent implements OnInit, OnDestroy {
   zoom = 5;
   mapStyle = mapStyle;
   showAd = false;
-  markers$: Observable<PodcastLocation[]>;
   counts$: Observable<MetaCounts>;
   icon;
 
@@ -49,8 +47,7 @@ export class MapComponent implements OnInit, OnDestroy {
     iconRegistry.addSvgIcon('done', sanitizer.bypassSecurityTrustResourceUrl(iconPath + 'ic_done_black_24px.svg'));
     iconRegistry.addSvgIcon('add', sanitizer.bypassSecurityTrustResourceUrl(iconPath + 'ic-add-24px.svg'));
     iconRegistry.addSvgIcon('podmap', sanitizer.bypassSecurityTrustResourceUrl(iconPath + 'podmap-icon.svg'));
-    // markers
-    this.markers$ = afs.collection<PodcastLocation>('locations').valueChanges();
+
     this.icon = {
       url: require('../../assets/img/podmap-marker.png'),
       scaledSize: {
@@ -60,35 +57,17 @@ export class MapComponent implements OnInit, OnDestroy {
     };
     this.counts$ = afs.doc<MetaCounts>('meta/counts').valueChanges();
 
+    // markers
     afs.collection<MarkerObj>('markers').valueChanges().subscribe(markerGroups => {
-      this.mapService.markers = [];
       // concatenate all marker group arrays. we pack 1000 markers
       // into each doc to save firestore reads and improve efficiency
+      this.mapService.markers = [];
       markerGroups.forEach(markerGroup =>
         this.mapService.markers = this.mapService.markers.concat(markerGroup.markers)
       );
-      console.log('markers re-read');
     });
 
-    // TEMP - write locations to markers collection for first time
-    // this.markers$.pipe(
-    //   first(),
-    //   map(markers => {
-    //     console.log('got markers', markers);
-    //     markers.forEach(marker => {
-    //       this.mapService.addLocationToMarkers(marker);
-    //     });
-    //     this.mapService.persistMarkers()
-    //       .then(() => {
-    //         console.log('saved location array', this.mapService.markers.length);
-
-    //       })
-    //       .catch(err => console.error('error saving location array', err));
-    //   })
-    // ).subscribe();
-
     // afs.collection('podcasts').snapshotChanges().subscribe(data => console.log('podcast data', data));
-    // afs.collection('locations').snapshotChanges().subscribe(data => console.log('podcast data', data));
   }
 
   ngOnInit() {
