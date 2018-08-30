@@ -25,7 +25,7 @@ export class MapComponent implements OnInit, OnDestroy {
   geoPoint: firebase.firestore.GeoPoint;
   zoom = 5;
   mapStyle = mapStyle;
-  showAd = false;
+  showAd = true;
   counts$: Observable<MetaCounts>;
   icon;
 
