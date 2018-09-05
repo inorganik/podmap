@@ -6,6 +6,7 @@ import { AngularFirestore } from 'angularfire2/firestore';
 import { Observable } from 'rxjs';
 import { MapService } from '../../../services/map.service';
 import * as firebase from 'firebase/app';
+import { UserService } from '../../../services/user.service';
 
 @Component({
   selector: 'pm-podcast',
@@ -20,7 +21,7 @@ export class PodcastComponent implements OnInit {
   loading = true;
   // suggesting locations
   podPlace: Place;
-  podLocations: PodcastLocation[];
+  podLocations: PodcastLocation[] = [];
   submitted = false;
   collectionId: string;
   addLocationFieldVisible = false;
@@ -28,7 +29,8 @@ export class PodcastComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private afs: AngularFirestore,
-    private mapService: MapService
+    private mapService: MapService,
+    public userService: UserService
   ) { }
 
   ngOnInit() {
@@ -47,10 +49,15 @@ export class PodcastComponent implements OnInit {
             } else {
               // center on podcast's first city
               // todo - fit to bounds of multiple cities
-              const loc = pod.locations[0];
-              const geoPoint = new firebase.firestore.GeoPoint(loc.lat, loc.lng);
-              this.mapService.updatePosition(geoPoint);
-              this.mapService.zoomToCity();
+              if (pod.locations && pod.locations.length) {
+                const loc = pod.locations[0];
+                const geoPoint = new firebase.firestore.GeoPoint(loc.lat, loc.lng);
+                this.mapService.updatePosition(geoPoint);
+                this.mapService.zoomToCity();
+              }
+              else if (pod.locations && !pod.locations.length) {
+                this.addLocationFieldVisible = true;
+              }
               return pod;
             }
           }),
@@ -140,6 +147,26 @@ export class PodcastComponent implements OnInit {
 
   encodeUrl(feedUrl: string): string {
     return encodeURIComponent(feedUrl);
+  }
+
+  removeLocation(location: PodcastLocation, isSuggestedLocation: boolean, podcast?: Podcast) {
+    if (isSuggestedLocation) {
+      this.podLocations = this.podLocations.filter(loc => {
+        return loc.placeId !== location.placeId;
+      });
+      if (this.podLocations.length === 0) {
+        this.addLocationFieldVisible = true;
+      }
+    } else {
+      this.userService.isAdmin().subscribe(isAdmin => {
+        if (isAdmin) {
+          this.mapService.removeLocationFromPodcast(location, podcast);
+        }
+        else {
+          alert('This action requires the admin role.');
+        }
+      });
+    }
   }
 
 }

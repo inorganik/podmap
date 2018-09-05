@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
-import { Observable } from 'rxjs';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { Observable } from 'rxjs';
 import { first, map, tap } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AdminGuard implements CanActivate {
+export class UserService {
 
   currentUser;
 
@@ -18,11 +18,9 @@ export class AdminGuard implements CanActivate {
     'PNHnkNc2gvW57D1rBSEhcVpJA7D3'
   ];
 
-  constructor(private afAuth: AngularFireAuth, private router: Router) {}
+  constructor(public afAuth: AngularFireAuth, private router: Router) { }
 
-  canActivate(
-    next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+  isLoggedIn(withRedirect?: boolean): Observable<boolean> {
     return this.afAuth.authState.pipe(
       first(),
       map(user => {
@@ -34,11 +32,17 @@ export class AdminGuard implements CanActivate {
           this.router.navigateByUrl('/admin/login');
         }
         else {
-          if (!this.whitelisted.includes(this.currentUser.uid)) {
+          if (!this.whitelisted.includes(this.currentUser.uid) && withRedirect) {
             this.router.navigateByUrl('/admin/forbidden');
           }
         }
       })
+    );
+  }
+
+  isAdmin(): Observable<boolean> {
+    return this.isLoggedIn(false).pipe(
+      map(isLoggedIn => (isLoggedIn && this.whitelisted.includes(this.currentUser.uid)))
     );
   }
 }

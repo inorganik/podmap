@@ -13,10 +13,10 @@
   <hr>
   <h5 [innerHTML]="locationString(podcast)"></h5>
   <div *ngIf="podcast.locations && podcast.locations.length > 0; else showSuggest">
-    <pm-location-list [locations]="podcast.locations"></pm-location-list>
+    <pm-location-list [locations]="podcast.locations" [canEdit]="userService.afAuth.user | async" (remove)="removeLocation($event, false, podcast)"></pm-location-list>
   </div>
   <ng-template #showSuggest>
-    <pm-location-list [locations]="podLocations"></pm-location-list>
+    <pm-location-list [locations]="podLocations" [canEdit]="true" (remove)="removeLocation($event, true)"></pm-location-list>
     <p *ngIf="podLocations.length == 0">No locations yet. Put this podcast on the map!</p>
     <div *ngIf="!submitted">
       <pm-place-search [hidden]="!addLocationFieldVisible" (selected)="setPlace($event, true)" [placeholder]="addLocationText()" [place]="podPlace"></pm-place-search>

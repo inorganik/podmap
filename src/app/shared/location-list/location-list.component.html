@@ -6,10 +6,13 @@
       <span *ngIf="location.podCount" class="ml-auto">{{ location.podCount }}</span>
     </a>
   </li>
-  <li *ngFor="let location of locations">
+  <li *ngFor="let location of locations" class="d-flex align-items-center">
     <a href [routerLink]="['/location', location.placeId]" class="d-flex align-items-center">
       <mat-icon svgIcon="location" class="svg-fill-gray"></mat-icon>
       <span>{{ location.description }}</span>
     </a>
+    <button *ngIf="canEdit" type="button" (click)="removeLocation(location)" class="remove-link ml-auto align-self-start">
+      <mat-icon aria-label="Remove location" svgIcon="close" class="svg-fill-gray"></mat-icon>
+    </button>
   </li>
 </ul>

@@ -71,6 +71,10 @@ export class MapService {
     }
   }
 
+  removeLocationFromMarkers(location: PodcastLocation) {
+    this.markers = this.markers.filter(podLoc => podLoc.placeId !== location.placeId);
+  }
+
   // break markers into groups of MAX_MARKERS_IN_DOC
   // and persist groups as individual docs
   persistMarkers(): Promise<any> {
@@ -125,18 +129,19 @@ export class MapService {
     });
   }
 
-  addOrUpdatePodcast(podcast: Podcast): Promise<any> {
+  // true: podcast created, false: podcast updated
+  addOrUpdatePodcast(podcast: Podcast): Promise<boolean> {
     return new Promise((resolve, reject) => {
       const docPath = `podcasts/${podcast.collectionId}`;
       // try to update first
       this.afs.doc(docPath).update(podcast)
-        .then(() => resolve())
+        .then(() => resolve(false))
         .catch(() => {
           // doc doesn't exist, add
           podcast.locations = [];
           podcast.placeIds = {};
           this.afs.doc(docPath).set(podcast)
-            .then(() => resolve())
+            .then(() => resolve(true))
             .catch(err => reject(err));
         });
       });
@@ -171,7 +176,7 @@ export class MapService {
         first()
       ).toPromise()
         .then(pod => {
-          if (pod === undefined) {
+          if (pod === undefined || (pod && !pod.locations.length)) {
             this.afs.doc(docPath).set(podcast)
               .then(() => resolve(podcast));
           }
@@ -211,6 +216,26 @@ export class MapService {
           console.error('incrementPodcastCount():', err);
           reject(err);
         });
+    });
+  }
+
+  removeLocationFromPodcast(location: PodcastLocation, podcast: Podcast) {
+    podcast.locations = podcast.locations.filter(loc => {
+      return loc.placeId !== location.placeId;
+    });
+    if (podcast.placeIds[location.placeId]) {
+      delete podcast.placeIds[location.placeId];
+    }
+    this.addOrUpdatePodcast(podcast).then(() => {
+      this.getLocation(location).then(loc => {
+        loc.podCount = loc.podCount - 1;
+        if (loc.podCount === 0) {
+          this.removeLocationFromMarkers(location);
+          this.persistMarkers();
+        }
+        this.addOrUpdateLocation(loc).then(() => console.log('successfully removed location'))
+          .catch(err => console.error('removeLocationFromPodcast():', err));
+      });
     });
   }
 }

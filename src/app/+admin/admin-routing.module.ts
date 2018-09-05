@@ -4,7 +4,7 @@ import { AdminComponent } from './admin.component';
 import { UnmoderatedComponent } from './unmoderated/unmoderated.component';
 import { LoginComponent } from './login/login.component';
 import { ForbiddenComponent } from './forbidden/forbidden.component';
-import { AdminGuard } from './guards/admin.guard';
+import { AdminGuard } from '../guards/admin.guard';
 
 const routes: Routes = [
   {

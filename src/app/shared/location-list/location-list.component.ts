@@ -1,6 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs';
-import { PodcastLocation } from '../../map/models';
+import { PodcastLocation, Podcast } from '../../map/models';
 
 @Component({
   selector: 'pm-location-list',
@@ -18,6 +18,14 @@ export class LocationListComponent {
   @Input()
   locations: PodcastLocation[];
 
-  constructor() { }
+  @Input()
+  canEdit = false;
+
+  @Output()
+  remove = new EventEmitter<PodcastLocation>();
+
+  removeLocation(location: PodcastLocation) {
+    this.remove.emit(location);
+  }
 
 }
