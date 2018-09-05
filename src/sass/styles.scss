@@ -55,10 +55,6 @@ ul, ol {
       button.remove-link {
         display: none;
         width: 20px;
-        padding: 0;
-        border: none;
-        background: transparent;
-        cursor: pointer;
       }
       &:hover {
         button.remove-link {
@@ -66,7 +62,6 @@ ul, ol {
         }
       }
     }
-
   }
 }
 
@@ -82,16 +77,15 @@ ul, ol {
     color: gray;
   }
 }
+button.transparent {
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
 
 .light-purple {
   color: $primary-super-light;
-}
-
-@media (max-width: map-get($grid-breakpoints, 'sm')) { // 576px and less
-
-	body {
-		font-size: 1rem;
-	}
 }
 
 //
@@ -103,6 +97,9 @@ ul, ol {
 }
 .svg-fill-gray svg {
 	fill: gray;
+}
+.svg-fill-light-gray svg {
+  fill: $gray-400;
 }
 
 //
@@ -140,5 +137,22 @@ ul, ol {
   &:hover,
   &.mat-active {
     background: $gray-100 !important;
+  }
+}
+
+//
+// MOBILE
+//
+
+@media (max-width: map-get($grid-breakpoints, 'sm')) { // 576px and less
+
+	body {
+    font-size: 1rem;
+    overflow: visible;
+  }
+  ul, ol {
+    &.item-list li button.remove-link {
+      display: inline-block;
+    }
   }
 }

@@ -1,6 +1,6 @@
 <div *ngIf="location$ | async as location; else showLoading" class="floating-box">
   <div class="d-flex align-items-center">
-    <h5 class="mb-0">{{ location.description }} <sup>({{ location.podCount | number }})</sup></h5>
+    <h5 class="mb-0">{{ location.description }} ({{ location.podCount | number }})</h5>
     <button mat-icon-button routerLink="/" class="ml-auto align-self-start">
       <mat-icon aria-label="close" svgIcon="close" class="svg-fill-gray"></mat-icon>
     </button>

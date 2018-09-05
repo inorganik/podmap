@@ -24,6 +24,17 @@ a {
     }
   }
 }
+.close {
+  position: absolute;
+  top: 5px;
+  width: 20px;
+  right: 3px;
+  z-index: 1;
+  .mat-icon {
+    width: 20px;
+    height: 20px;
+  }
+}
 
 @media (max-width: map-get($grid-breakpoints, 'sm')) { // 576px and less
 

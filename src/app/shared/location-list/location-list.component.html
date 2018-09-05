@@ -11,7 +11,7 @@
       <mat-icon svgIcon="location" class="svg-fill-gray"></mat-icon>
       <span>{{ location.description }}</span>
     </a>
-    <button *ngIf="canEdit" type="button" (click)="removeLocation(location)" class="remove-link ml-auto align-self-start">
+    <button *ngIf="canEdit" type="button" (click)="removeLocation(location)" class="transparent remove-link ml-auto align-self-start">
       <mat-icon aria-label="Remove location" svgIcon="close" class="svg-fill-gray"></mat-icon>
     </button>
   </li>

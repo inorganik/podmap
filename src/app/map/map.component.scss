@@ -10,6 +10,33 @@ p {
 	font-size: 0.9em;
 }
 
+$sidebar-width: 350px;
+
+.sidebar-contain {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: $sidebar-width;
+  min-height: 100vh;
+  height: auto;
+  pointer-events: none;
+  overflow: hidden;
+
+  // scrollbar
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  .sidebar {
+    width: $sidebar-width;
+    height: 100vh;
+    padding: 20px 0 20px 20px;
+    overflow-y: scroll;
+  }
+}
+
 .floating-box {
   width: 100%;
   margin-top: 16px;
@@ -32,41 +59,18 @@ p {
     padding: 0;
     text-align: center;
     border: 4px lighten($secondary, 20%) solid;
+    position: relative;
   }
   &.top-cities {
     padding: 15px $spacer;
   }
 }
 
-$sidebar-width: 350px;
-
-.sidebar-contain {
-  position: absolute;
-  z-index: 1;
-  top: 0;
-  left: 0;
-  width: $sidebar-width;
-  height: 100vh;
-  pointer-events: none;
-  overflow: hidden;
-
-  // scrollbar
-  -ms-overflow-style: -ms-autohiding-scrollbar;
-  ::-webkit-scrollbar {
-    display: none;
-  }
-
-  .sidebar {
-    width: $sidebar-width;
-    height: 100%;
-    padding: 20px 0 20px 20px;
-    overflow-y: scroll;
-  }
-}
 agm-map {
 	height: 100vh;
 	width: 100vw;
 }
+
 .legend {
   width: 100%;
   box-sizing: border-box;
@@ -76,6 +80,7 @@ agm-map {
 	background-size: 650px, 650px;
 	box-shadow: $hard-box-shadow;
 	animation: animateWallpaper 30s linear infinite;
+  pointer-events: auto;
 	h1 {
 		color: white;
 		font-weight: 200;
@@ -97,7 +102,6 @@ agm-map {
 	}
 }
 
-
 //
 // MOBILE
 //
@@ -109,6 +113,8 @@ agm-map {
     padding: 0;
     .sidebar {
       width: 100%;
+      min-height: 100vh;
+      height: auto;
       padding: 0;
     }
   }

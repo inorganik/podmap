@@ -8,7 +8,7 @@
       </p>
     </div>
     <router-outlet></router-outlet>
-    <pm-ad *ngIf="showAd" class="mt-auto"></pm-ad>
+    <pm-ad *ngIf="showAd" class="mt-auto" (close)="showAd = false"></pm-ad>
     <pm-footer [ngClass]="{ 'mt-auto': !showAd }"></pm-footer>
   </div>
 </div>
