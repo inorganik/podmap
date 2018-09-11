@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "podmap-6ab59"
+    "default": "podmap-6ab59",
+    "development": "podmap-development"
   }
 }
