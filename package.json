@@ -8,6 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
+    "deploy": "firebase deploy --only hosting",
     "bundle-report": "webpack-bundle-analyzer dist/podmap/stats.json"
   },
   "private": true,
