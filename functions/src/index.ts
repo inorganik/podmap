@@ -8,6 +8,7 @@ admin.initializeApp();
 // NOT USED
 // this works, but it is quite a bit slower then just making
 // a call from the frontend!
+/*
 export const onPodcastAdd = functions.firestore.document('podcasts/{podcastId}')
   .onCreate(() => {
     const countsRef = admin.firestore().doc('meta/counts');
@@ -22,3 +23,4 @@ export const onPodcastAdd = functions.firestore.document('podcasts/{podcastId}')
       });
     }).catch(error => console.log('onPodcastAdd:', error));
   });
+  */
