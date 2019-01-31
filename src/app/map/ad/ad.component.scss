@@ -20,7 +20,7 @@ a {
     height: auto;
     border: 0;
     &.logo {
-      width: 250px;
+      width: 200px;
     }
   }
 }
@@ -39,6 +39,6 @@ a {
 @media (max-width: map-get($grid-breakpoints, 'sm')) { // 576px and less
 
   a img.logo {
-    width: 200px;
+    width: 150px;
   }
 }
