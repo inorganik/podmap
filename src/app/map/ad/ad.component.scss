@@ -12,14 +12,14 @@
 }
 a {
   display: block;
-  padding: 10px 10px 15px 10px;
+  padding: 15px 10px 5px 10px;
   &:hover {
     text-decoration: none;
   }
   img {
     height: auto;
     border: 0;
-    &.superfeed {
+    &.logo {
       width: 250px;
     }
   }
@@ -38,7 +38,7 @@ a {
 
 @media (max-width: map-get($grid-breakpoints, 'sm')) { // 576px and less
 
-  a img.superfeed {
+  a img.logo {
     width: 200px;
   }
 }
