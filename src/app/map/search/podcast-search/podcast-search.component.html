@@ -3,12 +3,14 @@
 		<input matInput placeholder="Enter a podcast" name="podcast" aria-label="Enter a podcast" [matAutocomplete]="autopodcast" [formControl]="podcastCtrl">
 		<mat-icon svgIcon="search" matSuffix class="svg-fill-gray"></mat-icon>
 		<mat-autocomplete #autopodcast="matAutocomplete" id="podcast-autocomplete" (optionSelected)="selectedPod($event)" [displayWith]="displayFn">
-			<mat-option *ngFor="let pod of podcasts$ | async" [value]="pod">
-				<img *ngIf="pod.artworkUrl30" aria-hidden src="{{ pod.artworkUrl30 }}" />
-				<div class="info">
-					<p>{{ pod.collectionName }}</p>
-					<small>{{ pod.artistName }}</small>
-				</div>
+			<mat-option *ngFor="let pod of podcasts$ | async as pods" [value]="pod">
+        <div class="d-flex align-items-center">
+          <img *ngIf="pod.artworkUrl30" aria-hidden src="{{ pod.artworkUrl30 }}" />
+          <div class="info">
+            <p>{{ pod.collectionName }}</p>
+            <small>{{ pod.artistName }}</small>
+          </div>
+        </div>
 			</mat-option>
 		</mat-autocomplete>
 	</mat-form-field>

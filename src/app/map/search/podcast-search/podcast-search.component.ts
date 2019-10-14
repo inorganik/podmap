@@ -5,7 +5,8 @@ import { Observable, of } from 'rxjs';
 import {
   debounceTime,
   distinctUntilChanged,
-  switchMap
+  switchMap,
+  map
 } from 'rxjs/operators';
 import { Podcast } from '../../models';
 
@@ -39,36 +40,30 @@ export class PodcastSearchComponent implements OnInit {
     this.podcasts$ = this.podcastCtrl.valueChanges.pipe(
       debounceTime(this.keyupDelay),
       distinctUntilChanged(),
-      switchMap(searchTerm => this.itunesSearch(searchTerm))
+      switchMap(searchTerm => this.itunesSearch(searchTerm)),
+      map((response: any) => {
+        if (response && response.resultCount > 0) {
+          return response.results;
+        }
+        else {
+          return [
+            { collectionName: 'No results', artistName: '' }
+          ];
+        }
+      })
     );
   }
 
-  itunesSearch(searchTerm): Observable<Podcast[]> {
+  itunesSearch(searchTerm): any {
     if (searchTerm && searchTerm.length > 0) {
       const params = new HttpParams()
         .set('media', 'podcast')
         .set('term', searchTerm)
         .set('limit', '10')
         .set('explicit', 'Yes');
-
       const itunesUrl = this.itunesEndpoint + params.toString();
 
-      return Observable.create(obs => {
-        this.http.jsonp<any>(itunesUrl, 'callback').subscribe(response => {
-          if (response && response.resultCount > 0) {
-            obs.next(response.results.slice());
-          }
-          else {
-            obs.next([
-              { collectionName: 'No results', artistName: '' }
-            ]);
-          }
-          obs.complete();
-        }, error => {
-          console.error('error', error);
-          obs.complete();
-        });
-      });
+      return this.http.jsonp<any>(itunesUrl, 'callback');
     }
     else {
       return of([]);
