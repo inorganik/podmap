@@ -8,6 +8,7 @@ import { PodcastComponent } from './map/search/podcast/podcast.component';
 import { LocationComponent } from './map/search/location/location.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { TopCitiesComponent } from './map/search/top-cities/top-cities.component';
+import { AddYourPodcastComponent } from './map/add-your-podcast/add-your-podcast.component';
 
 
 const routes: Routes = [
@@ -46,6 +47,10 @@ const routes: Routes = [
         component: AboutComponent
       },
       {
+        path: 'add-a-podcast',
+        component: AddYourPodcastComponent
+      },
+      {
         path: 'admin',
         loadChildren: 'src/app/+admin/admin.module#AdminModule'
       },
@@ -58,7 +63,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { enableTracing: false })],
+  imports: [RouterModule.forRoot(routes, { enableTracing: true })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

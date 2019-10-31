@@ -22,6 +22,7 @@ import { PodcastListComponent } from './podcast-list/podcast-list.component';
 import { SharedModule } from '../shared/shared.module';
 import { NotFoundComponent } from '../not-found/not-found.component';
 import { TopCitiesComponent } from './search/top-cities/top-cities.component';
+import { AddYourPodcastComponent } from './add-your-podcast/add-your-podcast.component';
 
 @NgModule({
   imports: [
@@ -49,7 +50,8 @@ import { TopCitiesComponent } from './search/top-cities/top-cities.component';
     LocationComponent,
     PodcastListComponent,
     NotFoundComponent,
-    TopCitiesComponent
+    TopCitiesComponent,
+    AddYourPodcastComponent
   ],
   providers: [
     GoogleMapsAPIWrapper,
