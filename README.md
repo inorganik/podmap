@@ -5,11 +5,11 @@ The goals of Podmap are:
 - to help you discover where your favorite podcasts are created
 - to help you discover podcasts produced near you
 
-Visit Podmap at https://podmap.org
+Visit Podmap at https://podmap.pod.fan
 
 ### Getting started
 
-This is an [Angular](https://angular.io/) project that uses [Firebase](https://firebase.google.com/). To run this locally, you must follow these instructions:
+This is an [Angular](https://angular.io/) project that uses [Firebase](https://firebase.google.com/). To run this locally, follow these instructions:
 
 1. go to: console.firebase.google.com
 1. create a project
@@ -20,5 +20,5 @@ This is an [Angular](https://angular.io/) project that uses [Firebase](https://f
 Serve it locally. In terminal:
 
 ```shell
-ng s
+npm start
 ```
